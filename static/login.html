@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <link rel="stylesheet" type="text/css" href="css/input.css">
+   <link rel="stylesheet" type="text/css" href="css/style.css">
+ </head>
+
+  <style>
+    .form {
+      width: 340px;
+      height: 370px;
+      text-align: center;
+      padding: 30px 40px;
+      box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      position: absolute;
+      top: 20%; 
+      right: 0;
+      left: 0;
+      margin: auto;
+      background: #fff;
+    }
+
+    .btn-confirm {
+      margin-top: 100px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      padding: 7px 0;
+      font-size: 18px;
+      line-height: 1.5;
+      color: white;
+      background-color:rgb(80, 125, 252);
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+  </style>
+  <body>
+      <div class="form">
+        <h2>Вход</h2>
+
+        <div class="md-input">      
+          <input #login type="text" required>
+          <label>Логин</label>
+        </div>
+
+        <div class="md-input">      
+          <input #password type="password" required>
+          <label>Пароль</label>
+        </div>
+
+        <a href="chats" class="btn-confirm">Авторизоваться</a>
+        <a href="signin">Нет аккаунта?</a>
+      </div>
+  </body>
+</html>
