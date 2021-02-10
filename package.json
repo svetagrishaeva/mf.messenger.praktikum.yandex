@@ -20,7 +20,7 @@
     "url": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex#readme",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.17.1",
     "netlify-lambda": "^2.0.3"
   }
