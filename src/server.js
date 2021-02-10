@@ -9,16 +9,16 @@ const app = express();
 console.log(__dirname);
 //console.log(path.join(static_dir, 'login.html'));
 
-const static_dir = { root: path.join(__dirname, '../static') };
+const static_dir = { root: path.join(__dirname, '/static') };
 
-router.get('/', (_req, res) => res.sendFile('login.html', static_dir));
-router.get('/signin', (_req, res) => res.sendFile('signin.html', static_dir));
-router.get('/chats', (_req, res) => res.sendFile('chats.html', static_dir));
-router.get('/profile', (_req, res) => res.sendFile('profile.html', static_dir));
-router.get('/500-error', (_req, res) => res.sendFile('500-error.html', static_dir));
-router.get('/*', (_req, res) => res.sendFile('404-error.html', static_dir));
+router.get('/', (_req, res) => res.sendFile(path.resolve('static/login.html')));
+router.get('/signin', (_req, res) => res.sendFile(path.resolve('static/signin.html')));
+router.get('/chats', (_req, res) => res.sendFile(path.resolve('static/chats.html')));
+router.get('/profile', (_req, res) => res.sendFile(path.resolve('static/profile.html')));
+router.get('/500-error', (_req, res) => res.sendFile(path.resolve('static/500-error.html')));
+router.get('/*', (_req, res) => res.sendFile(path.resolve('static/404-error.html')));
 
-//app.use(express.static(__dirname + '../static/'));
+// app.use(express.static('static'));
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 // app.use('/', (_req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 

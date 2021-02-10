@@ -2,14 +2,322 @@
 <html>
  <head>
    <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="css/input.css">
-   <link rel="stylesheet" type="text/css" href="css/modal-dialog.css">
-   <link rel="stylesheet" type="text/css" href="css/dropdown.css">
-   <link rel="stylesheet" type="text/css" href="css/circle.css">
-   <link rel="stylesheet" type="text/css" href="css/style.css">
-   <link rel="stylesheet" type="text/css" href="chats.css">
  </head>
+ <style>
+     .blackout {
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
 
+.modalDialog  {
+    width: 340px;
+    height: 240px;
+    text-align: center;
+    padding: 30px 40px;
+    border-radius: 15px;
+    position: absolute;
+    top: 20%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background: #fff;
+}
+
+.blackout:target {display: block;}
+
+.btn-confirm {
+    margin-top: 40px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 7px 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: white;
+    background-color:rgb(80, 125, 252);
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.btn-ok, .btn-сancel  {
+    margin-top: 40px;
+    cursor: pointer;
+    display: block;
+    padding: 4px 8px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-ok  {
+    color: white;
+    background-color:rgb(80, 125, 252);
+}
+
+.btn-сancel {
+    color: black;
+    background-color: #eee;
+    margin-left: 10px;
+}
+
+     body, html { 
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    cursor: pointer;
+    color:rgb(80, 125, 252);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h2 {font-weight: 600;}
+         h2 {margin-bottom: 50px;}
+
+h4 {white-space: nowrap; font-weight: 600; font-size: 18px; margin: 0px; }
+
+.chats {
+    overflow: auto;
+    max-width: 400px; 
+    min-width: 400px; 
+    min-height: 100%; 
+    height: 100%; 
+    background-color: rgba(250, 250, 250);
+    border-right: 2px solid rgba(211, 211, 211, 0.3); 
+    padding: 0 10px;
+}
+
+.chats-header {
+    position: sticky; top: 0; background: rgba(250, 250, 250); border-bottom: 2px solid rgba(211, 211, 211, 0.3);
+}
+
+.chat-item {
+    cursor: pointer; 
+    width: 100%;
+    border-bottom: 2px solid rgba(211, 211, 211, 0.3); 
+    font-weight: 600; 
+    color: gray; 
+    font-size: 18px;
+}
+
+.form-control {
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: rgba(211, 211, 211, 0.5);
+    border: none;
+    border-radius: 20px;
+}
+
+.form-control:focus {
+    outline: none;
+}
+
+.profile-link {
+    cursor: pointer; float: right; display: flex; line-height: 20px; font-weight: 600; margin: 20px 0; color: rgb(80, 125, 252)
+}
+
+.user-nik, ._user-nik {
+    color: black; line-height: 18px; padding-top: 8px; font-weight: 600; font-size: 18px;
+}
+
+.from-message, .to-message  {
+    font-weight: 600;
+    margin-bottom: 6px;
+    max-width: 80%; min-width: 80%;
+    padding: 10px;
+}
+
+.from-message {
+    background-color: rgba(211, 211, 211, 0.3);
+    border-radius: 0 15px 15px 15px;
+}
+
+.to-message  {
+    background-color: rgba(122, 184, 243, 0.3);
+    border-radius: 15px 15px 0 15px;
+    margin-left: auto; margin-right: 0;
+    float: right;
+}
+
+.from-picture, .to-picture { 
+    margin-bottom: 6px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    max-width: 80%;
+    min-height: 80%;
+}
+
+.to-picture {
+    float: right;
+}
+
+td, #messages{
+    min-width: 100%;
+}
+
+#messages {
+    max-height: 100%; padding-bottom: 200px; padding-top: 40px
+} 
+
+.dropdown-content a:hover {
+    background-color: whitesmoke;
+}
+
+.show {display: block;}
+.hidden {display: none;}
+
+#chat-messages {
+    margin: 0 20px; min-width: 75%; min-height: 100%;
+}
+
+#msg-info {
+    min-width: 75%; height: 100%; display: table;
+}
+
+#msg-info div {
+    display: table-cell; vertical-align: middle; text-align: center; color: #aaa; font-weight: 600;
+}
+
+.messages-header {
+    position: sticky; top: 0; background: white; padding-top: 10px;
+}
+
+.messages-header table {
+    border-bottom: 2px solid rgba(211, 211, 211, 0.3); min-width: 100%;
+}
+
+.last-time {
+    font-size: 14px; line-height: 18px; padding-top: 8px;
+}
+
+.footer  {
+    padding: 10px 0; border-top: 2px solid rgba(211, 211, 211, 0.3); position: fixed; bottom: 0; display: flex; min-width: 75%; background: white
+}
+     .md-input {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+input[type="password"] {
+    font-family: Verdana, Geneva, sans-serif;
+    letter-spacing: -.75px;
+} 
+
+input {
+    font-size: 18px;
+    padding: 6px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgb(80, 125, 252);
+}
+
+input:focus {
+    outline: none;
+}
+
+label {
+    color: #aaa;
+    font-size: 18px;
+    font-weight: 600;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    left: 0px;
+    top: 6px;
+}
+
+input:focus ~ label, input:valid ~ label {
+    top: -15px;
+    font-size: 14px;
+}
+     .dropbtn {
+    background-color: whitesmoke;
+    border: 0px;
+    padding: 6px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    outline: none;
+}
+
+.dropbtn:hover{
+    background-color: rgba(122, 184, 243, 0.2);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: -215px;
+    top: 60px;
+    border-radius: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    display: flex;
+    white-space: nowrap;
+    cursor: pointer;
+    vertical-align: middle;
+    line-height: 30px;
+    user-select: none;
+    font-weight: 600;
+}
+ .circle, .circle-send {
+    background: rgb(80, 125, 252);
+    color: white;
+    margin: auto;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.circle {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+}
+
+.circle-send {
+    width: 34px; 
+    height: 34px; 
+    line-height: 34px;
+}
+ </style>
  <body>
     <div id="chats" class="chats">
         <div class="chats-header">
