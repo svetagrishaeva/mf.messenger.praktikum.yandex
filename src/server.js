@@ -15,6 +15,7 @@ router.get('/*', (_req, res) => res.sendFile(static_dir + '/404-error.html'));
 
 app.use(express.static(static_dir));
 app.use('/.netlify/functions/server', router);  // path must route to lambda
+app.use('/', (_req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
 module.exports = app;
 module.exports.handler = serverless(app);
