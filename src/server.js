@@ -5,7 +5,13 @@ const app = express();
 
 const static_dir = __dirname + '../static';
 
-router.get('/', (_req, res) => res.sendFile(static_dir + '/login.html'));
+router.get("/", (_req, res) => {
+    res.json({
+      hello: "hi!"
+    });
+  });
+
+// router.get('/', (_req, res) => res.sendFile(static_dir + '/login.html'));
 router.get('/signin', (_req, res) => res.sendFile(static_dir + '/signin.html'));
 router.get('/chats', (_req, res) => res.sendFile(static_dir + '/chats.html'));
 router.get('/profile', (_req, res) => res.sendFile(static_dir + '/profile.html'));
