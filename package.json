@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex.git"
   },
+  "keywords": [
+    "netlify",
+    "express.js"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
