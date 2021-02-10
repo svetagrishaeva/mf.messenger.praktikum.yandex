@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "netlify-lambda": "^2.0.3"
   }
 }
