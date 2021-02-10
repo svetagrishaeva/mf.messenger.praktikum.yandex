@@ -3,7 +3,7 @@ const serverless = require('serverless-http');
 const router = express.Router();
 const app = express();
 
-const static_dir = __dirname + '/static';
+const static_dir = __dirname + '../static';
 
 router.get('/', (_req, res) => res.sendFile(static_dir + '/login.html'));
 router.get('/signin', (_req, res) => res.sendFile(static_dir + '/signin.html'));
