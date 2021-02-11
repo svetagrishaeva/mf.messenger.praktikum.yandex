@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npm run build"
+  command = "nvm ls-remote && npm install && npm run build"
   publish = "static"
   functions = "functions"
   base = "/"
