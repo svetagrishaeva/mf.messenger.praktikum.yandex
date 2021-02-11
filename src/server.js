@@ -14,7 +14,4 @@ router.get('/profile', (_req, res) => res.sendFile(static_dir + 'profile.html'))
 router.get('/500-error', (_req, res) => res.sendFile(static_dir + '500-error.html'));
 router.get('/404-error', (_req, res) => res.sendFile(static_dir + '404-error.html'));
 
-app.use('/', router);  
-app.use('/', (_req, res) => res.redirect('/login'));
-
-app.use((_req, res) => res.sendFile(static_dir + '404-error.html'));
+app.use(router);  
