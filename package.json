@@ -5,7 +5,7 @@
   "main": "functions/server.js",
   "scripts": {
     "build": "netlify-lambda build src",
-    "start": "node ./src/server.js"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "netlify-lambda": "^2.0.3",
+    "nodemon": "^2.0.7",
     "path": "^0.12.7"
   }
 }
