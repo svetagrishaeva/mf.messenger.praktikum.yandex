@@ -3,3 +3,8 @@
   publish = "static"
   functions = "functions"
   base = "/"
+
+[[redirects]]
+  from = "/*"
+  to = "/login"
+  status = 200
