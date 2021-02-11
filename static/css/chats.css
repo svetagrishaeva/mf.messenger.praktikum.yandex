@@ -93,9 +93,6 @@
         background-color: whitesmoke;
     }
 
-    .show {display: block;}
-    .hidden {display: none;}
-
     #chat-messages {
         margin: 0 20px; min-width: 75%; min-height: 100%;
     }

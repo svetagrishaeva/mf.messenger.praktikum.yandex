@@ -7,11 +7,18 @@ a {
 }
 
 .back-panel {
-    height: 100%; min-width: 34px; background-color: rgba(250, 250, 250); border-right: 2px solid rgba(211, 211, 211, 0.3); padding: 0 10px;
+    height: 100%; 
+    min-width: 34px; 
+    background-color: rgba(250, 250, 250); 
+    border-right: 2px solid rgba(211, 211, 211, 0.3); 
+    padding: 0 10px;
 }
 
 .info-panel {
-    height: 100%; min-width: 40%; justify-content: center; margin: auto;
+    height: 100%; 
+    min-width: 40%; 
+    justify-content: center; 
+    margin: auto;
 }
 
 .circle, .circle-back, .circle-overlay  {
@@ -63,11 +70,31 @@ h4 {
     font-weight: 600;
 }
 
-.text-right {
-    text-align: right; width: 100%; color: #aaa; font-weight: 500; font-size: 20px;
+.info-input, .password-input {
+    position: absolute;
+    right: 0;
+    text-align: right; 
+    width: 50%; 
+    color: #aaa; 
+    font-weight: 500; 
+    font-size: 20px;
+    border: none; 
+    background-color: white;
+}
+
+.info-input:focus, .password-input:focus {
+    outline: none;
+}
+
+.password-input {
+    font-size: 30px;
+    background-color: lightyellow;
+    color: #999; 
+    padding: 0 10px;
 }
 
 .row {
+    position: relative;
     display: flex; 
     width: 100%; max-width: 100%; 
     padding: 10px 0; 
@@ -80,7 +107,7 @@ h4 {
     color: red;
 }
 
-#info-items {
+#info-items, #password-items {
     margin-bottom: 40px;
 }
 

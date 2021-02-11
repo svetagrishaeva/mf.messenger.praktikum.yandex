@@ -19,6 +19,9 @@ a:hover {
 
 h2 {font-weight: 600;}
 
+.show {display: block;}
+.hidden {display: none;}
+
 .form {
     width: 340px;
     text-align: center;
