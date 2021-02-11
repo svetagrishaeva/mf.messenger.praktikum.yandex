@@ -37,7 +37,7 @@
             <h2>Добавить пользователя</h2>
 
             <div style="position: relative; margin-bottom: 20px;">      
-                <input type="text" required></input>
+                <input id="new_user_login" type="text" required></input>
                 <label>Логин</label>
             </div>
 
@@ -112,7 +112,7 @@
                         </svg>
                     </td>
                     <td>
-                        <input #message class="form-control" type="search" style="border-radius: 20px; min-width: 100%;" placeholder="Сообщение"/>
+                        <input id="message" class="form-control" type="search" style="border-radius: 20px; min-width: 100%;" placeholder="Сообщение"/>
                     </td>
                     <td style="width: 40px;">
                         <a href="500-error">
@@ -236,7 +236,6 @@
         }
 
         window.onclick = function(event) {
-            console.log(event.target);
             if (!event.target.matches('.dropbtn')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -247,6 +246,8 @@
                 }
             }
         }
+
+        new_user_login.onchange = onChange;
 
         function onChatClick() {
             // render
@@ -301,7 +302,8 @@
                 document.getElementById('messages').appendChild(tr);
             });
 
-            document.getElementsByClassName('dropbtn')[0].onclick = myFunction;
+            document.getElementsByClassName('dropbtn')[0].onclick = myFunction;  
+            document.getElementById('message').onchange = onChange; 
         }
 
         function onFilterChange() {
@@ -320,6 +322,12 @@
                     elem.classList.remove('hidden');
                 } 
             }
+
+            console.log(this, this.value);
+        }
+
+        function onChange() {
+            console.log(this, this.value);
         }
 
         function render(chats, template) {

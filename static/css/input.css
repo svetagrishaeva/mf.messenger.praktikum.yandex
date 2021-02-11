@@ -32,6 +32,6 @@ label {
 }
 
 input:focus ~ label, input:valid ~ label {
-    top: -15px;
+    top: -18px;
     font-size: 14px;
 }

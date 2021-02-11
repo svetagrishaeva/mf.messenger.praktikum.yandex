@@ -10,42 +10,56 @@
       <h2>Регистрация</h2>
       
       <div class="md-input">      
-        <input #first_name type="text" required>
+        <input id="first_name" type="text" required>
         <label>Имя</label>
       </div>
 
       <div class="md-input">      
-        <input #second_name type="text" required>
+        <input id="second_name" type="text" required>
         <label>Фамилия</label>
       </div>
 
       <div class="md-input">      
-        <input #phone type="text" required>
+        <input id="phone" type="text" required>
         <label>Телефон</label>
       </div>
 
       <div class="md-input">      
-        <input #login type="text" required>
+        <input id="login" type="text" required>
         <label>Логин</label>
       </div>
 
       <div class="md-input">      
-        <input #email type="text" required>
+        <input id="email" type="text" required>
         <label>Почта</label>
       </div>
 
       <div class="md-input">      
-          <input #password type="password" required>
+          <input id="password" type="password" required>
           <label>Пароль</label>
       </div>
 
       <div class="md-input">      
-        <input #second_password type="password" required>
+        <input id="second_password" type="password" required>
         <label>Пароль (еще раз)</label>
       </div>
 
       <a href="/500-error" class="btn-confirm">Зарегестрироваться</a>
       <a href="/">Войти</a>
     </div>
-</body>
+
+    <script>
+      first_name.onchange = onChange;
+      second_name.onchange = onChange;
+      phone.onchange = onChange;
+      login.onchange = onChange;
+      email.onchange = onChange;
+      password.onchange = onChange;
+      second_password.onchange = onChange;
+  
+      function onChange() {
+        console.log(this, this.value);
+      }
+    </script>
+  </body>
 </html>

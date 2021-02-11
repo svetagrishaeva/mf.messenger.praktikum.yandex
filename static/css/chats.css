@@ -81,7 +81,7 @@
         float: right;
     }
 
-    td, #messages{
+    td, #messages {
         min-width: 100%;
     }
     
@@ -120,6 +120,6 @@
         font-size: 14px; line-height: 18px; padding-top: 8px;
     }
 
-   .footer  {
+    .footer  {
         padding: 10px 0; border-top: 2px solid rgba(211, 211, 211, 0.3); position: fixed; bottom: 0; display: flex; min-width: 75%; background: white
-   }
+    }
