@@ -1,0 +1,37 @@
+.md-input {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+input[type="password"] {
+    font-family: Verdana, Geneva, sans-serif;
+    letter-spacing: -.75px;
+} 
+
+input {
+    font-size: 18px;
+    padding: 6px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgb(80, 125, 252);
+}
+
+input:focus {
+    outline: none;
+}
+
+label {
+    color: #aaa;
+    font-size: 18px;
+    font-weight: 600;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    left: 0px;
+    top: 6px;
+}
+
+input:focus ~ label, input:valid ~ label {
+    top: -15px;
+    font-size: 14px;
+}
