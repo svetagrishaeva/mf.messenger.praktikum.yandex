@@ -13,7 +13,5 @@
     "url": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex#readme",
-  "devDependencies": {
-    "express": "^4.17.1"
-  }
+  "devDependencies": {}
 }
