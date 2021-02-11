@@ -3,6 +3,12 @@ const path = require('path');
 const app = express();
 
 const static_dir = path.join(__dirname, '../static/');
+const PORT = 3000; 
+  
+app.listen(PORT, function(err){ 
+    if (err) console.log("Error in server setup") 
+    console.log("Server listening on Port", PORT); 
+}) 
 
 app.use(express.static(static_dir));
 
