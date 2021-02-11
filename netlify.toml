@@ -5,6 +5,11 @@
   base = "/"
 
 [[redirects]]
-  from = "/*"
+  from = "/"
   to = "/login"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/404-error"
   status = 200
