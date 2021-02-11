@@ -2,115 +2,25 @@
 <html>
  <head>
    <meta charset="utf-8">
+   <link rel="stylesheet" type="text/css" href="css/input.css">
+   <link rel="stylesheet" type="text/css" href="css/style.css">
  </head>
+ <body>
+    <div class="form">
+      <h2>Вход</h2>
 
-  <style>
-    body, html { 
-    display: flex;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-a {
-    cursor: pointer;
-    color:rgb(80, 125, 252);
-    font-weight: 500;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-h2 {font-weight: 600;}
-
-    .md-input {
-    position: relative;
-    margin-bottom: 40px;
-  }
-
-input[type="password"] {
-    font-family: Verdana, Geneva, sans-serif;
-    letter-spacing: -.75px;
-} 
-
-input {
-    font-size: 18px;
-    padding: 6px 0;
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid rgb(80, 125, 252);
-}
-
-input:focus {
-    outline: none;
-}
-
-label {
-    color: #aaa;
-    font-size: 18px;
-    font-weight: 600;
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    left: 0px;
-    top: 6px;
-}
-
-input:focus ~ label, input:valid ~ label {
-    top: -15px;
-    font-size: 14px;
-}
-    .form {
-      width: 340px;
-      height: 370px;
-      text-align: center;
-      padding: 30px 40px;
-      box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
-      border-radius: 15px;
-      position: absolute;
-      top: 20%; 
-      right: 0;
-      left: 0;
-      margin: auto;
-      background: #fff;
-    }
-
-    .btn-confirm {
-      margin-top: 100px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      display: block;
-      width: 100%;
-      padding: 7px 0;
-      font-size: 18px;
-      line-height: 1.5;
-      color: white;
-      background-color:rgb(80, 125, 252);
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-    }
-
-  </style>
-  <body>
-      <div class="form">
-        <h2>Вход</h2>
-
-        <div class="md-input">      
-          <input #login type="text" required>
-          <label>Логин</label>
-        </div>
-
-        <div class="md-input">      
-          <input #password type="password" required>
-          <label>Пароль</label>
-        </div>
-
-        <a href="chats" class="btn-confirm">Авторизоваться</a>
-        <a href="signin">Нет аккаунта?</a>
+      <div class="md-input">      
+        <input #login type="text" required>
+        <label>Логин</label>
       </div>
+
+      <div class="md-input">      
+        <input #password type="password" required>
+        <label>Пароль</label>
+      </div>
+
+      <a href="chats" class="btn-confirm">Авторизоваться</a>
+      <a href="signin">Нет аккаунта?</a>
+    </div>
   </body>
 </html>
