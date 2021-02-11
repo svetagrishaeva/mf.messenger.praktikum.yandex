@@ -6,9 +6,7 @@ const app = express();
 const PORT = 4000;
 const static_dir = path.join(__dirname, '../static/');
 
-app.listen(PORT, function () {
-    console.log(`Example app listening on port ${PORT}!`);
-}); 
+app.listen(PORT); 
 
 app.use(express.static(static_dir));
 
