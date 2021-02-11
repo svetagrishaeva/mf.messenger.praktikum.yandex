@@ -4,7 +4,6 @@
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
   "main": "./src/server.js",
   "scripts": {
-    "build": "npm run-script build",
     "start": "node ./src/server.js"
   },
   "repository": {
