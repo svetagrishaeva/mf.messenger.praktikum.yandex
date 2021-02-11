@@ -2,8 +2,9 @@
   "name": "messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
-  "main": "./src/server.js",
+  "main": "functions/server",
   "scripts": {
+    "build": "netlify-lambda build src",
     "start": "node ./src/server.js"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "devDependencies": {},
   "dependencies": {
     "express": "^4.17.1",
+    "netlify-lambda": "^2.0.3",
     "path": "^0.12.7"
   }
 }
