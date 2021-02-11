@@ -3,10 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const PORT = 4000;
 const static_dir = path.join(__dirname, '../static/');
-
-app.listen(PORT); 
 
 app.use(express.static(static_dir));
 
