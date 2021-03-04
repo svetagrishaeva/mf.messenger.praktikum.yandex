@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "messenger.praktikum.yandex",
+			"path": ".."
+		},
+		{
+			"name": "express",
+			"path": "..\\..\\project\\express"
+		}
+	],
+	"settings": {}
+}

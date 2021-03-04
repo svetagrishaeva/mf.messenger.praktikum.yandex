@@ -93,7 +93,7 @@ h4 {
     padding: 0 10px;
 }
 
-.row {
+.row, .link-row {
     position: relative;
     display: flex; 
     width: 100%; max-width: 100%; 

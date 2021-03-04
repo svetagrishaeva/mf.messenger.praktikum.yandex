@@ -2,10 +2,10 @@
   "name": "messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
-  "main": "functions/server.js",
+  "main": "src/server.js",
   "scripts": {
-    "build": "netlify-lambda build src",
-    "start": "nodemon src/server.js"
+    "build": "tsc",
+    "start": "nodemon"
   },
   "engines": {
     "node": "14.15.5"
@@ -20,11 +20,15 @@
     "url": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex#readme",
-  "devDependencies": {},
-  "dependencies": {
-    "express": "^4.17.1",
-    "netlify-lambda": "^2.0.3",
+  "devDependencies": {
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.31",
+    "lodash-cli": "^4.17.5",
     "nodemon": "^2.0.7",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "typescript": "^4.2.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

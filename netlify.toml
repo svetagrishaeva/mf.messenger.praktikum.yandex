@@ -1,8 +1,7 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "static"
-  functions = "functions"
-  base = "/"
+  base = "./"
+  publish = "./dist"
+  command = "npm run build"
 
 [[redirects]]
   from = "/"
