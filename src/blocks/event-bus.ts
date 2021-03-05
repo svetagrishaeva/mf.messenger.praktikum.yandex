@@ -1,5 +1,5 @@
 export class EventBus {
-    private listeners: { [index: string]: any } ={}; 
+    private listeners: { [index: string]: any } = {}; 
 
     constructor() {}
   

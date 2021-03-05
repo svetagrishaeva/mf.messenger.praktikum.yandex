@@ -16,7 +16,7 @@ export const error500 = {
 
 
 export class ErrorPage extends Block {
-    constructor(props: any) {
+    constructor(props: { title: string, code: string, message: string }) {
         super('error', props);
     }
 

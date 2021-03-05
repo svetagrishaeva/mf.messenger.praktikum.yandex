@@ -31,11 +31,6 @@ window.showDropdownMenu = () => {
     document.getElementById('myDropdown')?.classList.toggle('show');
 }
 
-/*
-window.onChange = (event: any) => {
-    console.log(`${event.id}: ${event.value}`);
-}*/
-
 window.onclick = (event: any) => {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName('dropdown-content');
@@ -100,5 +95,4 @@ window.onFilterChange = (element: any) => {
 }
 
 const chatsPage = new ChatsPage();
-console.log('test chats');
 RenderHelper.render('.app', chatsPage);

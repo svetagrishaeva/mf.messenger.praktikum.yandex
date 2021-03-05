@@ -93,12 +93,6 @@ function setDisplayValueForElements(value: string) {
     (document.getElementById('user-name') as HTMLElement).style.display = value;
 }
 
-/*
-function onChange() {
-    console.log(`${this.id}: ${this.value}`);
-}*/
-
-
 function render(items: any[], tmpl: string, parentElementId: string) {
     console.log('dbg: render');
     let html = _.template(tmpl)({ items: items });
