@@ -1,0 +1,122 @@
+    h2 {margin-bottom: 50px;}
+
+    h4 {white-space: nowrap; font-weight: 600; font-size: 18px; margin: 0px; }
+
+    .chats {
+        overflow: auto;
+        max-width: 400px; 
+        min-width: 400px; 
+        min-height: 100%; 
+        height: 100%; 
+        background-color: rgba(250, 250, 250);
+        border-right: 2px solid rgba(211, 211, 211, 0.3); 
+        padding: 0 10px;
+    }
+
+    .chats-header {
+        position: sticky; top: 0; background: rgba(250, 250, 250); border-bottom: 2px solid rgba(211, 211, 211, 0.3);
+    }
+    
+    .chat-item {
+        cursor: pointer; 
+        width: 100%;
+        border-bottom: 2px solid rgba(211, 211, 211, 0.3); 
+        font-weight: 600; 
+        color: gray; 
+        font-size: 18px;
+    }
+
+    .form-control {
+        display: block;
+        width: 95%;
+        margin: 0 auto;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        background-color: rgba(211, 211, 211, 0.5);
+        border: none;
+        border-radius: 20px;
+    }
+
+    .form-control:focus {
+        outline: none;
+    }
+
+    .profile-link {
+        cursor: pointer; float: right; display: flex; line-height: 20px; font-weight: 600; margin: 20px 0; color: rgb(80, 125, 252)
+    }
+
+    .user-nik, ._user-nik {
+        color: black; line-height: 18px; padding-top: 8px; font-weight: 600; font-size: 18px;
+    }
+
+    .from-message, .to-message  {
+        font-weight: 600;
+        margin-bottom: 6px;
+        max-width: 80%; min-width: 80%;
+        padding: 10px;
+    }
+
+    .from-message {
+        background-color: rgba(211, 211, 211, 0.3);
+        border-radius: 0 15px 15px 15px;
+    }
+
+    .to-message  {
+        background-color: rgba(122, 184, 243, 0.3);
+        border-radius: 15px 15px 0 15px;
+        margin-left: auto; margin-right: 0;
+        float: right;
+    }
+
+    .from-picture, .to-picture { 
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        max-width: 80%;
+        min-height: 80%;
+    }
+
+    .to-picture {
+        float: right;
+    }
+
+    td, #messages {
+        min-width: 100%;
+    }
+    
+    #messages {
+        max-height: 100%; padding-bottom: 200px; padding-top: 40px
+    } 
+
+    .dropdown-content a:hover {
+        background-color: whitesmoke;
+    }
+
+    #chat-messages {
+        margin: 0 20px; min-height: 100%; min-width: 75%;
+    }
+
+    #msg-info {
+        min-width: 75%; height: 100%; display: table;
+    }
+
+    #msg-info div {
+        display: table-cell; vertical-align: middle; text-align: center; color: #aaa; font-weight: 600;
+    }
+
+    .messages-header {
+        position: sticky; top: 0; background: white; padding-top: 10px;
+    }
+
+    .messages-header table {
+        border-bottom: 2px solid rgba(211, 211, 211, 0.3); min-width: 100%;
+    }
+
+    .last-time {
+        font-size: 14px; line-height: 18px; padding-top: 8px;
+    }
+
+    .footer  {
+        padding: 10px 0; border-top: 2px solid rgba(211, 211, 211, 0.3); position: fixed; bottom: 0; display: flex; min-width: 75%; background: white
+    }

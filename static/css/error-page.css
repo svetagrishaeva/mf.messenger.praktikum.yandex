@@ -1,0 +1,38 @@
+body, html, error { 
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-area {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+a {
+    color: rgb(80, 125, 252);
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 500;
+    margin: 20px 0;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 0;
+}

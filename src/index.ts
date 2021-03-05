@@ -1,14 +1,24 @@
-import { ErrorPage, error500 } from './pages/error/error';
+import { RenderHelper } from './lib/render-helper.js';
+import { LoginPage } from './pages/login/login.js'
 
-function render(query, block) {
-    const root = document.querySelector(query);
-    root.appendChild(block.getContent());
-    console.log('render', root);
-    return root;
+declare global {
+    const _: import('../node_modules/@types/lodash/index').LoDashStatic;
+    // объявление глобальных методов
+    interface Window { 
+        onChatClick: any; 
+        onFilterChange: any;
+        onChange: any;
+        showDropdownMenu: any;
+        changeData: any; 
+        saveData: any;
+        changePassword: any 
+    }
 }
-  
-const errorPage = new ErrorPage(error500);
-  
-// app — это id дива в корне DOM
-render(".app", errorPage);
 
+window.onChange = (event: any) => {
+    console.log(`${event.id}: ${event.value}`);
+}
+
+// точка входа приложения
+const loginPage = new LoginPage();
+RenderHelper.render('.app', loginPage);

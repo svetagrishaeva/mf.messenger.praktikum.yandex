@@ -1,8 +1,11 @@
-import { EventBus } from './event-bus';
+import { EventBus } from './event-bus.js';
 
 export class Block {
-    private eventBus;
-    private props;
+    private _element: any = null;
+    private _meta: any = null;
+
+    eventBus: EventBus;
+    props: any;
 
     static EVENTS = {
       INIT: "init",
@@ -10,9 +13,7 @@ export class Block {
       FLOW_CDU: "flow:component-did-update",
       FLOW_RENDER: "flow:render"
     };
-  
-    _element = null;
-    _meta = null;
+
   
     /** JSDoc
      * @param {string} tagName
@@ -26,16 +27,15 @@ export class Block {
         tagName,
         props
       };
-  
+
       this.props = this._makePropsProxy(props);
-  
-      this.eventBus = () => eventBus;
+      this.eventBus = eventBus;
       
       this._registerEvents(eventBus);
       eventBus.emit(Block.EVENTS.INIT);
     }
   
-    _registerEvents(eventBus) {
+    _registerEvents(eventBus: any) {
       eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
       eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
       eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -49,30 +49,28 @@ export class Block {
   
     init() {
       this._createResources();
-      this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+      this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     }
   
     _componentDidMount() {
       this.componentDidMount();
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+      this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   
-    // Может переопределять пользователь, необязательно трогать
-    componentDidMount(oldProps?: any) {}
+    componentDidMount() {}
   
-    _componentDidUpdate(oldProps, newProps) {
+    _componentDidUpdate(oldProps: any, newProps: any) {
       const response = this.componentDidUpdate(oldProps, newProps);
       if (response) {
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
       }
     }
   
-    // Может переопределять пользователь, необязательно трогать
-    componentDidUpdate(oldProps, newProps) {
-      return oldProps !== newProps;
+    componentDidUpdate(oldProps: any, newProps: any) {
+      return oldProps != newProps;
     }
   
-    setProps = nextProps => {
+    setProps = (nextProps: any) => {
       if (!nextProps) {
         return;
       }
@@ -86,43 +84,28 @@ export class Block {
   
     _render() {
       const block = this.render();
-      // Этот небезопасный метод для упрощения логики
-      // Используйте шаблонизатор из npm или напишите свой безопасный
-      // Нужно не в строку компилировать (или делать это правильно),
-      // либо сразу в DOM-элементы возвращать из compile DOM-ноду
       this._element.innerHTML = block;
     }
-  
-    // Может переопределять пользователь, необязательно трогать
-    render(data?: any) { }
+
+    render() { }
   
     getContent() {
       return this.element;
     }
   
-    _makePropsProxy(props) {
-      // Можно и так передать this
-      // Такой способ больше не применяется с приходом ES6+
+    _makePropsProxy(props: any) {
       const self = this;
-      
+
       return new Proxy(props, {
           get(target, prop) {
-            //if (prop.indexOf('_') == 0) {
-            //   throw new Error('нет доступа');
-            //}
-  
             return target[prop];
           },
-          set(target, prop, value) {
-            //if (prop.indexOf('_') == 0) {
-            //   throw new Error('нет доступа');
-            //}
-            
+          set(target, prop, value) {          
             let oldValue = target[prop];
             target[prop] = value;
   
             if (oldValue !== value) {
-              self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldValue, value);
+              self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, value);
             }
             
             return true;
@@ -134,8 +117,7 @@ export class Block {
         })
     }
   
-    _createDocumentElement(tagName) {
-      // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+    _createDocumentElement(tagName: any) {
       return document.createElement(tagName);
     }
   
