@@ -1,4 +1,4 @@
-import { EventBus } from './event-bus.js';
+import { EventBus } from "./event-bus.js";
 
 export class Block {
     private _element: any = null;

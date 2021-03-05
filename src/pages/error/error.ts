@@ -1,6 +1,6 @@
-import { errorTemplate } from './template.js'; 
-import { Block } from '../../blocks/Block.js';
-import { RenderHelper } from '../../lib/render-helper.js';
+import { errorTemplate } from "./template.js"; 
+import { Block } from "../../blocks/Block.js";
+import { RenderHelper } from "../../lib/render-helper.js";
 
 export const error404 = {
     title: '404 - страница не найдена',

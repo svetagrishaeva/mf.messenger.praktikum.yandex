@@ -1,5 +1,5 @@
-import { RenderHelper } from './lib/render-helper.js';
-import { LoginPage } from './pages/login/login.js'
+import { RenderHelper } from "./lib/render-helper.js";
+import { LoginPage } from "./pages/login/login.js";
 
 declare global {
     const _: import('../node_modules/@types/lodash/index').LoDashStatic;

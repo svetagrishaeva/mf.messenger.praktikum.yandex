@@ -1,6 +1,6 @@
-import { Block } from '../../blocks/Block.js';
-import { RenderHelper } from '../../lib/render-helper.js';
-import { pageTmpl } from './template.js'
+import { Block } from "../../blocks/Block.js";
+import { RenderHelper } from "../../lib/render-helper.js";
+import { pageTmpl } from "./template.js"
 
 export class SigninPage extends Block {
     constructor() {

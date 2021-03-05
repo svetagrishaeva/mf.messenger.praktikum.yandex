@@ -1,7 +1,7 @@
-import { Block } from '../../blocks/Block.js';
-import { infoItems } from './profile-data.js';
-import { RenderHelper } from '../../lib/render-helper.js';
-import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from './templates.js';
+import { Block } from "../../blocks/Block.js";
+import { infoItems } from "./profile-data.js";
+import { RenderHelper } from "../../lib/render-helper.js";
+import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./templates.js";
 
 declare global {
     interface Window { 

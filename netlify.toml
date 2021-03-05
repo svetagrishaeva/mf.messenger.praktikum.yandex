@@ -4,11 +4,6 @@
   command = "npm run build"
 
 [[redirects]]
-  from = "/"
-  to = "/login"
-  status = 200
-
-[[redirects]]
   from = "/*"
-  to = "/404-error"
+  to = "/error"
   status = 200

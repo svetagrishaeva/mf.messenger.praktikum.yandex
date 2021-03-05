@@ -1,5 +1,5 @@
-import { Block } from '../../blocks/Block.js';
-import { pageTmpl } from './template.js'
+import { Block } from "../../blocks/Block.js";
+import { pageTmpl } from "./template.js"
 
 export class LoginPage extends Block {
     constructor() {

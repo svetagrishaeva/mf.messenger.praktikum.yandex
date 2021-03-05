@@ -1,4 +1,4 @@
-import { Block } from '../blocks/Block.js';
+import { Block } from "../blocks/Block.js";
 
 export class RenderHelper {
   static render(query: string, block: Block) {

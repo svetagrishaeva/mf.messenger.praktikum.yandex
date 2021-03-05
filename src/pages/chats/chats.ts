@@ -1,7 +1,7 @@
-import { Block } from '../../blocks/Block.js';
-import { RenderHelper } from '../../lib/render-helper.js';
-import { chats } from './chats-data.js';
-import { chatsTemplate, messagesTemplate, pageTemplate, messagesPanelTemplate } from './templates.js';
+import { Block } from "../../blocks/Block.js";
+import { RenderHelper } from "../../lib/render-helper.js";
+import { chats } from "./chats-data.js";
+import { chatsTemplate, messagesTemplate, pageTemplate, messagesPanelTemplate } from "./templates.js";
 
 export class ChatsPage extends Block {
     constructor() {
