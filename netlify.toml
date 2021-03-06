@@ -1,8 +1,8 @@
 [build]
-  publish = "dist"
-  command = "npm run build"
+    base = "./"
+    publish = "./dist"
+    command = "npm run build"
 
 [[redirects]]
-  from = "/*"
-  to = "/error"
-  status = 200
+    to = "/"
+    status = 200
