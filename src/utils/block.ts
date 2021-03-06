@@ -67,7 +67,7 @@ export class Block {
     }
   
     componentDidUpdate(oldProps: any, newProps: any) {
-      return oldProps != newProps;
+      return oldProps !== newProps;
     }
   
     setProps = (nextProps: any) => {
@@ -103,15 +103,12 @@ export class Block {
           set(target, prop, value) {          
             let oldValue = target[prop];
             target[prop] = value;
-  
-            if (oldValue !== value) {
-              self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, value);
-            }
+            
+            self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, value);
             
             return true;
           },
           deleteProperty() {
-            console.log('delete');
             throw new Error('нет доступа');
           }
         })

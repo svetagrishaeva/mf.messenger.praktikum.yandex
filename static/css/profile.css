@@ -91,6 +91,7 @@ h4 {
     background-color: lightyellow;
     color: #999; 
     padding: 0 10px;
+    margin: 0;
 }
 
 .row, .link-row {
@@ -123,7 +124,7 @@ h4 {
 
 .modalDialog  {
     width: 340px;
-    height: 240px;
+    height: 200px;
     text-align: center;
     padding: 30px 40px;
     border-radius: 15px;
@@ -135,20 +136,36 @@ h4 {
     background: #fff;
 }
 
+.modalDialog a.btn-confirm { margin-top: 40px; }
+
 .blackout:target {display: block;}
 
-.btn-confirm {
-    margin-top: 40px;
+#btn-panel { display: flex; justify-content: center; }
+
+.btn-confirm, .btn-cancel {
+    margin-top: 20px;
+    margin-bottom: 10px;
     cursor: pointer;
     display: block;
-    width: 100%;
+    /* width: 100%; */
+    text-align: center;
     padding: 7px 0;
     font-size: 18px;
     line-height: 1.5;
+    border-radius: 10px;
+}
+
+.btn-confirm {
     color: white;
     background-color:rgb(80, 125, 252);
     border: none;
-    border-radius: 10px;
+}
+
+.btn-cancel {
+    margin-left: 20px;
+    color: rgb(80, 125, 252);
+    background-color: white;
+    border: 2px solid rgb(80, 125, 252);
 }
 
 h2 { font-size: 24px; }

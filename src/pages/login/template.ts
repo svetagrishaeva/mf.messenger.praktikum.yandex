@@ -1,20 +1,20 @@
 export const pageTmpl = 
-       `<link rel="stylesheet" type="text/css" href="css/input.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-
-        <div class="form">
+       `<div class="form">
         <h2>Вход</h2>
 
         <div class="md-input">      
-        <input id="login" type="text" onchange="<%-onChange%>" required>
-        <label>Логин</label>
+              <input id="login" type="text" onchange="<%-onChange%>" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>">
+              <label>Логин</label>
+              <div id="login_error" class="error"></div>
         </div>
 
         <div class="md-input">      
-        <input id="password" type="password"  onchange="<%-onChange%>" required>
-        <label>Пароль</label>
+              <input id="password" type="password" onchange="<%-onChange%>" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>">
+              <label>Пароль</label>
+              <div id="password_error" class="error"></div>
         </div>
 
-        <a href="chats" class="btn-confirm">Авторизоваться</a>
-        <a href="signin">Нет аккаунта?</a>
+        <a id="loginButton" class="btn-confirm" onclick="<%-loginClick%>">Авторизоваться</a>
+        <a href="/signin">Нет аккаунта?</a>
         </div>`
+        

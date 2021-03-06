@@ -1,5 +1,5 @@
-import { Block } from "../../blocks/Block.js";
-import { RenderHelper } from "../../lib/render-helper.js";
+import { Block } from "../../utils/block.js";
+import { RenderHelper } from "../../utils/render-helper.js";
 import { chats } from "./chats-data.js";
 import { chatsTemplate, messagesTemplate, pageTemplate, messagesPanelTemplate } from "./templates.js";
 
@@ -37,7 +37,8 @@ window.onclick = (event: any) => {
         Array.prototype.forEach.call(dropdowns, (item: any) => {
             if (item.classList.contains('show')) {
                 item.classList.remove('show');
-        }});
+            }
+        });
     }
 }
 
@@ -48,6 +49,7 @@ window.onChatClick = (element: any) => {
 
     if (!chat) return;
 
+    // скрыть сообщение  с информацией
     (document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
     let _messages = chat.messages;

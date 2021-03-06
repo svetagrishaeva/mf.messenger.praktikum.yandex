@@ -1,6 +1,6 @@
 export const pageTmpl: string =
 `<div class="back-panel">
-    <a href="chats" class="circle-back">
+    <a href="/chats" class="circle-back">
         <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px" style="margin: 5px">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -21,14 +21,19 @@ export const pageTmpl: string =
         </a>
     </div>
 
-    <h2 id="user-name"><%-name%><h2>
+    <h2 id="user-name"><%-name%></h2>
 
     <div id="info-items"><%=infos%></div>
     <div id="password-items"></div>
 
-    <a class="btn-confirm" id="saveButton" onclick="<%-saveData%>"style="display: none; width: 50%; text-align: center; margin: auto;">
-        Сохранить
-    </a>
+    <div id="btn-panel">
+        <a class="btn-confirm" id="saveButton" onclick="<%-saveData%>" style="display: none; width: 20%;">
+            Сохранить
+        </a>
+        <a class="btn-cancel" id="cancelButton" onclick="<%-cancelChange%>" style="display: none; width: 20%;">
+            Отмена
+        </a>
+    </div>
 
     <div class="link-row" onclick="<%-changeData%>">
         <a id="dataChangeLink">Изменить данные</a>
@@ -42,11 +47,11 @@ export const pageTmpl: string =
 
     <!-- Модальное окно -->
     <div id="openEditModal" class="blackout">
-        <div class="modalDialog" style="height: 200px">
+        <div class="modalDialog">
             <h2>Загрузите файл</h2>
-            <a href="profile/#" style="font-size: 18px;">Выберите файл на компьютере</a>
+            <a href="#" style="font-size: 18px;">Выберите файл на компьютере</a>
 
-            <a href="profile/#" class="btn-confirm ">Поменять</a>
+            <a href="#" class="btn-confirm ">Поменять</a>
         </div>
     </div>
  </div>`
@@ -55,18 +60,20 @@ export const infoItemsTmpl: string =
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
-        <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" disabled />
+        <% if (item.id == 'email') { %>
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputEmailOnblur%>" onfocus="<%-inputOnfocus%>" disabled />
+        <% } else { %>
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>" disabled />
+        <% }  %>
     </div>
+    <div id="<%-item.id%>_error" class="error" style="float:right"></div>
     <% }); %>`
 
 export const passwordItemsTmpl: string = 
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
-        <% if (item.id == 'oldPassword') { %>
-            <input class="password-input" type="password" value="<%-item.value%>" id="<%-item.id%>" />
-        <% } else { %>
-            <input class="password-input" type="password" id="<%-item.id%>">
-        <% }  %>
+        <input class="password-input" type="password" id="<%-item.id%>" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>" />
     </div>
+    <div id="<%-item.id%>_error" class="error" style="float:right"></div>
     <% }); %>`

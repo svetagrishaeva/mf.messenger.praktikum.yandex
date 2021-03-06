@@ -7,6 +7,10 @@ body, html, .app, chats-page, profile-page {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.error { color: red; font-size: 14px; }
+
+.invalid { border-color: red; }
+
 a {
     cursor: pointer;
     color:rgb(80, 125, 252);

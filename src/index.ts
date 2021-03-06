@@ -1,4 +1,4 @@
-import { RenderHelper } from "./lib/render-helper.js";
+import { RenderHelper } from "./utils/render-helper.js";
 import { LoginPage } from "./pages/login/login.js";
 
 declare global {
@@ -11,12 +11,17 @@ declare global {
         showDropdownMenu: any;
         changeData: any; 
         saveData: any;
-        changePassword: any 
+        changePassword: any;
+        inputOnblur: any;
+        inputPasswordOnblur: any;
+        inputEmailOnblur: any;
+        inputOnfocus: any;
+        applyValidation: any;
+        cancelChange: any;
+        checkOnValid: any;
+        loginClick: any;
+        signinClick: any;
     }
-}
-
-window.onChange = (event: any) => {
-    console.log(`${event.id}: ${event.value}`);
 }
 
 // точка входа приложения
