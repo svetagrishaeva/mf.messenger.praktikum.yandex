@@ -2,8 +2,3 @@
     base = "./"
     publish = "./dist"
     command = "npm run publish"
-
-[[redirects]]
-  from = "*"
-  to = "/"
-  status = 200
