@@ -140,7 +140,7 @@ export const messagesPanelTemplate: string =
                          placeholder="Сообщение" onchange="<%-onMessageChange%>"/>
             </td>
             <td style="width: 40px;">
-                <a href="/500-error">
+                <a>
                     <div class="circle-send">
                         <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px" style="margin: 5px">
                             <path d="M0 0h24v24H0z" fill="none"/>
