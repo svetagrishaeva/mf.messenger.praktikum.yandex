@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon"
+    "start": "nodemon",
+    "publish": "npm run build && cp static/ dist/ && cp src/index.html dist/"
   },
   "engines": {
     "node": "14.15.5"
