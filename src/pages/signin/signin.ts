@@ -1,3 +1,4 @@
+import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
 import { RenderHelper } from "../../utils/render-helper.js";
 import { pageTmpl } from "./template.js"
@@ -8,13 +9,16 @@ export class SigninPage extends Block {
     }
 
     render() {
+      let button = new Button({ classNames: 'btn-confirm', id: 'signinButton', text: 'Зарегестрироваться', onClick: 'window.signinClick()' });
+      let buttonHtml = button.getContent().innerHTML;
+      
       let pageHtml = _.template(pageTmpl)({ 
+            button: buttonHtml,
             onChange: 'window.onChange(this)',
             inputOnblur: 'window.inputOnblur(this)',
             inputPasswordOnblur: 'window.inputPasswordOnblur(this)',
             inputEmailOnblur:' window.inputEmailOnblur(this)', 
-            inputOnfocus: 'window.inputOnfocus(this)',
-            signinClick: 'window.signinClick()'
+            inputOnfocus: 'window.inputOnfocus(this)'
         });
 
       return pageHtml;

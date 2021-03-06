@@ -2,6 +2,7 @@ import { Block } from "../../utils/block.js";
 import { infoItems } from "./profile-data.js";
 import { RenderHelper } from "../../utils/render-helper.js";
 import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./templates.js";
+import { Button } from "../../components/button/button.js";
 
 export class ProfilePage extends Block {
     constructor() {
@@ -9,24 +10,42 @@ export class ProfilePage extends Block {
     }
 
     render() {
+        let saveButton = new Button({ 
+            id: 'saveButton',
+            classNames: 'btn-confirm', 
+            text: 'Сохранить', 
+            onClick: 'window.saveData()',
+            style: 'display: none; width: 20%;'
+         });
+        let saveButtonHtml = saveButton.getContent().innerHTML; 
+
+        let cancelButton = new Button({ 
+            id: 'cancelButton',
+            classNames: 'btn-cancel', 
+            text: 'Отмена', 
+            onClick: 'window.cancelChange()',
+            style: 'display: none; width: 20%;'
+        });
+        let cancelButtonHtml = cancelButton.getContent().innerHTML;
+        
         let name = this.props.find((x: { id: string; }) => x.id == 'display_name')?.value;
         let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password'));
 
         let infoItemsHtml = _.template(infoItemsTmpl)({ 
-            items: data,
-            inputOnblur: 'window.inputOnblur(this)',
-            inputOnfocus: 'window.inputOnfocus(this)',
-            inputEmailOnblur: 'window.inputEmailOnblur(this)'
-        });
+                items: data,
+                inputOnblur: 'window.inputOnblur(this)',
+                inputOnfocus: 'window.inputOnfocus(this)',
+                inputEmailOnblur: 'window.inputEmailOnblur(this)'
+            });
 
-        let pageHtml = _.template(pageTmpl)(
-            { 
+        let pageHtml = _.template(pageTmpl)({ 
                 name: name, 
+                saveButton: saveButtonHtml,
+                cancelButton: cancelButtonHtml,
                 infos: infoItemsHtml, 
                 changeData: 'window.changeData()',
                 saveData: 'window.saveData()',
-                changePassword: 'window.changePassword()',
-                cancelChange: 'window.cancelChange()'
+                changePassword: 'window.changePassword()'
             });
 
         return pageHtml;

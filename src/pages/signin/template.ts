@@ -44,6 +44,6 @@ export const pageTmpl =
              <div id="passwordAgain_error" class="error"></div>
            </div>
      
-           <a id="signinButton" class="btn-confirm" onclick="<%-signinClick%>">Зарегестрироваться</a>
+           <%=button%>
            <a href="/">Войти</a>
         </div>`

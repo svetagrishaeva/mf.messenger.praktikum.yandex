@@ -14,7 +14,7 @@ export const pageTmpl =
               <div id="password_error" class="error"></div>
         </div>
 
-        <a id="loginButton" class="btn-confirm" onclick="<%-loginClick%>">Авторизоваться</a>
+        <%=button%>
         <a href="/signin">Нет аккаунта?</a>
         </div>`
         

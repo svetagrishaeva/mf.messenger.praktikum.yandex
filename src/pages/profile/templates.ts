@@ -27,12 +27,8 @@ export const pageTmpl: string =
     <div id="password-items"></div>
 
     <div id="btn-panel">
-        <a class="btn-confirm" id="saveButton" onclick="<%-saveData%>" style="display: none; width: 20%;">
-            Сохранить
-        </a>
-        <a class="btn-cancel" id="cancelButton" onclick="<%-cancelChange%>" style="display: none; width: 20%;">
-            Отмена
-        </a>
+        <%=saveButton%>
+        <%=cancelButton%>
     </div>
 
     <div class="link-row" onclick="<%-changeData%>">
