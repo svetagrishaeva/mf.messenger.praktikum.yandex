@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon",
-    "publish": "npm run build && copyfiles static/**/* dist/ && copyfiles -f src/index.html dist"
+    "publish": "npm run build && copyfiles -u 1 static/**/* dist/ && copyfiles -f src/index.html dist"
   },
   "engines": {
     "node": "14.15.5"
