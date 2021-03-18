@@ -1,11 +1,10 @@
 import { Block } from "../../utils/block.js";
-import { RenderHelper } from "../../utils/render-helper.js";
 import { chats } from "./chats-data.js";
-import { chatsTemplate, messagesTemplate, pageTemplate, messagesPanelTemplate } from "./templates.js";
+import { chatsTemplate, messagesTemplate, pageTemplate, messagesPanelTemplate } from "./chats.tmpl.js";
 
 export class ChatsPage extends Block {
-    constructor() {
-        super('chats-page');
+    constructor(props: any = {}) {
+        super('chats-page', props);
     }
 
     render() {
@@ -15,7 +14,7 @@ export class ChatsPage extends Block {
             chat.lastMessage = lastMessage.fromMe ? `Вы: ${lastMessage.text}` : lastMessage.text;
         });
     
-        let chatsHtml = _.template(chatsTemplate)({ items: chats, onclick: 'window.onChatClick(this)' });
+        let chatsHtml = _.template(chatsTemplate)({ items: this.props, onclick: 'window.onChatClick(this)' });
 
         let pageHtml = _.template(pageTemplate)({
             chats: chatsHtml,
@@ -27,25 +26,46 @@ export class ChatsPage extends Block {
     }
 }
 
+window.openAddModal = () => {
+    console.log('[dbg]: open add modal dialog');
+    let elem = document.getElementById('openAddModal');
+    if (!elem) return;
+    elem.style.display = 'block';
+};
+
+window.openRemoveModal = () => {
+    console.log('[dbg]: open remove modal dialog');
+    let elem = document.getElementById('openRemoveModal');
+    if (!elem) return;
+    elem.style.display = 'block';
+};
+
 window.showDropdownMenu = () => {
-    document.getElementById('myDropdown')?.classList.toggle('show');
+    console.log('[dbg]: show dropdown menu');
+    let elem = document.getElementById('myDropdown');
+    if (!elem) return;
+    // elem.classList.toggle('show');
+    elem.style.display = 'block';
+    console.log(elem);
 }
 
 window.onclick = (event: any) => {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName('dropdown-content');
         Array.prototype.forEach.call(dropdowns, (item: any) => {
-            if (item.classList.contains('show')) {
-                item.classList.remove('show');
-            }
+            item.style.display = 'none';
+            //if (item.classList.contains('show')) {
+            //    item.classList.remove('show');
+            //}
         });
     }
 }
 
 // render chat messages
-window.onChatClick = (element: any) => {
+window.onChatClick = (element: HTMLElement) => {
     let id = element.getAttribute('id');
-    let chat = chats.find(x => x.id == id);
+
+    let chat = chats.find(x => x.id == +(id as string));
 
     if (!chat) return;
 
@@ -62,7 +82,9 @@ window.onChatClick = (element: any) => {
             messages: messagesHtml, 
             name: chat.name,
             onMessageChange: 'window.onChange(this)',
-            onDropdownMenuClick: 'window.showDropdownMenu(this)'
+            onDropdownMenuClick: 'window.showDropdownMenu()',
+            openAddModal: 'window.openAddModal()',
+            openRemoveModal: 'window.openRemoveModal()',
         });
 
     (document.getElementById('chat-messages') as HTMLElement).innerHTML = messagesPanelHtml;
@@ -75,7 +97,7 @@ window.onChatClick = (element: any) => {
     element.setAttribute('style', 'background-color: rgba(122, 184, 243, 0.2);')
 }
 
-window.onFilterChange = (element: any) => {
+window.onFilterChange = (element: HTMLInputElement) => {
     const userNikElements = document.getElementsByClassName('user-nik');
     for (let i = 0; i < userNikElements.length; i++) {
         let elem = userNikElements[i]?.parentElement?.parentElement?.parentElement;
@@ -95,6 +117,3 @@ window.onFilterChange = (element: any) => {
 
     console.log(`${element.id}: ${element.value}`);
 }
-
-const chatsPage = new ChatsPage();
-RenderHelper.render('.app', chatsPage);

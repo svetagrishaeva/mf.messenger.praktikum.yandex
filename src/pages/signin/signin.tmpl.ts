@@ -1,5 +1,6 @@
 export const pageTmpl = 
-        `<div class="form">
+        `
+        <div class="form" autocomplete="off">
            <h2>Регистрация</h2>
            
            <div class="md-input">      

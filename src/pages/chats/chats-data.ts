@@ -19,9 +19,9 @@ export const chats = [
         name: 'Алина',
         messages: [ 
             {text: 'Алина, привет!', time: '16:26', fromMe: true }, 
-            {text: 'Привет! Я недавно решила занятся фотографией. Вот фотоаппрат выбираю. Как тебе Nikon?', time: '16:27', fromMe: false },
+            {text: 'Привет! Я недавно решила заняться фотографией. Вот фотоаппрат выбираю. Как тебе Nikon?', time: '16:27', fromMe: false },
             {text: 'Говорят отличный фотоаппарат для начинающих. Компактный и легкий. Удобное меню и информативный сенсорный дисплей. Куча всевозможных эффектов и режимов съемки) Снимки получаются четкими.', time: '16:28', fromMe: false },
-            {text: 'Изображение', time: '16:29', fromMe: false, picture: '../pictures/picture-1.jpg' }, 
+            {text: 'Изображение', time: '16:29', fromMe: false, picture: '../images/picture-1.jpg' }, 
             {text: 'Круто!', time: '16:30', fromMe: true }
         ],
         messageCount: 0,
@@ -74,7 +74,7 @@ export const chats = [
         name: 'Миша',
         messages: [ 
             {text: 'Привет! Я по дороге с работы домой Технопарк сфотографировал) смотри!', time: '11:14', fromMe: true },
-            {text: 'Изображение', time: '11:15', fromMe: true, picture: '../pictures/picture-2.jpg'}
+            {text: 'Изображение', time: '11:15', fromMe: true, picture: '../images/picture-2.jpg'}
         ],
         messageCount: 0,
         lastTime: '',

@@ -31,7 +31,7 @@ export const pageTemplate: string =
                <label>Логин</label>
            </div>
 
-           <a href="chats/#" class="btn-confirm">Добавить</a>
+           <a href="chats" class="btn-confirm">Добавить</a>
        </div>
    </div>
 
@@ -41,8 +41,8 @@ export const pageTemplate: string =
            <h4>Удалить чат?</h4>
 
            <div style="display: flex;">
-               <a href="chats/#" class="btn-ok">Удалить</a>
-               <a href="chats/#" class="btn-сancel">Отмена</a>
+               <a href="chats" class="btn-ok">Удалить</a>
+               <a href="chats" class="btn-сancel">Отмена</a>
            </div>
        </div>
     </div>`
@@ -71,7 +71,7 @@ export const chatsTemplate: string =
         </td>
         <td>
             <% if (item.messageCount !== 0) { %>
-                <div id="circle" class="circle">
+                <div id="circle" class="circle__msgcount">
                     <%-item.messageCount%>
                 </div>
             <% } %>
@@ -100,14 +100,14 @@ export const messagesPanelTemplate: string =
                         <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
                     </svg>
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="chats/#openAddModal"> 
+                        <a onclick="<%-openAddModal%>"> 
                             <svg enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="rgb(80, 125, 252)" width="30px" height="30px" style="margin-right: 12px">
                                 <rect fill="none" height="24" width="24"/>
                                 <path d="M12,7L12,7c-0.55,0-1,0.45-1,1v3H8c-0.55,0-1,0.45-1,1l0,0c0,0.55,0.45,1,1,1h3v3c0,0.55,0.45,1,1,1l0,0 c0.55,0,1-0.45,1-1v-3h3c0.55,0,1-0.45,1-1l0,0c0-0.55-0.45-1-1-1h-3V8C13,7.45,12.55,7,12,7z M12,2C6.48,2,2,6.48,2,12 s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/>
                             </svg>
                             Добавить пользователя
                         </a>
-                        <a href="chats/#openRemoveModal">
+                        <a onclick="<%-openRemoveModal%>">
                             <svg viewBox="0 0 24 24" fill="rgb(80, 125, 252)" width="30px" height="30px" style="margin-right: 12px">
                                 <path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/>
                                 <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"/>

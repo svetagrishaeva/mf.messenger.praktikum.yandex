@@ -1,6 +1,5 @@
-import { errorTemplate } from "./template.js"; 
+import { errorTemplate } from "./errror.tmpl.js"; 
 import { Block } from "../../utils/block.js";
-import { RenderHelper } from "../../utils/render-helper.js";
 
 export const error404 = {
     title: '404 - страница не найдена',
@@ -28,7 +27,3 @@ export class ErrorPage extends Block {
         });
     }
 }
-
-
-const errorPage = new ErrorPage(error404);
-RenderHelper.render('.app', errorPage);

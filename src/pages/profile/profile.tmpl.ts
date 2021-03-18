@@ -1,5 +1,6 @@
 export const pageTmpl: string =
-`<div class="back-panel">
+`
+<div class="back-panel">
     <a href="/chats" class="circle-back">
         <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px" style="margin: 5px">
             <path d="M0 0h24v24H0z" fill="none"/>
@@ -16,9 +17,7 @@ export const pageTmpl: string =
                 <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
             </svg>
         </div>
-        <a href="profile/#openEditModal" class="circle-overlay" id="circle-overlay">
-            Поменять<br>аватар
-        </a>
+        <a class="circle-overlay" id="circle-overlay" onclick="<%-openEditModal%>"> Поменять<br>аватар </a>
     </div>
 
     <h2 id="user-name"><%-name%></h2>
@@ -45,8 +44,8 @@ export const pageTmpl: string =
     <div id="openEditModal" class="blackout">
         <div class="modalDialog">
             <h2>Загрузите файл</h2>
-            <a href="profile/#" style="font-size: 18px;">Выберите файл на компьютере</a>
-            <a href="profile/#" class="btn-confirm">Поменять</a>
+            <a href="profile" style="font-size: 18px;">Выберите файл на компьютере</a>
+            <a href="profile" class="btn-confirm">Поменять</a>
         </div>
     </div>
  </div>`
@@ -56,9 +55,9 @@ export const infoItemsTmpl: string =
     <div class="row">
         <h4><%-item.title%></h4>
         <% if (item.id == 'email') { %>
-            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputEmailOnblur%>" onfocus="<%-inputOnfocus%>" disabled />
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputEmailOnblur%>" onfocus="<%-inputOnfocus%>" autocomplete="off" disabled>
         <% } else { %>
-            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>" disabled />
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>" autocomplete="off" disabled>
         <% }  %>
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
@@ -68,7 +67,7 @@ export const passwordItemsTmpl: string =
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
-        <input class="password-input" type="password" id="<%-item.id%>" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>" />
+        <input class="password-input" type="password" id="<%-item.id%>" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>">
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
     <% }); %>`

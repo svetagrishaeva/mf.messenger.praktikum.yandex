@@ -1,4 +1,4 @@
-.circle, .circle-send {
+.circle__msgcount, .circle-send {
     background: rgb(80, 125, 252);
     color: white;
     margin: auto;
@@ -6,7 +6,7 @@
     text-align: center;
 }
 
-.circle {
+.circle__msgcount {
     width: 28px;
     height: 28px;
     line-height: 28px;

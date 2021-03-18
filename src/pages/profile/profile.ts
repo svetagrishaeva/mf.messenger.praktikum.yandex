@@ -1,12 +1,16 @@
 import { Block } from "../../utils/block.js";
-import { infoItems } from "./profile-data.js";
-import { RenderHelper } from "../../utils/render-helper.js";
-import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./templates.js";
+import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./profile.tmpl.js";
 import { Button } from "../../components/button/button.js";
 
 export class ProfilePage extends Block {
-    constructor() {
-        super('profile-page', infoItems);
+    constructor(props: any = {}) {
+        super('profile-page', props);
+
+        window.saveData = this.saveData;
+        window.changeData = this.changeData;
+        window.changePassword = this.changePassword;
+        window.cancelChange = this.cancelChange;
+        window.openModalDialog = this.openModalDialog;
     }
 
     render() {
@@ -45,11 +49,20 @@ export class ProfilePage extends Block {
                 infos: infoItemsHtml, 
                 changeData: 'window.changeData()',
                 saveData: 'window.saveData()',
-                changePassword: 'window.changePassword()'
+                changePassword: 'window.changePassword()',
+                openEditModal: 'window.openModalDialog()'
             });
 
         return pageHtml;
     }
+
+    openModalDialog = () => {
+        // отобразим модальное окно
+        console.log('[dbg]: open modal dialog');
+        let elem = document.getElementById('openEditModal');
+        if (!elem) return;
+        elem.style.display = 'block';
+    };
 
     changeData = () => {
         setDisplayValueForElements('none');
@@ -83,8 +96,6 @@ export class ProfilePage extends Block {
     }
 
     cancelChange = () => {
-        console.log('[dbg]: cancelChange');
-
         // "клонируем" пропсы (данные останутся прежними) 
         // установим "новые" пропсы для перерендеринга страницы
         let cloneprops: any[] = [];
@@ -130,11 +141,8 @@ function render(items: any[], tmpl: string, parentElementId: string) {
     (document.getElementById(parentElementId) as HTMLElement).innerHTML = html;
 }
 
-const profilePage = new ProfilePage();
-
+/*
 window.saveData = profilePage.saveData;
 window.changeData = profilePage.changeData;
 window.changePassword = profilePage.changePassword;
-window.cancelChange = profilePage.cancelChange;
-
-RenderHelper.render('.app', profilePage);
+window.cancelChange = profilePage.cancelChange;*/

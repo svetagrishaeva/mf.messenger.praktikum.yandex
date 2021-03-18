@@ -1,29 +1,44 @@
-import { RenderHelper } from "./utils/render-helper.js";
+import { router } from "./utils/router.js";
+import { SigninPage } from "./pages/signin/signin.js";
+import { ChatsPage } from "./pages/chats/chats.js";
+import { ProfilePage, } from "./pages/profile/profile.js";
+import { error404, error500, ErrorPage } from "./pages/error/error.js";
+import { chats } from "./pages/chats/chats-data.js";
+import { infoItems } from "./pages/profile/profile.data.js";
 import { LoginPage } from "./pages/login/login.js";
 
 declare global {
     const _: import('../node_modules/@types/lodash/index').LoDashStatic;
     // объявление глобальных методов
     interface Window { 
-        onChatClick: any; 
-        onFilterChange: any;
-        onChange: any;
-        showDropdownMenu: any;
-        changeData: any; 
-        saveData: any;
-        changePassword: any;
-        inputOnblur: any;
-        inputPasswordOnblur: any;
-        inputEmailOnblur: any;
-        inputOnfocus: any;
-        applyValidation: any;
-        cancelChange: any;
-        checkOnValid: any;
-        loginClick: any;
-        signinClick: any;
+        onChatClick: (element: HTMLElement) => void; 
+        onFilterChange: (element: HTMLInputElement) => void; 
+        onChange: any; 
+        showDropdownMenu: () => void; 
+        changeData: () => void; 
+        saveData: () => void; 
+        changePassword: () => void; 
+        inputOnblur: (input: HTMLInputElement) => void; 
+        inputPasswordOnblur: (input: HTMLInputElement) => void; 
+        inputEmailOnblur: (input: HTMLInputElement) => void; 
+        inputOnfocus: (input: HTMLInputElement) => void; 
+        applyValidation: (inputs: HTMLInputElement[], invalid: boolean, message: string) => void; 
+        cancelChange: () => void; 
+        checkOnValid: (params: any[]) => boolean;
+        loginClick: () => void; 
+        signinClick: () => void; 
+        openModalDialog: () => void;
+        openAddModal: () => void;
+        openRemoveModal: () => void;
     }
 }
 
-// точка входа приложения
-const loginPage = new LoginPage();
-RenderHelper.render('.app', loginPage);
+router
+    .use('/',  LoginPage)
+    .use('/chats', ChatsPage, chats)
+    .use('/profile', ProfilePage, infoItems)
+    .use('/signin',  SigninPage)
+    .use('/error500', ErrorPage, error500)
+    .use('/*', ErrorPage, error404)
+    .start();;
+    

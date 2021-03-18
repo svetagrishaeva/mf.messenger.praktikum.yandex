@@ -1,11 +1,10 @@
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
-import { RenderHelper } from "../../utils/render-helper.js";
-import { pageTmpl } from "./template.js"
+import { pageTmpl } from "./signin.tmpl.js"
 
 export class SigninPage extends Block {
-    constructor() {
-      super('signin-page');
+    constructor(props: any = {}) {
+      super('signin-page', props);
     }
 
     render() {
@@ -33,8 +32,7 @@ window.signinClick = () => {
   let valid = window.checkOnValid(params);
   let btnElement = document.getElementById('signinButton');
 
-  valid ? btnElement?.setAttribute('href', '/') : btnElement?.removeAttribute('href');
+  valid ? btnElement?.setAttribute('href', '/error500') : btnElement?.removeAttribute('href');
 }
 
-const signinPage = new SigninPage();
-RenderHelper.render('.app', signinPage);
+export const signinPage = new SigninPage();

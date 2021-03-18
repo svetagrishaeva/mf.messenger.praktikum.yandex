@@ -1,10 +1,10 @@
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
-import { pageTmpl } from "./template.js"
+import { pageTmpl } from "./login.tpml.js"
 
 export class LoginPage extends Block {
-    constructor() {
-      super('login-page', {});
+    constructor(props: any = {}) {
+      super('login-page', props);
     }
 
     render() {
