@@ -1,10 +1,19 @@
 import { Block } from "../../utils/block.js";
 import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./profile.tmpl.js";
 import { Button } from "../../components/button/button.js";
+import { ApiAuth } from "../../api/authorization.js";
+import { router } from "../../utils/router.js";
+// import { ApiUser } from "../../api/user.js";
 
 export class ProfilePage extends Block {
+    private authService: ApiAuth;
+    // private userService: ApiUser;
+
     constructor(props: any = {}) {
         super('profile-page', props);
+
+        this.authService = new ApiAuth();
+        // this.userService = new ApiUser();
 
         window.saveData = this.saveData;
         window.changeData = this.changeData;
@@ -32,6 +41,8 @@ export class ProfilePage extends Block {
         });
         let cancelButtonHtml = cancelButton.getContent().innerHTML;
         
+        this.authService.getUser().then((data) => console.log(data));
+
         let name = this.props.find((x: { id: string; }) => x.id == 'display_name')?.value;
         let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password'));
 
@@ -56,8 +67,15 @@ export class ProfilePage extends Block {
         return pageHtml;
     }
 
+    systemExitClick() {
+        this.authService.logout().then((data: { ok: boolean, response: any }) => {
+            if (data.ok)
+                console.log('[dbg]: logout'); 
+                router.go('/');
+          });
+    }
+
     openModalDialog = () => {
-        // отобразим модальное окно
         console.log('[dbg]: open modal dialog');
         let elem = document.getElementById('openEditModal');
         if (!elem) return;
@@ -140,9 +158,3 @@ function render(items: any[], tmpl: string, parentElementId: string) {
 
     (document.getElementById(parentElementId) as HTMLElement).innerHTML = html;
 }
-
-/*
-window.saveData = profilePage.saveData;
-window.changeData = profilePage.changeData;
-window.changePassword = profilePage.changePassword;
-window.cancelChange = profilePage.cancelChange;*/

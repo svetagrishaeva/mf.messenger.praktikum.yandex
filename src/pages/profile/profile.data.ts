@@ -7,5 +7,5 @@ export const infoItems = [
     {id: 'phone', title: 'Телефон', value: '+7 (913) 723-10-12'},
     {id: 'oldPassword', title: 'Старый пароль'},
     {id: 'newPassword', title: 'Новый пароль'},
-    {id: 'newPasswordAgain', title: 'Повторите новый пароль'}
+    {id: 'passwordAgain', title: 'Повторите новый пароль'}
 ];

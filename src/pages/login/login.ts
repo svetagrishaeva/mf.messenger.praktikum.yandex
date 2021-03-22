@@ -1,10 +1,19 @@
+import { ApiAuth, SignIn } from "../../api/authorization.js";
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
-import { pageTmpl } from "./login.tpml.js"
+import { router } from "../../utils/router.js";
+import { pageTmpl } from "./login.tpml.js";
+
+type Indexed = Record<string, any>;
 
 export class LoginPage extends Block {
+    private authService: ApiAuth;
+    
     constructor(props: any = {}) {
       super('login-page', props);
+      this.authService = new ApiAuth();
+
+      window.loginClick = this.loginClick;
     }
 
     render() {
@@ -13,7 +22,6 @@ export class LoginPage extends Block {
 
       let pageHtml = _.template(pageTmpl)({ 
           button: buttonHtml,
-          onChange: 'window.onChange(this)',
           inputOnblur: 'window.inputOnblur(this)',
           inputPasswordOnblur: 'window.inputPasswordOnblur(this)',
           inputOnfocus: 'window.inputOnfocus(this)'
@@ -21,15 +29,45 @@ export class LoginPage extends Block {
 
       return pageHtml;
   }
-}
 
-window.loginClick = () => {
-  let inputElements = document.getElementsByTagName('input');
-  let params: any[] = [];
-  Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
+  loginClick = () => {
+    let inputElements = document.getElementsByTagName('input');
+    let params: any[] = [];
+    Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
+  
+    let valid = window.checkOnValid(params);
 
-  let valid = window.checkOnValid(params);
-  let btnElement = document.getElementById('loginButton');
+    if (valid) {
+      let data: Indexed = {};
+  
+      for (let i = 0; i < params.length; i++) {
+        data[params[i].id] = params[i].value;
+      }
 
-  valid ? btnElement?.setAttribute('href', '/chats') : btnElement?.removeAttribute('href');
+      this.authService.signIn(data as SignIn).then((data: { ok: boolean, response: any }) => {
+        data.ok ? this.hideErrorMessage() : this.showErrorMessage();
+        
+        if (data.ok) {
+          router.go('/chats');
+        } 
+
+      }).catch((error) => {
+        console.log(error);
+      });
+    } 
+  }
+
+  // скрыть сообщение об ошибки авторизации 
+  private hideErrorMessage() {
+    let loginErrorElement = (document.getElementById('auth_error') as HTMLElement);     
+    if (!loginErrorElement.classList.contains('hidden')) 
+      loginErrorElement.classList.add('hidden');
+  }
+
+  // отобразить сообщение об ошибки авторизации
+  private showErrorMessage() {
+    let loginErrorElement = (document.getElementById('auth_error') as HTMLElement);     
+    if (loginErrorElement.classList.contains('hidden')) 
+      loginErrorElement.classList.remove('hidden');
+  }
 }

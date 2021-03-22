@@ -74,9 +74,10 @@ window.inputOnfocus = (input: HTMLInputElement) => {
                     return;
                 }
 
-                if (element.id === 'newPassword') {
+                if (element.id === 'password') {
                     let newPassword = element;
-                    let newPasswordAgain = document.getElementById('newPasswordAgain') as HTMLInputElement;
+                    let newPasswordAgain = document.getElementById('passwordAgain') as HTMLInputElement;
+                    if (!newPasswordAgain) return;
                     
                     if (newPassword.value !== newPasswordAgain.value) {
                         valid = false;

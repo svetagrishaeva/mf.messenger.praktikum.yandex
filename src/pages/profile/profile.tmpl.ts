@@ -37,7 +37,7 @@ export const pageTmpl: string =
         <a id="passwordChangeLink">Изменить пароль</a>
     </div>
     <div class="link-row" style="border: none;">
-        <a href="/" class="close">Выйти</a>
+        <a id="exit" class="close">Выйти</a>
     </div>
 
     <!-- Модальное окно -->

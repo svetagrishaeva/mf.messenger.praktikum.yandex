@@ -1,10 +1,19 @@
+import { ApiAuth, SignUp } from "../../api/authorization.js";
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
+import { router } from "../../utils/router.js";
 import { pageTmpl } from "./signin.tmpl.js"
 
+type Indexed = Record<string, any>;
+
 export class SigninPage extends Block {
-    constructor(props: any = {}) {
+    private authService: ApiAuth;
+
+    constructor(props: any = {}, ) {
       super('signin-page', props);
+      this.authService = new ApiAuth();
+
+      window.signinClick = this.signinClick;
     }
 
     render() {
@@ -13,7 +22,6 @@ export class SigninPage extends Block {
       
       let pageHtml = _.template(pageTmpl)({ 
             button: buttonHtml,
-            onChange: 'window.onChange(this)',
             inputOnblur: 'window.inputOnblur(this)',
             inputPasswordOnblur: 'window.inputPasswordOnblur(this)',
             inputEmailOnblur:' window.inputEmailOnblur(this)', 
@@ -21,18 +29,37 @@ export class SigninPage extends Block {
         });
 
       return pageHtml;
-  }
-}
+    }
 
-window.signinClick = () => {
-  let inputElements = document.getElementsByTagName('input');
-  let params: any[] = [];
-  Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
+    signinClick = () => {
+      let inputElements = document.getElementsByTagName('input');
+      let params: any[] = [];
+      Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
+    
+      let valid = window.checkOnValid(params);
+      // let btnElement = document.getElementById('signinButton');
+    
+      if (valid) {
+        let data: Indexed = {};
 
-  let valid = window.checkOnValid(params);
-  let btnElement = document.getElementById('signinButton');
+        for (let i = 0; i < params.length; i++) {
+          if (params[i].id === 'passwordAgain') continue;
+          data[params[i].id] = params[i].value;
+        }
 
-  valid ? btnElement?.setAttribute('href', '/error500') : btnElement?.removeAttribute('href');
+        // let data = params.reduce((res, cur) => res[cur.id] = cur.value, {});
+        console.log(data as SignUp);
+        
+        this.authService.signUp(data as SignUp).then((data) => {
+          console.log('Ok', data);
+          router.go('/');
+        }).catch((error) => {
+          console.log(error);
+        });;
+      } 
+      
+      // valid ? btnElement?.setAttribute('href', '/error500') : btnElement?.removeAttribute('href');
+    }
 }
 
 export const signinPage = new SigninPage();
