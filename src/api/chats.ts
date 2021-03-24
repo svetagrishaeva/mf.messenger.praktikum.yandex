@@ -1,5 +1,5 @@
-import { HTTPTransport } from "../utils/http-transport";
-import { BASE_URL } from "./baseUrl";
+import { HTTPTransport } from "../utils/http-transport.js";
+import { BASE_URL } from "./baseUrl.js";
 
 const CHATS_URL = `${BASE_URL}/chats`;
 const CHAT_USERS_URL = `${CHATS_URL}/users`;
@@ -12,8 +12,8 @@ export class ApiChat {
         return this.fetch.get(CHATS_URL);
     };
 
-    createChat(formData: { title: string }) {
-        return this.fetch.post(CHATS_URL, { data: JSON.stringify(formData) });
+    createChat(data: { title: string }) {
+        return this.fetch.post(CHATS_URL, { data: JSON.stringify(data) });
     };
 
     getChatUsers(id: number) {

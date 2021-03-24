@@ -1,4 +1,4 @@
-import { ApiAuth, SignUp } from "../../api/authorization.js";
+import { authService, SignUp } from "../../api/authorization.js";
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
 import { router } from "../../utils/router.js";
@@ -7,11 +7,8 @@ import { pageTmpl } from "./signin.tmpl.js"
 type Indexed = Record<string, any>;
 
 export class SigninPage extends Block {
-    private authService: ApiAuth;
-
     constructor(props: any = {}, ) {
       super('signin-page', props);
-      this.authService = new ApiAuth();
 
       window.signinClick = this.signinClick;
     }
@@ -37,28 +34,24 @@ export class SigninPage extends Block {
       Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
     
       let valid = window.checkOnValid(params);
-      // let btnElement = document.getElementById('signinButton');
-    
-      if (valid) {
-        let data: Indexed = {};
 
-        for (let i = 0; i < params.length; i++) {
-          if (params[i].id === 'passwordAgain') continue;
-          data[params[i].id] = params[i].value;
-        }
+      if (!valid) return;
+      let data: Indexed = {};
 
-        // let data = params.reduce((res, cur) => res[cur.id] = cur.value, {});
-        console.log(data as SignUp);
-        
-        this.authService.signUp(data as SignUp).then((data) => {
-          console.log('Ok', data);
-          router.go('/');
-        }).catch((error) => {
-          console.log(error);
-        });;
-      } 
+      for (let i = 0; i < params.length; i++) {
+        if (params[i].id === 'passwordAgain') continue;
+        data[params[i].id] = params[i].value;
+      }
+
+      console.log(data as SignUp);
       
-      // valid ? btnElement?.setAttribute('href', '/error500') : btnElement?.removeAttribute('href');
+      authService.signUp(data as SignUp).then((data: {ok: boolean, response: {id: number}}) => {
+        if (!data.ok) return
+        
+        window.userId = data.response.id;
+        console.log('window.userId', window.userId);
+        router.go('/');
+      })
     }
 }
 

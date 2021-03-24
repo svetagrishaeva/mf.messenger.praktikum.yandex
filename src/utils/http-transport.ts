@@ -55,6 +55,8 @@ export class HTTPTransport {
           });
         }  
 
+        xhr.withCredentials = true;
+
         xhr.onload = () => {
           let response: { ok: boolean, response: any };
 

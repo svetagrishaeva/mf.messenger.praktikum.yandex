@@ -41,9 +41,9 @@ a {
 }
 
 .circle, .circle-overlay {
-    width: 200px;
-    height: 200px;
-    margin: 50px auto;
+    width: 250px;
+    height: 250px;
+    margin: 40px auto;
 }
 
 .circle{
@@ -57,12 +57,12 @@ a {
 
 .circle-overlay {
     background-color: rgba(0, 0, 0, 0.2);
-    color: white;
+    color: black;
     text-align: center;
-    margin-top: -250px;
+    margin-top: -290px;
     font-weight: 500;
     display: none;
-    z-index: 1;
+    z-index: 999;
 }
 
 h4 {
@@ -72,6 +72,7 @@ h4 {
 
 .info-input, .password-input {
     position: absolute;
+    bottom: 5px;
     right: 0;
     text-align: right; 
     width: 50%; 
@@ -109,7 +110,7 @@ h4 {
 }
 
 #info-items, #password-items {
-    margin-bottom: 40px;
+    margin: auto;
 }
 
 .blackout {
@@ -172,4 +173,5 @@ h2 { font-size: 24px; }
 
 #user-name {
     text-align: center;
+    margin-bottom: 30px;
 }

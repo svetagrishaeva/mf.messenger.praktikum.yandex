@@ -17,18 +17,22 @@ export class SignIn {
     password: string;
 };
 
-export class ApiAuth  {
+class ApiAuth  {
     private fetch: HTTPTransport;
     constructor() {
         this.fetch = new HTTPTransport();
     }
 
     signIn(data: SignIn) {
-        return this.fetch.post(`${API_AUTH}/signin`, { data: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=utf-8"} });
+        let headers = {"Content-Type": "application/json", "Accept": "application/json"};
+        let json = JSON.stringify(data);
+        return this.fetch.post(`${API_AUTH}/signin`, { data: json, headers: headers });
     }
     
     signUp(data: SignUp) {
-        return this.fetch.post(`${API_AUTH}/signup`, { data: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=utf-8"} });
+        let headers = {"Content-Type": "application/json", "Accept": "application/json"};
+        let json = JSON.stringify(data);
+        return this.fetch.post(`${API_AUTH}/signup`, { data: json, headers: headers });
     }
 
     logout() {
@@ -36,6 +40,9 @@ export class ApiAuth  {
     }
 
     getUser() {
-        return this.fetch.get(`${API_AUTH}/user`);
+        let headers = {"Accept": "application/json"};
+        return this.fetch.get(`${API_AUTH}/user`, { headers: headers });
     }
 }
+
+export const authService = new ApiAuth(); 

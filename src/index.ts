@@ -30,6 +30,10 @@ declare global {
         openModalDialog: () => void;
         openAddModal: () => void;
         openRemoveModal: () => void;
+        systemExitClick: () => void;
+        
+        userLogin: string;
+        userId: number;
     }
 }
 

@@ -1,28 +1,50 @@
 import { Block } from "../../utils/block.js";
 import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./profile.tmpl.js";
 import { Button } from "../../components/button/button.js";
-import { ApiAuth } from "../../api/authorization.js";
+import { authService } from "../../api/authorization.js";
 import { router } from "../../utils/router.js";
+import { UpdateUserPasswordData, UpdateUserProfileData, userService } from "../../api/user.js";
+// import { BASE_URL } from "../../api/baseUrl.js";
 // import { ApiUser } from "../../api/user.js";
 
-export class ProfilePage extends Block {
-    private authService: ApiAuth;
-    // private userService: ApiUser;
+type Indexed = Record<string, any>;
 
+export class ProfilePage extends Block {
     constructor(props: any = {}) {
         super('profile-page', props);
 
-        this.authService = new ApiAuth();
-        // this.userService = new ApiUser();
+        try
+        {
+            let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
+            console.log('userInfo', userInfo);
+            console.log('oldProps', this.props);
+
+            let newProps: any[]  = [];
+            Object.entries(userInfo).forEach(info => {
+                let prop = this.props.find((x: {id: string}) => x.id === info[0]);
+                if (!prop) return;
+                newProps.push({ id: prop.id, title: prop.title, value: info[1] });
+            })
+
+            console.log('newProps', newProps);
+            this.setProps(newProps);
+
+        } catch (err) {
+            console.log('can\'t parse user info', err);
+        }
 
         window.saveData = this.saveData;
         window.changeData = this.changeData;
         window.changePassword = this.changePassword;
         window.cancelChange = this.cancelChange;
         window.openModalDialog = this.openModalDialog;
+        window.systemExitClick = this.systemExitClick;
     }
 
     render() {
+        let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
+
+
         let saveButton = new Button({ 
             id: 'saveButton',
             classNames: 'btn-confirm', 
@@ -40,11 +62,14 @@ export class ProfilePage extends Block {
             style: 'display: none; width: 20%;'
         });
         let cancelButtonHtml = cancelButton.getContent().innerHTML;
-        
-        this.authService.getUser().then((data) => console.log(data));
+
+        this.props.forEach((element: { id: string; value: any; }) => {
+            if (element.id === 'display_name')
+                element.value = element.value || this.props.find((x: { id: string; }) => x.id == 'first_name')?.value;
+        });
 
         let name = this.props.find((x: { id: string; }) => x.id == 'display_name')?.value;
-        let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password'));
+        let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password') && x.id !== 'avatar');
 
         let infoItemsHtml = _.template(infoItemsTmpl)({ 
                 items: data,
@@ -55,23 +80,26 @@ export class ProfilePage extends Block {
 
         let pageHtml = _.template(pageTmpl)({ 
                 name: name, 
+                avatar: `https://ya-praktikum.tech/${userInfo.avatar}`,
                 saveButton: saveButtonHtml,
                 cancelButton: cancelButtonHtml,
                 infos: infoItemsHtml, 
                 changeData: 'window.changeData()',
                 saveData: 'window.saveData()',
                 changePassword: 'window.changePassword()',
-                openEditModal: 'window.openModalDialog()'
+                openEditModal: 'window.openModalDialog()',
+                systemExitClick: 'window.systemExitClick()'
             });
 
         return pageHtml;
     }
 
     systemExitClick() {
-        this.authService.logout().then((data: { ok: boolean, response: any }) => {
-            if (data.ok)
-                console.log('[dbg]: logout'); 
-                router.go('/');
+        authService.logout().then((data: { ok: boolean }) => {
+            if (!data.ok) return;
+
+            console.log('[dbg]: logout'); 
+            router.go('/');
           });
     }
 
@@ -125,19 +153,58 @@ export class ProfilePage extends Block {
         this.setProps(cloneprops);
     }
 
-    saveData = () => {  
-        let valid = window.checkOnValid(this.props);
-        if (!valid) return;
+    saveData = async () => {  
+        let params: any[] = [];
+        let data: Indexed = {};
+        let isPassword = false;
+        let passwordKeys = ['oldPassword', 'newPassword'];
 
-        // update props -> rerender page 
-        let datas: any[] = [];
+        for (let i = 0; i < passwordKeys.length; i++) {
+            let element = document.getElementById(passwordKeys[i]) as HTMLInputElement;
+            if (!element) continue;
+
+            params.push({id: element.id, value: element.value});
+            data[params[i].id] = params[i].value;
+            isPassword = true;
+        }
+        
+        if (!isPassword) {
+            let profileKeys = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone'];
+
+            for (let i = 0; i < profileKeys.length; i++) {
+                let element = document.getElementById(profileKeys[i]) as HTMLInputElement;
+                if (!element) continue;
+
+                params.push({id: element.id, value: element.value});
+                data[params[i].id] = params[i].value;
+            }
+        }
+
+        if (!window.checkOnValid(params)) return;
+    
+        console.log('Valid: saveData: ', data, params, isPassword);
+
+        isPassword 
+            ? await userService.updateUserPassword(data as UpdateUserPasswordData) 
+                : await userService.updateUserProfile(data as UpdateUserProfileData);
+
+        let newprops: any[] = [];
 
         this.props.forEach((x: { id: string; title: string; value: string; }) => {
-            let element = document.getElementById(x.id) as HTMLInputElement
-            datas.push({ id: x.id, title: x.title, value: element?.value || x.value });
+            let value = params.find(p => p.id === x.id)?.value;
+            newprops.push({ id: x.id, title: x.title, value: value || x.value });
         });
 
-        this.setProps(datas);
+        console.log('[dbg]: newprops: ', newprops);
+
+        // update local storage
+        authService.getUser().then((data: { ok: boolean, response: any }) => {
+            if (!data.ok) return;
+              localStorage.setItem('userInfo', JSON.stringify(data.response));
+            });
+    
+        // update props -> rerender page
+        this.setProps(newprops);
     }
 }
 

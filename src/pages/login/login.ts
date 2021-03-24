@@ -1,4 +1,4 @@
-import { ApiAuth, SignIn } from "../../api/authorization.js";
+import { authService, SignIn } from "../../api/authorization.js";
 import { Button } from "../../components/button/button.js";
 import { Block } from "../../utils/block.js";
 import { router } from "../../utils/router.js";
@@ -7,11 +7,9 @@ import { pageTmpl } from "./login.tpml.js";
 type Indexed = Record<string, any>;
 
 export class LoginPage extends Block {
-    private authService: ApiAuth;
     
     constructor(props: any = {}) {
       super('login-page', props);
-      this.authService = new ApiAuth();
 
       window.loginClick = this.loginClick;
     }
@@ -37,25 +35,40 @@ export class LoginPage extends Block {
   
     let valid = window.checkOnValid(params);
 
-    if (valid) {
-      let data: Indexed = {};
-  
-      for (let i = 0; i < params.length; i++) {
-        data[params[i].id] = params[i].value;
-      }
+    if (!valid) return;
 
-      this.authService.signIn(data as SignIn).then((data: { ok: boolean, response: any }) => {
-        data.ok ? this.hideErrorMessage() : this.showErrorMessage();
-        
-        if (data.ok) {
-          router.go('/chats');
-        } 
+    let data: Indexed = {};
 
-      }).catch((error) => {
-        console.log(error);
+    for (let i = 0; i < params.length; i++) {
+      data[params[i].id] = params[i].value;
+    }
+
+    // try logout
+    try {
+      authService.logout();
+    } catch (err) {
+
+    }
+
+    authService.signIn(data as SignIn).then((data: { ok: boolean, response: any }) => {
+      data.ok ? this.hideErrorMessage() : this.showErrorMessage();
+      
+      if (!data.ok) return;
+      
+      let userLogin = params.find(x => x.id === 'login').value;
+      // window.userLogin = params.find(x => x.id === 'login').value;
+      // console.log('window.userLogin', window.userLogin);
+      localStorage.setItem('userLogin', userLogin);
+      
+      // 401
+      authService.getUser().then((data: { ok: boolean, response: any }) => {
+        if (!data.ok) return;
+          localStorage.setItem('userInfo', JSON.stringify(data.response));
+        });
+
+        router.go('/chats');
       });
-    } 
-  }
+    }
 
   // скрыть сообщение об ошибки авторизации 
   private hideErrorMessage() {

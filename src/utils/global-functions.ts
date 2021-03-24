@@ -20,8 +20,8 @@ window.inputPasswordOnblur = (input: HTMLInputElement) => {
     let isEmpty = CheckInputValueEmpty(input);
     let message = isEmpty 
                     ? 'Данное поле должно быть заполнено'
-                        : (input.value.length < 10)
-                            ? 'Пароль должен содержать не менее 10 символов'
+                        : (input.value.length < 8)
+                            ? 'Пароль должен содержать не менее 8 символов'
                                 : '';
 
     let invalid = message !== '';
@@ -33,7 +33,7 @@ window.inputEmailOnblur = (input: any) => {
     let isEmpty = CheckInputValueEmpty(input);
     let message = isEmpty 
                     ? 'Данное поле должно быть заполнено'
-                        : (!input.value.includes('@') || input.value.length < 10)
+                        : (!input.value.includes('@') || input.value.length < 8)
                             ? 'Email некорректный'
                                 : '';
 
@@ -74,7 +74,7 @@ window.inputOnfocus = (input: HTMLInputElement) => {
                     return;
                 }
 
-                if (element.id === 'password') {
+                if (['password', 'newPassword'].includes(element.id)) {
                     let newPassword = element;
                     let newPasswordAgain = document.getElementById('passwordAgain') as HTMLInputElement;
                     if (!newPasswordAgain) return;
