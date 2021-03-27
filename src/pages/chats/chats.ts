@@ -20,7 +20,7 @@ export class ChatsPage extends Block {
     }
 
     render() {
-        let chatList = JSON.parse(localStorage.getItem('chatList') as string);
+        let chatList = JSON.parse(localStorage.getItem('chatList') as string) || [];
         let chatsHtml = _.template(chatsTmpl)({ items: chatList, onclick: 'window.onChatClick(this)' });
 
         let pageHtml = _.template(pageTemplate)({

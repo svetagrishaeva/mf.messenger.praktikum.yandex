@@ -42,8 +42,6 @@ export class SigninPage extends Block {
         if (params[i].id === 'passwordAgain') continue;
         data[params[i].id] = params[i].value;
       }
-
-      console.log(data as SignUp);
       
       authService.signUp(data as SignUp).then((data: {ok: boolean, response: {id: number}}) => {
         if (!data.ok) return;

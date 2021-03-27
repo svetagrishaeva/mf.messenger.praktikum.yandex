@@ -55,6 +55,11 @@ export class LoginPage extends Block {
         
         if (!data.ok) return;
         
+        authService.getUser().then((data: { ok: boolean, response: any }) => {
+          if (!data.ok) return;
+            localStorage.setItem('userInfo', JSON.stringify(data.response));
+        });
+
         router.go('/chats');
       });
     }
