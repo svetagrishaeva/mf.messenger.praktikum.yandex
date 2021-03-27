@@ -4,8 +4,7 @@ import { Button } from "../../components/button/button.js";
 import { authService } from "../../api/authorization.js";
 import { router } from "../../utils/router.js";
 import { UpdateUserPasswordData, UpdateUserProfileData, userService } from "../../api/user.js";
-// import { BASE_URL } from "../../api/baseUrl.js";
-// import { ApiUser } from "../../api/user.js";
+import { BASE_URL } from "../../api/baseUrl.js";
 
 type Indexed = Record<string, any>;
 
@@ -13,25 +12,15 @@ export class ProfilePage extends Block {
     constructor(props: any = {}) {
         super('profile-page', props);
 
-        try
-        {
-            let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
-            console.log('userInfo', userInfo);
-            console.log('oldProps', this.props);
+        let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
+        let newProps: any[]  = [];
+        Object.entries(userInfo).forEach(info => {
+            let prop = this.props.find((x: {id: string}) => x.id === info[0]);
+            if (!prop) return;
+            newProps.push({ id: prop.id, title: prop.title, value: info[1] });
+        })
 
-            let newProps: any[]  = [];
-            Object.entries(userInfo).forEach(info => {
-                let prop = this.props.find((x: {id: string}) => x.id === info[0]);
-                if (!prop) return;
-                newProps.push({ id: prop.id, title: prop.title, value: info[1] });
-            })
-
-            console.log('newProps', newProps);
-            this.setProps(newProps);
-
-        } catch (err) {
-            console.log('can\'t parse user info', err);
-        }
+        this.setProps(newProps);
 
         window.saveData = this.saveData;
         window.changeData = this.changeData;
@@ -39,11 +28,11 @@ export class ProfilePage extends Block {
         window.cancelChange = this.cancelChange;
         window.openModalDialog = this.openModalDialog;
         window.systemExitClick = this.systemExitClick;
+        window.saveAvatar = this.saveAvatar;
     }
 
     render() {
         let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
-
 
         let saveButton = new Button({ 
             id: 'saveButton',
@@ -80,7 +69,7 @@ export class ProfilePage extends Block {
 
         let pageHtml = _.template(pageTmpl)({ 
                 name: name, 
-                avatar: `https://ya-praktikum.tech/${userInfo.avatar}`,
+                avatar: `${BASE_URL}/${userInfo.avatar}`,
                 saveButton: saveButtonHtml,
                 cancelButton: cancelButtonHtml,
                 infos: infoItemsHtml, 
@@ -88,7 +77,8 @@ export class ProfilePage extends Block {
                 saveData: 'window.saveData()',
                 changePassword: 'window.changePassword()',
                 openEditModal: 'window.openModalDialog()',
-                systemExitClick: 'window.systemExitClick()'
+                systemExitClick: 'window.systemExitClick()',
+                saveAvatar: 'window.saveAvatar()'
             });
 
         return pageHtml;
@@ -97,14 +87,11 @@ export class ProfilePage extends Block {
     systemExitClick() {
         authService.logout().then((data: { ok: boolean }) => {
             if (!data.ok) return;
-
-            console.log('[dbg]: logout'); 
             router.go('/');
-          });
+        });
     }
 
     openModalDialog = () => {
-        console.log('[dbg]: open modal dialog');
         let elem = document.getElementById('openEditModal');
         if (!elem) return;
         elem.style.display = 'block';
@@ -153,6 +140,20 @@ export class ProfilePage extends Block {
         this.setProps(cloneprops);
     }
 
+    async saveAvatar() {
+        let inputNode: any = document.querySelector('#avatar_form');
+        let avatarData = new FormData(inputNode);
+
+        await userService.updateUserAvatar(avatarData);
+
+        authService.getUser().then((data: { ok: boolean, response: any }) => {
+            if (!data.ok) return;
+            localStorage.setItem('userInfo', JSON.stringify(data.response));
+        });
+
+        this.cancelChange();
+    }
+
     saveData = async () => {  
         let params: any[] = [];
         let data: Indexed = {};
@@ -181,8 +182,6 @@ export class ProfilePage extends Block {
         }
 
         if (!window.checkOnValid(params)) return;
-    
-        console.log('Valid: saveData: ', data, params, isPassword);
 
         isPassword 
             ? await userService.updateUserPassword(data as UpdateUserPasswordData) 
@@ -195,13 +194,11 @@ export class ProfilePage extends Block {
             newprops.push({ id: x.id, title: x.title, value: value || x.value });
         });
 
-        console.log('[dbg]: newprops: ', newprops);
-
         // update local storage
         authService.getUser().then((data: { ok: boolean, response: any }) => {
             if (!data.ok) return;
               localStorage.setItem('userInfo', JSON.stringify(data.response));
-            });
+        });
     
         // update props -> rerender page
         this.setProps(newprops);
@@ -212,11 +209,9 @@ function setDisplayValueForElements(value: string) {
     let elements = document.getElementsByClassName('link-row');
     Array.prototype.forEach.call(elements, (x: HTMLElement) => x.style.display = value);
 
-    (document.getElementById('circle-overlay') as HTMLElement).style.display = value;
     (document.getElementById('user-name') as HTMLElement).style.display = value;
 }
 
-// здесь для изменения паролей перерисовывает страницу (???)
 function render(items: any[], tmpl: string, parentElementId: string) {
     let html = _.template(tmpl)({ 
         items: items,

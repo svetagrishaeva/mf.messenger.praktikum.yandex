@@ -1,6 +1,5 @@
 export const pageTmpl: string =
-`
-<div class="back-panel">
+`<div class="back-panel">
     <a href="/chats" class="circle-back">
         <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px" style="margin: 5px">
             <path d="M0 0h24v24H0z" fill="none"/>
@@ -11,14 +10,10 @@ export const pageTmpl: string =
 
  <div class="info-panel">
     <div class="avatar">
-        <!--<div class="circle">
-            <svg fill="#bbc3c5a8" width="65px" height="65px" viewBox="0 0 16 16" style="z-index: -1;">
-                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-            </svg>
-        </div>-->
-        <img style="z-index: -1;" class="circle" src="<%-avatar%>">
-        <a class="circle-overlay" id="circle-overlay" onclick="<%-openEditModal%>"> Поменять<br>аватар </a>
+        <img class="image" src="<%-avatar%>">
+        <div class="overlay">
+            <a class="text" onclick="<%-openEditModal%>"> Поменять<br>аватар </a>
+        </div>
     </div>
 
     <h2 id="user-name"><%-name%></h2>
@@ -41,16 +36,13 @@ export const pageTmpl: string =
         <a id="exit" onclick="<%-systemExitClick%>" class="close">Выйти</a>
     </div>
 
-    <!-- Модальное окно -->
     <div id="openEditModal" class="blackout">
-        <div class="modalDialog">
+        <form id="avatar_form" class="modalDialog" enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="PUT">
             <h2>Загрузите файл</h2>
-            <input type="file" name="file" accept=".jpg, .jpeg, .png">
-            <!-- <a href="profile" style="font-size: 18px;">
-                Выберите файл на компьютере
-            </a> --->
-            <a href="profile" class="btn-confirm">Поменять</a>
-        </div>
+            <input id="fileInput" (change)="onFileSelected()" type="file" name="avatar" accept=".jpg, .jpeg, .png">
+            <a onclick="<%-saveAvatar%>" class="btn-confirm">Поменять</a>
+        </form>
     </div>
  </div>`
 

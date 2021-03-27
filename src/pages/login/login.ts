@@ -51,21 +51,13 @@ export class LoginPage extends Block {
     }
 
     authService.signIn(data as SignIn).then((data: { ok: boolean, response: any }) => {
-      data.ok ? this.hideErrorMessage() : this.showErrorMessage();
-      
-      if (!data.ok) return;
-      
-      let userLogin = params.find(x => x.id === 'login').value;
-      // window.userLogin = params.find(x => x.id === 'login').value;
-      // console.log('window.userLogin', window.userLogin);
-      localStorage.setItem('userLogin', userLogin);
-      
-      // 401
-      authService.getUser().then((data: { ok: boolean, response: any }) => {
+        data.ok ? this.hideErrorMessage() : this.showErrorMessage();
+        
         if (!data.ok) return;
-          localStorage.setItem('userInfo', JSON.stringify(data.response));
-        });
-
+        
+        let userLogin = params.find(x => x.id === 'login').value;
+        localStorage.setItem('userLogin', userLogin);
+        
         router.go('/chats');
       });
     }

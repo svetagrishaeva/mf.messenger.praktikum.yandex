@@ -8,10 +8,11 @@ a {
 
 .back-panel {
     height: 100%; 
-    min-width: 34px; 
+    min-height: 100%; 
+    min-width: 70px; 
     background-color: rgba(250, 250, 250); 
     border-right: 2px solid rgba(211, 211, 211, 0.3); 
-    padding: 0 10px;
+    padding: 0 16px;
 }
 
 .info-panel {
@@ -40,29 +41,49 @@ a {
     margin: auto;
 }
 
-.circle, .circle-overlay {
+.avatar {
+    position: relative;
     width: 250px;
     height: 250px;
     margin: 40px auto;
 }
 
-.circle{
-    background-color: #dfe5e7a8;
-    z-index: -1;
+.image {
+    display: block;
 }
 
-.avatar:hover .circle-overlay {
-    display: flex;
+.image, .overlay {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
 }
 
-.circle-overlay {
-    background-color: rgba(0, 0, 0, 0.2);
-    color: black;
+.avatar:hover .overlay {
+    opacity: 1;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: -6px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 6px;
+    opacity: 0;
+    transition: .5s ease;
+}
+
+.text {
+    position: absolute;
+    color: white;
     text-align: center;
-    margin-top: -290px;
+    font-size: 20px;
     font-weight: 500;
-    display: none;
-    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
 }
 
 h4 {
@@ -111,33 +132,8 @@ h4 {
 
 #info-items, #password-items {
     margin: auto;
+    margin-bottom: 20px;
 }
-
-.blackout {
-    background: rgba(0, 0, 0, 0.4);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-}
-
-.modalDialog  {
-    width: 340px;
-    height: 200px;
-    text-align: center;
-    padding: 30px 40px;
-    border-radius: 15px;
-    position: absolute;
-    top: 20%; 
-    right: 0;
-    left: 0;
-    margin: auto;
-    background: #fff;
-}
-
-.modalDialog a.btn-confirm { margin-top: 40px; }
 
 .blackout:target {display: block;}
 
@@ -149,11 +145,13 @@ h4 {
     cursor: pointer;
     display: block;
     /* width: 100%; */
+    max-height: 40px;
     text-align: center;
-    padding: 7px 0;
+    padding: 6px 0;
     font-size: 18px;
     line-height: 1.5;
     border-radius: 10px;
+    border: 2px solid rgb(80, 125, 252);
 }
 
 .btn-confirm {
@@ -166,7 +164,6 @@ h4 {
     margin-left: 20px;
     color: rgb(80, 125, 252);
     background-color: white;
-    border: 2px solid rgb(80, 125, 252);
 }
 
 h2 { font-size: 24px; }

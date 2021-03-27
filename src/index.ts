@@ -3,7 +3,6 @@ import { SigninPage } from "./pages/signin/signin.js";
 import { ChatsPage } from "./pages/chats/chats.js";
 import { ProfilePage, } from "./pages/profile/profile.js";
 import { error404, error500, ErrorPage } from "./pages/error/error.js";
-import { chats } from "./pages/chats/chats-data.js";
 import { infoItems } from "./pages/profile/profile.data.js";
 import { LoginPage } from "./pages/login/login.js";
 
@@ -13,6 +12,8 @@ declare global {
     interface Window { 
         onChatClick: (element: HTMLElement) => void; 
         onFilterChange: (element: HTMLInputElement) => void; 
+        onLoginChange: (element: HTMLInputElement) => void; 
+
         onChange: any; 
         showDropdownMenu: () => void; 
         changeData: () => void; 
@@ -28,18 +29,22 @@ declare global {
         loginClick: () => void; 
         signinClick: () => void; 
         openModalDialog: () => void;
-        openAddModal: () => void;
-        openRemoveModal: () => void;
+        openAddChatModalDialog: () => void;
+        openAddUserModalDialog: () => void;
+        openRemoveChatModalDialog: () => void;
+        openChatMembersModalDialog: () => void;
         systemExitClick: () => void;
-        
-        userLogin: string;
-        userId: number;
+        saveAvatar: () => void;
+        addUserToChat: (element: HTMLElement) => void; 
+        removeUserFromChat: (element: HTMLElement) => void; 
+        createChat: () => void;
+        deleteChat: () => void;
     }
 }
 
 router
     .use('/',  LoginPage)
-    .use('/chats', ChatsPage, chats)
+    .use('/chats', ChatsPage)
     .use('/profile', ProfilePage, infoItems)
     .use('/signin',  SigninPage)
     .use('/error500', ErrorPage, error500)

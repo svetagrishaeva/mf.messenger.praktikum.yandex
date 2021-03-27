@@ -39,7 +39,6 @@ class Route {
     }
 
     render(newBlockProps = undefined): void {
-        console.log(this.block, this.props);
         if (!this.block) {
             this.block = new this.blockClass(this.props);
             renderToDom(APP_ROOT_QUERY, this.block);

@@ -1,7 +1,7 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL } from "./baseUrl.js";
+import { BASE_URL_API } from "./baseUrl.js";
 
-export const API_AUTH = `${BASE_URL}/auth`;
+export const API_AUTH = `${BASE_URL_API}/auth`;
 
 export class SignUp {
     first_name: string;
@@ -19,6 +19,7 @@ export class SignIn {
 
 class ApiAuth  {
     private fetch: HTTPTransport;
+    
     constructor() {
         this.fetch = new HTTPTransport();
     }

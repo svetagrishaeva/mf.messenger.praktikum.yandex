@@ -22,8 +22,8 @@ export class HTTPTransport {
         if (options.data) {
           let data = queryStringify(options.data);
           url += data;
-          console.log(url);
         }
+
         return this.request(url, {...options, method: METHODS.GET}, options.timeout);
     };
 
@@ -83,7 +83,6 @@ export class HTTPTransport {
             return;
          }
         
-        console.log(data);
         xhr.send(data);
       });
     };
@@ -92,8 +91,7 @@ export class HTTPTransport {
       let response: string;
     
       try {
-          const json = JSON.parse(responseStirng);
-          response = json;
+          response = JSON.parse(responseStirng);
       } catch {
           response = responseStirng;
       }

@@ -46,10 +46,8 @@ export class SigninPage extends Block {
       console.log(data as SignUp);
       
       authService.signUp(data as SignUp).then((data: {ok: boolean, response: {id: number}}) => {
-        if (!data.ok) return
-        
-        window.userId = data.response.id;
-        console.log('window.userId', window.userId);
+        if (!data.ok) return;
+
         router.go('/');
       })
     }
