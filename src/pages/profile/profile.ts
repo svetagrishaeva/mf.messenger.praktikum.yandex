@@ -87,7 +87,7 @@ export class ProfilePage extends Block {
     systemExitClick() {
         authService.logout().then((data: { ok: boolean }) => {
             if (!data.ok) return;
-            
+
             router.go('/');
         });
     }
@@ -108,7 +108,6 @@ export class ProfilePage extends Block {
             let element = document.getElementById(x.id) as HTMLElement;
             if (element) {
                 element.removeAttribute('disabled');
-                element.onchange = window.onChange;
             }
         });
     }
@@ -125,8 +124,6 @@ export class ProfilePage extends Block {
         // password items page render 
         let passwordItems = this.props.filter((x: { id: string }) => x.id.toLowerCase().includes('password'));
         render(passwordItems, passwordItemsTmpl, 'password-items');
-    
-        passwordItems.forEach((x: { id: string; }) => (document.getElementById(x.id) as HTMLElement).onchange = window.onChange);
     }
 
     cancelChange = () => {

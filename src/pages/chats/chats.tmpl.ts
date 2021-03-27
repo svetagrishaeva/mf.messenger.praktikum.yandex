@@ -226,7 +226,7 @@ export const messagesPanelTemplate: string =
         </div>
     </div>
 
-    <input id="message" class="form-control" type="search" style="border-radius: 20px; max-width: none;" placeholder="Введите сообщение" onchange="<%-onMessageChange%>">
+    <input id="message" class="form-control" type="search" style="border-radius: 20px; max-width: none;" placeholder="Введите сообщение">
 
     <div class="bot-bar_actions">
         <div class="icon-btn">

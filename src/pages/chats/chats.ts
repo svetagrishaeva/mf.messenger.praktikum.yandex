@@ -152,13 +152,7 @@ window.onChatClick = (element: HTMLElement) => {
     // скрыть сообщение  с информацией
     (document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
-    let messagesPanelHtml = _.template(messagesPanelTemplate)({ 
-            chat: chat,
-            onMessageChange: 'window.onChange(this)',
-            onDropdownMenuClick: 'window.showDropdownMenu()',
-            openAddModal: 'window.openAddModal()',
-            openRemoveModal: 'window.openRemoveModal()',
-        });
+    let messagesPanelHtml = _.template(messagesPanelTemplate)({ chat });
 
     (document.getElementById('chat-messages') as HTMLElement).innerHTML = messagesPanelHtml;
 

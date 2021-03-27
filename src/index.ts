@@ -13,9 +13,6 @@ declare global {
         onChatClick: (element: HTMLElement) => void; 
         onFilterChange: (element: HTMLInputElement) => void; 
         onLoginChange: (element: HTMLInputElement) => void; 
-
-        onChange: any; 
-        showDropdownMenu: () => void; 
         changeData: () => void; 
         saveData: () => void; 
         changePassword: () => void; 
@@ -49,5 +46,5 @@ router
     .use('/signin',  SigninPage)
     .use('/error500', ErrorPage, error500)
     .use('/*', ErrorPage, error404)
-    .start();;
+    .start();
     

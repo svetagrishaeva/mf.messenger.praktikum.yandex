@@ -3,11 +3,6 @@
  * @param input 
  */
 
-// сбор данных с форм (input)
-window.onChange = (input: HTMLInputElement) => {
-    console.log(`${input.id}: ${input.value}`);
-}
-
 // общая валидация форм 
 window.inputOnblur = (input: HTMLInputElement) => {
     let isEmpty = CheckInputValueEmpty(input);

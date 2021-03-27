@@ -11,4 +11,4 @@ app.get('/chats',  (_req,  _res) => _res.sendFile('index.html', { root: static_d
 app.get('/profile',  (_req,  _res) => _res.sendFile('index.html', { root: static_dir}  ));
 app.get('/*',  (_req,  _res) => _res.sendFile('index.html', { root: static_dir}  ));
 
-app.listen(1234);
+app.listen(3000);
