@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon",
-    "publish": "npm run clean && npm run build && cp -r src/* dist/ && cp src/index.html dist/index.html",
+    "publish": "npm run clean && npm run build && gulp css && cp src/index.html dist/index.html",
     "publish:local": "npm run clean && npm run build && gulp css && copyfiles -f src/index.html dist/",
     "clean": "rimraf dist"
   },
