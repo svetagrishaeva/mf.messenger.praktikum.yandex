@@ -68,7 +68,7 @@ export class ProfilePage extends Block {
             });
 
         let pageHtml = _.template(pageTmpl)({ 
-                name: name, 
+                name, 
                 avatar: `${BASE_URL}/${userInfo.avatar}`,
                 saveButton: saveButtonHtml,
                 cancelButton: cancelButtonHtml,
@@ -87,6 +87,7 @@ export class ProfilePage extends Block {
     systemExitClick() {
         authService.logout().then((data: { ok: boolean }) => {
             if (!data.ok) return;
+            
             router.go('/');
         });
     }

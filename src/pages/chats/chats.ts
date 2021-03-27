@@ -70,7 +70,7 @@ window.onLoginChange = (element: HTMLInputElement) => {
                 return;
             }
 
-            let usersHtml = _.template(userListTmpl)({ users: users });
+            let usersHtml = _.template(userListTmpl)({ users });
             element.innerHTML = usersHtml;
         });
     });
@@ -87,7 +87,7 @@ window.addUserToChat = (element: HTMLElement) => {
     let chatId = +(localStorage.getItem('curChatId') as string);
     let userId = +(element.getAttribute('id') as string);
     let userIds = [userId];
-    let data = { users: userIds, chatId: chatId };
+    let data = { users: userIds, chatId };
 
     chatService.addNewUsersToChat(data).then((resp: { ok: boolean, response: any }) => {
         if (!resp.ok) return;
@@ -100,7 +100,7 @@ window.removeUserFromChat = (element: HTMLElement) => {
     let chatId = +(localStorage.getItem('curChatId') as string);
     let userId = +(element.getAttribute('id') as string);
     let userIds = [userId];
-    let data = { users: userIds, chatId: chatId };
+    let data = { users: userIds, chatId };
 
     chatService.deleteUsersFromChat(data).then((resp: { ok: boolean, response: any }) => {
         if (!resp.ok) return;
@@ -133,7 +133,7 @@ window.openChatMembersModalDialog = () => {
         if (!resp.ok) return;
 
         let usersHtml = _.template(userListTmpl)({ users: resp.response });
-        let membersModalDialogHtml = _.template(membersModalDialogTmpl)({ usersHtml: usersHtml });
+        let membersModalDialogHtml = _.template(membersModalDialogTmpl)({ usersHtml });
 
         let modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
         modalDialog.innerHTML = membersModalDialogHtml;
@@ -161,7 +161,6 @@ window.onChatClick = (element: HTMLElement) => {
         });
 
     (document.getElementById('chat-messages') as HTMLElement).innerHTML = messagesPanelHtml;
-   
 
     // снять подсветку для всех эл. чата
     // установить для текущего

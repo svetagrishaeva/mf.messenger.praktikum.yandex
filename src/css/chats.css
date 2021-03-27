@@ -79,10 +79,6 @@
         padding: 8px;
     }
 
-    .add-chat-btn:hover {
-        background-color: rgba(122, 184, 243, 0.2);
-    }
-
     .chats {
         max-width: 350px; 
         min-width: 350px;
@@ -134,10 +130,6 @@
         margin-bottom: 20px;
     }
 
-    .user-nik, ._user-nik {
-        color: black; line-height: 18px; padding-top: 8px; font-weight: 600; font-size: 18px;
-    }
-
     .from-message, .to-message  {
         font-weight: 600;
         margin-bottom: 6px;
@@ -169,28 +161,12 @@
         float: right;
     }
 
-    td, #messages {
-        min-width: 100%;
-    }
-    
-    #messages {
-        max-height: 100%; padding-bottom: 200px; padding-top: 40px
-    } 
-
-    .dropdown-content a:hover {
-        background-color: whitesmoke;
-    }
-
     #msg-info {
         min-width: 75%; height: 100%; display: table;
     }
 
     #msg-info div {
         display: table-cell; vertical-align: middle; text-align: center; color: #aaa; font-weight: 600;
-    }
-
-    .messages-header table {
-        border-bottom: 2px solid rgba(211, 211, 211, 0.3); min-width: 100%;
     }
 
     .last-time {

@@ -55,9 +55,6 @@ export class LoginPage extends Block {
         
         if (!data.ok) return;
         
-        let userLogin = params.find(x => x.id === 'login').value;
-        localStorage.setItem('userLogin', userLogin);
-        
         router.go('/chats');
       });
     }

@@ -20,8 +20,7 @@ export type TypeOptions = {
 export class HTTPTransport {
     get = (url: string, options: TypeOptions | any = {}) => {
         if (options.data) {
-          let data = queryStringify(options.data);
-          url += data;
+          url += queryStringify(options.data);
         }
 
         return this.request(url, {...options, method: METHODS.GET}, options.timeout);
@@ -50,7 +49,6 @@ export class HTTPTransport {
 
         if (headers) {
           Object.keys(headers).map(key => {
-            console.log(key, headers[key]);
             xhr.setRequestHeader(key, headers[key]);
           });
         }  

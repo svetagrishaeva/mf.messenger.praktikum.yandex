@@ -9,11 +9,6 @@ chats-page, profile-page {
     height: 100vh;
 }
 
-/*
-body, html, .app, chats-page { 
-    overflow: hidden;
-}*/
-
 profile-page { 
     overflow: auto;
 }
@@ -38,12 +33,6 @@ svg, img {
     border-radius: 4px;
     background: #bdbdbd;
 }
-
-/*
-chats-page { 
-    overflow: hidden;
-    flex-direction: column;
-}*/
 
 .error { color: red; font-size: 14px; }
 
@@ -78,20 +67,3 @@ h2 {font-weight: 600;}
     margin: auto;
     background: #fff;
   }
-
-/*
-.btn-confirm {
-    margin-top: 50px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    padding: 7px 0;
-    font-size: 18px;
-    line-height: 1.5;
-    color: white;
-    background-color:rgb(80, 125, 252);
-    border: none;
-    border-radius: 10px;
-    text-decoration: none;
-}*/

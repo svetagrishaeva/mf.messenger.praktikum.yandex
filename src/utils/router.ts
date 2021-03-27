@@ -87,7 +87,6 @@ class Router {
 
     private _onRoute(pathname: string, newBlockProps = undefined): void  {
         const route = this.getRoute(pathname);
-        console.log(route, pathname);
 
         if (!route) {
           return;

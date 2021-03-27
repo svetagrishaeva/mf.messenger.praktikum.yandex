@@ -7,7 +7,7 @@ const UPDATE_AVATAR_URL = `${USER_URL}/profile/avatar`;
 const UPDATE_PASSWORD_URL = `${USER_URL}/password`;
 const SEARCH_USER_URL = `${USER_URL}/search`;
 
-export class  UpdateUserProfileData {
+export class UpdateUserProfileData {
     first_name: string;
     second_name: string;
     display_name: string;
@@ -16,7 +16,7 @@ export class  UpdateUserProfileData {
     phone: string;
 }
 
-export class  UpdateUserPasswordData {
+export class UpdateUserPasswordData {
     oldPassword: string; 
     newPassword: string
 }
@@ -28,19 +28,22 @@ class ApiUser {
         this.fetch = new HTTPTransport();
     }
     
-    searchUserByLogin(data: { login: string }) {
+    searchUserByLogin(formData: { login: string }) {
         let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        return this.fetch.post(SEARCH_USER_URL, { data: JSON.stringify(data), headers: headers });
+        let data = JSON.stringify(formData);
+        return this.fetch.post(SEARCH_USER_URL, { data, headers });
     }
 
     updateUserProfile(formData: UpdateUserProfileData) {
         let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        return this.fetch.put(UPDATE_PROFILE_URL, { data: JSON.stringify(formData), headers: headers });
+        let data = JSON.stringify(formData);
+        return this.fetch.put(UPDATE_PROFILE_URL, { data, headers });
     }
 
     updateUserPassword(formData: UpdateUserPasswordData) {
         let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        return this.fetch.put(UPDATE_PASSWORD_URL, { data: JSON.stringify(formData), headers: headers });
+        let data = JSON.stringify(formData);
+        return this.fetch.put(UPDATE_PASSWORD_URL, { data, headers });
     }
     
     updateUserAvatar(formData: FormData) {  
