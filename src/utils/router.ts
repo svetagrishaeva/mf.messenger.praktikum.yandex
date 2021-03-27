@@ -35,16 +35,14 @@ class Route {
     }
 
     match(pathname?: string): boolean {
-        return pathname  === this.pathname;
+        return pathname === this.pathname;
     }
 
-    render(newBlockProps = undefined): void {
+    render(): void {
         if (!this.block) {
             this.block = new this.blockClass(this.props);
             renderToDom(APP_ROOT_QUERY, this.block);
             return;
-        } else if (newBlockProps) {
-            this.block.setProps(newBlockProps);
         }
 
         this.block.show();
@@ -85,19 +83,20 @@ class Router {
       this._onRoute(window.location.pathname);
     }
 
-    private _onRoute(pathname: string, newBlockProps = undefined): void  {
+    private _onRoute(pathname: string): void  {
         const route = this.getRoute(pathname);
 
+        // ToDo: do to default pathname
         if (!route) {
           return;
         }
 
-        if (this.currentRoute) {
+        if (route !== this.currentRoute && this.currentRoute) {
           this.currentRoute.leave();
         }
       
         this.currentRoute = route;
-        route.render(newBlockProps);
+        route.render();
      }
 
     go(pathname: string): void  {
@@ -107,14 +106,14 @@ class Router {
     }
   
     back(): void  {
-        window.history.back();
+        history.back();
     }
 
     forward(): void {
-        window.history.forward();
+        history.forward();
     }
 
-    getRoute(pathname: string): Route | undefined  {
+    private getRoute(pathname: string): Route | undefined  {
       return this.routes.find(route => route.match(pathname));
     }
 }

@@ -117,12 +117,12 @@ export class Block {
     _createDocumentElement(tagName: any) {
       return document.createElement(tagName);
     }
-  
-    show() {
-      this.getContent().style.display = "block";
+
+    show(): void {
+      this.getContent().style.display = '';
     }
   
-    hide() {
-      this.getContent().style.display = "none";
+    hide(): void {
+      this.getContent().style.display = 'none';
     }
   }

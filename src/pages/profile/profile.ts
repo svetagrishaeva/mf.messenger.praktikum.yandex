@@ -14,6 +14,7 @@ export class ProfilePage extends Block {
 
         let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
         let newProps: any[]  = [];
+        
         Object.entries(userInfo).forEach(info => {
             let prop = this.props.find((x: {id: string}) => x.id === info[0]);
             if (!prop) return;

@@ -36,6 +36,10 @@ declare global {
         removeUserFromChat: (element: HTMLElement) => void; 
         createChat: () => void;
         deleteChat: () => void;
+        
+        // routing
+        goTo: (page: string) => void;
+        goBack: (page: string) => void;
     }
 }
 

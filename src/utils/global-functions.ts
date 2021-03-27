@@ -1,7 +1,17 @@
 /**
- * Реализация глобальных функций (валидация и сбор данных с форм)
+ * Реализация глобальных функций: валидация и роутинг (переход между страницами)
  * @param input 
  */
+
+import { router } from "./router.js";
+
+window.goTo = (page: string) => {
+    router.go(page);
+};
+
+window.goBack = () => {
+    router.back();
+};
 
 // общая валидация форм 
 window.inputOnblur = (input: HTMLInputElement) => {
