@@ -86,10 +86,19 @@ class Router {
     }
 
     start(): void  {
-      window.onpopstate = ((event: { currentTarget: { location: { pathname: string; }; }; }) => {
-        this._onRoute(event.currentTarget.location.pathname);
-      }).bind(this);
+      /*window.onpopstate = () => {
+        console.log(window.location.pathname);
+        this._onRoute(window.location.pathname);
+      };*/
 
+      window.onload = (() => {
+            window.onpopstate = () => {
+                console.log('window.onpopstate', window.location.pathname);
+                this._onRoute(window.location.pathname);
+            };
+        }).bind(this);
+
+      console.log('test', window.location.pathname);
       this._onRoute(window.location.pathname);
     }
 
@@ -102,7 +111,7 @@ class Router {
             return;
         }
 
-        if (route !== this.currentRoute && this.currentRoute) {
+        if (this.currentRoute) {
           this.currentRoute.leave();
         }
       
