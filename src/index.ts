@@ -22,7 +22,7 @@ declare global {
         inputOnfocus: (input: HTMLInputElement) => void; 
         applyValidation: (inputs: HTMLInputElement[], invalid: boolean, message: string) => void; 
         cancelChange: () => void; 
-        checkOnValid: (params: any[]) => boolean;
+        checkOnValid: (parameters: any[], isPasswordChange?: boolean) => boolean;
         loginClick: () => void; 
         signinClick: () => void; 
         openModalDialog: () => void;

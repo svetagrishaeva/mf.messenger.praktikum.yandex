@@ -61,7 +61,7 @@ window.inputOnfocus = (input: HTMLInputElement) => {
   * Если хотя бы одно поле не валидно (т. е. имеется индикатор ошибки, значение - пусто/null/undefined) или пароли не совпадают, то возвращать false.
   * @param parameters - список параметров 
   */
- window.checkOnValid = (parameters: any[]) => {
+ window.checkOnValid = (parameters: any[], isPasswordChange: boolean = false) => {
      let valid = true;
 
      parameters.forEach((x: { id: string; title: string; value: string; }) => {
@@ -79,7 +79,8 @@ window.inputOnfocus = (input: HTMLInputElement) => {
                     return;
                 }
 
-                if (['password', 'newPassword'].includes(element.id)) {
+                let password = !isPasswordChange ? 'password' : 'newPassword';
+                if (element.id === password) {
                     let newPassword = element;
                     let newPasswordAgain = document.getElementById('passwordAgain') as HTMLInputElement;
                     if (!newPasswordAgain) return;

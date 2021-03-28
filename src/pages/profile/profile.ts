@@ -128,15 +128,8 @@ export class ProfilePage extends Block {
     }
 
     cancelChange = () => {
-        // "клонируем" пропсы (данные останутся прежними) 
-        // установим "новые" пропсы для перерендеринга страницы
-        let cloneprops: any[] = [];
-
-        this.props.forEach((x: { id: string; title: string; value: string; }) => {
-            cloneprops.push({ id: x.id, title: x.title, value: x.value });
-        });
-
-        this.setProps(cloneprops);
+        // обновить текущую страницу (для перерендеринга)
+        router.update();
     }
 
     async saveAvatar() {
@@ -181,27 +174,21 @@ export class ProfilePage extends Block {
             }
         }
 
-        if (!window.checkOnValid(params)) return;
+        let isPasswordChange = true;
+        if (!window.checkOnValid(params, isPasswordChange)) return;
 
         isPassword 
             ? await userService.updateUserPassword(data as UpdateUserPasswordData) 
                 : await userService.updateUserProfile(data as UpdateUserProfileData);
 
-        let newprops: any[] = [];
-
-        this.props.forEach((x: { id: string; title: string; value: string; }) => {
-            let value = params.find(p => p.id === x.id)?.value;
-            newprops.push({ id: x.id, title: x.title, value: value || x.value });
-        });
-
         // update local storage
         authService.getUser().then((data: { ok: boolean, response: any }) => {
             if (!data.ok) return;
-              localStorage.setItem('userInfo', JSON.stringify(data.response));
+            localStorage.setItem('userInfo', JSON.stringify(data.response));
+
+            // обновить текущую страницу
+            router.update();
         });
-    
-        // update props -> rerender page
-        this.setProps(newprops);
     }
 }
 
