@@ -45,5 +45,5 @@ export const pageTmpl =
            </div>
      
            <%=button%>
-           <a href="/">Войти</a>
+           <a onclick="window.goTo('/')">Войти</a>
         </div>`

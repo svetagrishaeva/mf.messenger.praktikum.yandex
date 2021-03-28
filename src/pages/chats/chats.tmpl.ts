@@ -1,5 +1,5 @@
 export const pageTemplate: string = 
- `<div id="chats" class="chats">
+  `<div id="chats" class="chats">
        <header class="chats-header">
            <a onclick="window.goTo('/profile')" class="profile-link">
                 Профиль
@@ -30,15 +30,15 @@ export const pageTemplate: string =
         <main class="chat-list"> 
             <%=chatsHtml%>
         </main> 
-   </div>
+    </div>
 
-   <div id="msg-info">
+    <div id="msg-info">
        <div> Выберите чат, чтобы отправить сообщение. </div>
-   </div>
+    </div>
 
-   <div class="chat_area" id="chat-messages"></div>
+    <div class="chat_area" id="chat-messages"></div>
 
-   <div id="userAdditionModalDialog" class="blackout">
+    <div id="userAdditionModalDialog" class="blackout">
         <div class="modalDialog" style="width: 400px;">
             <h4>Добавление пользователей в чат</h4>
             <br><br>
@@ -55,8 +55,7 @@ export const pageTemplate: string =
                 <a onclick="document.getElementById('userAdditionModalDialog').style.display = 'none'" class="btn-cancel" style="width: 40%;">Закрыть</a>
             </div>
         </div>
-   </div>
-
+    </div>
 
     <div id="chatAdditionModalDialog" class="blackout">
         <div class="modalDialog">
