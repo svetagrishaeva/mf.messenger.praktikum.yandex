@@ -1,13 +1,12 @@
 import { chatService } from "../../api/chats.js";
 import { userService } from "../../api/user.js";
 import { Block } from "../../utils/block.js";
+import { router } from "../../utils/router.js";
 import { chatsTmpl, pageTemplate, messagesPanelTemplate, membersModalDialogTmpl, userListTmpl } from "./chats.tmpl.js";
 
 export class ChatsPage extends Block {
     constructor(props: any = {}) {
         super('chats-page', props);
-
-        window.deleteChat = this.deleteChat;
 
         // вынести в отдельный метод
         chatService.getChats().then((resp: { ok: boolean, response: any }) => {
@@ -31,23 +30,6 @@ export class ChatsPage extends Block {
         });
 
         return pageHtml;
-    }
-
-    deleteChat = () => {
-        let chatId = localStorage.getItem('curChatId') as string;
-
-        chatService.deleteChatByID({ chatId: +chatId }).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
-
-            // вынести в отдельный метод
-            chatService.getChats().then((resp: { ok: boolean, response: any }) => {
-                if (!resp.ok) return;
-                let chatList = JSON.stringify(resp.response);
-                localStorage.setItem('chatList', chatList);
-
-                this.setProps(resp.response);
-            });
-        });
     }
 }
 
@@ -81,6 +63,34 @@ window.createChat = async () => {
     if (!elem) return;
 
     await chatService.createChat({ title: elem.value });
+
+    // вынести в отдельный метод
+    chatService.getChats().then((resp: { ok: boolean, response: any }) => {
+        if (!resp.ok) return;
+        let chatList = JSON.stringify(resp.response);
+        localStorage.setItem('chatList', chatList);
+
+        // Костыль, обновить текущую страницу
+        router.update();
+    });
+}
+
+window.deleteChat = () => {
+    let chatId = +(localStorage.getItem('curChatId') as string);
+
+    chatService.deleteChatByID({ chatId }).then((resp: { ok: boolean, response: any }) => {
+        if (!resp.ok) return;
+
+        // вынести в отдельный метод
+        chatService.getChats().then((resp: { ok: boolean, response: any }) => {
+            if (!resp.ok) return;
+            let chatList = JSON.stringify(resp.response);
+            localStorage.setItem('chatList', chatList);
+
+            // Костыль, обновить текущую страницу
+            router.update();
+        });
+    });
 }
 
 window.addUserToChat = (element: HTMLElement) => {
@@ -120,11 +130,12 @@ window.openAddChatModalDialog = () => {
     elem.style.display = 'block';
 };
 
+/*
 window.openRemoveChatModalDialog = () => {
     let elem = document.getElementById('chatRemovementModalDialog');
     if (!elem) return;
     elem.style.display = 'block';
-};
+};*/
 
 window.openChatMembersModalDialog = () => {
     let chatId = +(localStorage.getItem('curChatId') as string);

@@ -38,8 +38,11 @@ class Route {
         return pathname === this.pathname;
     }
 
-    render(): void {
-        if (!this.block) {
+    render(update: boolean = false): void {
+        if (!this.block || update) {
+            if (this.block) {
+                this.block.remove();
+            }
             this.block = new this.blockClass(this.props);
             renderToDom(APP_ROOT_QUERY, this.block);
             return;
@@ -52,6 +55,7 @@ class Route {
 class Router {
     private history: History;
     private routes: Route[];
+    private defaultPathname: string;
 
     private currentRoute: Route | null;
 
@@ -75,6 +79,12 @@ class Router {
         return this;
     } 
 
+    default(pathname: string, component: any, defaultProps: any): this {
+        this.defaultPathname = pathname;
+        this.use(pathname, component, defaultProps);
+        return this;
+    }
+
     start(): void  {
       window.onpopstate = ((event: { currentTarget: { location: { pathname: string; }; }; }) => {
         this._onRoute(event.currentTarget.location.pathname);
@@ -83,12 +93,13 @@ class Router {
       this._onRoute(window.location.pathname);
     }
 
-    private _onRoute(pathname: string): void  {
+    private _onRoute(pathname: string, update: boolean = false): void  {
         const route = this.getRoute(pathname);
 
-        // ToDo: do to default pathname
         if (!route) {
-          return;
+            // go to default page
+            this.go(this.defaultPathname);
+            return;
         }
 
         if (route !== this.currentRoute && this.currentRoute) {
@@ -96,8 +107,14 @@ class Router {
         }
       
         this.currentRoute = route;
-        route.render();
+        route.render(update);
      }
+    
+    // обновить текущую страницу
+    update() {
+        let update = true;
+        this._onRoute(window.location.pathname, update);
+    }
 
     go(pathname: string): void  {
       this.history.pushState({}, '', pathname);
@@ -106,11 +123,11 @@ class Router {
     }
   
     back(): void  {
-        history.back();
+        window.history.back();
     }
 
     forward(): void {
-        history.forward();
+        window.history.forward();
     }
 
     private getRoute(pathname: string): Route | undefined  {

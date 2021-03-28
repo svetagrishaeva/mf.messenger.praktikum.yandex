@@ -118,6 +118,10 @@ export class Block {
       return document.createElement(tagName);
     }
 
+    remove(): void {
+      this.getContent().outerHTML = '';
+    }
+    
     show(): void {
       this.getContent().style.display = '';
     }

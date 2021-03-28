@@ -9,10 +9,6 @@ chats-page, profile-page {
     height: 100vh;
 }
 
-profile-page { 
-    overflow: auto;
-}
-
 * {
     box-sizing: border-box;
     padding: 0;

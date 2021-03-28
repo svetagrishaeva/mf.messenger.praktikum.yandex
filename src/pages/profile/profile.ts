@@ -148,9 +148,10 @@ export class ProfilePage extends Block {
         authService.getUser().then((data: { ok: boolean, response: any }) => {
             if (!data.ok) return;
             localStorage.setItem('userInfo', JSON.stringify(data.response));
-        });
 
-        this.cancelChange();
+            // обновить текущую страницу
+            router.update();
+        });
     }
 
     saveData = async () => {  

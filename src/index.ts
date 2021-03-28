@@ -49,6 +49,6 @@ router
     .use('/profile', ProfilePage, infoItems)
     .use('/signin',  SigninPage)
     .use('/error500', ErrorPage, error500)
-    .use('/*', ErrorPage, error404)
+    .default('/error404', ErrorPage, error404)
     .start();
     
