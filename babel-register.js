@@ -1,0 +1,1 @@
+require('@babel/register').default({ extensions: ['.ts', '.js'] });

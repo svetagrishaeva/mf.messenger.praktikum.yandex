@@ -8,7 +8,7 @@ export function renderToDom(query: string, block: Block| null) {
     return root;
 }
 
-class Route {
+export class Route {
     private pathname: string;
     private blockClass;
     private block: Block | null;
@@ -52,7 +52,7 @@ class Route {
     }
 }
 
-class Router {
+export class Router {
     private history: History;
     private routes: Route[];
     private defaultPathname: string;
