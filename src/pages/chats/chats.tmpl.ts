@@ -111,7 +111,7 @@ export const userListTmpl: string =
 `<% users.forEach(function(user) { %>
     <div class="top-bar" style="font-size: 18px; padding-top: 10px;">
         <% if (user.avatar != null) { %>
-            <img width="40px" height="40px" fill="white" style="border-radius: 50%;" src="https://ya-praktikum.tech<%-user.avatar%>">
+            <img width="40px" height="40px" fill="white" style="border-radius: 50%;" src="<%-baseUrl%><%-user.avatar%>">
         <% } else { %>
             <svg viewBox="0 0 16 16" width="40px" height="40px" fill="white" style="border-radius: 50%;">
                 <path d="M0 0h16v16H0V0z" fill="#DFE5E7" />

@@ -1,3 +1,4 @@
+import { BASE_URL } from "../../api/baseUrl.js";
 import { chatService } from "../../api/chats.js";
 import { userService } from "../../api/user.js";
 import { Block } from "../../utils/block.js";
@@ -52,7 +53,7 @@ window.onLoginChange = (element: HTMLInputElement) => {
                 return;
             }
 
-            let usersHtml = _.template(userListTmpl)({ users });
+            let usersHtml = _.template(userListTmpl)({ users: users, baseUrl:  BASE_URL });
             element.innerHTML = usersHtml;
         });
     });
@@ -130,20 +131,13 @@ window.openAddChatModalDialog = () => {
     elem.style.display = 'block';
 };
 
-/*
-window.openRemoveChatModalDialog = () => {
-    let elem = document.getElementById('chatRemovementModalDialog');
-    if (!elem) return;
-    elem.style.display = 'block';
-};*/
-
 window.openChatMembersModalDialog = () => {
     let chatId = +(localStorage.getItem('curChatId') as string);
 
     chatService.getUsersByChatID(chatId).then((resp: { ok: boolean, response: any }) => {
         if (!resp.ok) return;
 
-        let usersHtml = _.template(userListTmpl)({ users: resp.response });
+        let usersHtml = _.template(userListTmpl)({ users: resp.response, baseUrl:  BASE_URL });
         let membersModalDialogHtml = _.template(membersModalDialogTmpl)({ usersHtml });
 
         let modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
@@ -156,14 +150,14 @@ window.openChatMembersModalDialog = () => {
 window.onChatClick = (element: HTMLElement) => {
     let id = element.getAttribute('id') as string;
     let chatList: any[] = JSON.parse(localStorage.getItem('chatList') as string);
-    let chat = chatList.find(x => x.id === +id);
+    let chat = chatList.find(x => x.id === +id) || {};
 
     localStorage.setItem('curChatId', id);
 
     // скрыть сообщение  с информацией
     (document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
-    let messagesPanelHtml = _.template(messagesPanelTemplate)({ chat });
+    let messagesPanelHtml = _.template(messagesPanelTemplate)({ chat, avatar: `${BASE_URL}/${chat.avatar}`, });
 
     (document.getElementById('chat-messages') as HTMLElement).innerHTML = messagesPanelHtml;
 

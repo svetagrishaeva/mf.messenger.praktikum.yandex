@@ -38,9 +38,8 @@ export const pageTmpl: string =
 
     <div id="openEditModal" class="blackout">
         <form id="avatar_form" class="modalDialog" enctype="multipart/form-data">
-            <!--<input type="hidden" name="_method" value="PUT">-->
             <h2>Загрузите файл</h2>
-            <input id="fileInput" (change)="onFileSelected()" type="file" name="avatar" accept=".jpg, .jpeg, .png">
+            <input id="fileInput" type="file" name="avatar" accept=".jpg, .jpeg, .png">
             <a onclick="<%-saveAvatar%>" class="btn-confirm">Поменять</a>
         </form>
     </div>
