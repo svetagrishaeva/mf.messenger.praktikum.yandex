@@ -86,15 +86,15 @@ class Router {
     }
 
     start(): void  {
-      window.onload = (() => {
-            window.onpopstate = () => {
-                this._onRoute(window.location.pathname);
-            };
-
+        window.onpopstate = () => {
             this._onRoute(window.location.pathname);
-        }).bind(this);
+        };  
 
-      this._onRoute(window.location.pathname);
+        window.onload = () => {
+            this._onRoute(window.location.pathname);
+        };
+
+        this._onRoute(window.location.pathname);
     }
 
     private _onRoute(pathname: string, update: boolean = false): void  {
