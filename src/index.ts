@@ -45,10 +45,10 @@ declare global {
 
 router
     .use('/',  LoginPage)
-    .use('/chats', ChatsPage)
-    .use('/profile', ProfilePage, infoItems)
-    .use('/signin',  SigninPage)
-    .use('/error500', ErrorPage, error500)
-    .default('/error404', ErrorPage, error404)
+    .use('#chats', ChatsPage)
+    .use('#profile', ProfilePage, infoItems)
+    .use('#signin',  SigninPage)
+    .use('#error500', ErrorPage, error500)
+    .default('#error404', ErrorPage, error404)
     .start();
     

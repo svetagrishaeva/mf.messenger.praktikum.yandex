@@ -94,6 +94,7 @@ export class Block {
     }
   
     _makePropsProxy(props: any) {
+      // ToDo: Можно забиндить, не переприсваивать this
       const self = this;
 
       return new Proxy(props, {

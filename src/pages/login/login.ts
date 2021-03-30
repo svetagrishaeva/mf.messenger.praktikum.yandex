@@ -43,24 +43,29 @@ export class LoginPage extends Block {
       data[params[i].id] = params[i].value;
     }
 
-    // try logout
-    try {
-      authService.logout();
-    } catch (err) {
-
-    }
-
-    authService.signIn(data as SignIn).then((data: { ok: boolean, response: any }) => {
-        data.ok ? this.hideErrorMessage() : this.showErrorMessage();
-        
-        if (!data.ok) return;
-        
-        authService.getUser().then((data: { ok: boolean, response: any }) => {
-          if (!data.ok) return;
+    authService.signIn(data as SignIn).then((data: { ok: boolean, response: string }) => {
+        if (data.response.includes('User already in system')) {
+          authService.getUser().then((data: { ok: boolean, response: any }) => {
+            if (!data.ok) return;
             localStorage.setItem('userInfo', JSON.stringify(data.response));
+            localStorage.setItem('isAuth', 'true');
+          });
+
+          router.go('#chats');
+          return;
+        }
+
+        data.ok ? this.hideErrorMessage() : this.showErrorMessage();
+
+        if (!data.ok) return;
+
+        authService.getUser().then((data: { ok: boolean, response: any }) => {
+            if (!data.ok) return;
+            localStorage.setItem('userInfo', JSON.stringify(data.response));
+            localStorage.setItem('isAuth', 'true');
         });
 
-        router.go('/chats');
+        router.go('#chats');
       });
     }
 

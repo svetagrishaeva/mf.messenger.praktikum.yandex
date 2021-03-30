@@ -1,11 +1,11 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL_API } from "./baseUrl.js";
+import { BASE_URL } from "./baseUrl.js";
 
-const CHATS_URL = `${BASE_URL_API}/chats`;
+const CHATS_URL = `${BASE_URL}/chats`;
 const CHAT_USERS_URL = `${CHATS_URL}/users`;
 
 export class ApiChat {
-    private fetch: HTTPTransport;
+    private readonly fetch: HTTPTransport;
     
     constructor() {
         this.fetch = new HTTPTransport();

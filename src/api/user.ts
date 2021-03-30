@@ -1,7 +1,7 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL_API } from "./baseUrl.js";
+import { BASE_URL } from "./baseUrl.js";
 
-const USER_URL = `${BASE_URL_API}/user`;
+const USER_URL = `${BASE_URL}/user`;
 const UPDATE_PROFILE_URL = `${USER_URL}/profile`;
 const UPDATE_AVATAR_URL = `${USER_URL}/profile/avatar`;
 const UPDATE_PASSWORD_URL = `${USER_URL}/password`;
@@ -22,7 +22,7 @@ export class UpdateUserPasswordData {
 }
 
 class ApiUser {
-    private fetch: HTTPTransport;
+    private readonly fetch: HTTPTransport;
     
     constructor() {
         this.fetch = new HTTPTransport();

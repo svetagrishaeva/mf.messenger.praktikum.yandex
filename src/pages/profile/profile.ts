@@ -4,13 +4,13 @@ import { Button } from "../../components/button/button.js";
 import { authService } from "../../api/authorization.js";
 import { router } from "../../utils/router.js";
 import { UpdateUserPasswordData, UpdateUserProfileData, userService } from "../../api/user.js";
-import { BASE_URL } from "../../api/baseUrl.js";
+import { BASE_URL_Resources } from "../../api/baseUrl.js";
 
 type Indexed = Record<string, any>;
 
 export class ProfilePage extends Block {
     constructor(props: any = {}) {
-        super('profile-page', props);
+        super('profile-page', props);  
 
         let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
         let newProps: any[]  = [];
@@ -23,6 +23,7 @@ export class ProfilePage extends Block {
 
         this.setProps(newProps);
 
+        // ToDo: переделать, нельзя перекидывать функции в глобальную область видимости.
         window.saveData = this.saveData;
         window.changeData = this.changeData;
         window.changePassword = this.changePassword;
@@ -33,6 +34,14 @@ export class ProfilePage extends Block {
     }
 
     render() {
+        let isAuth = localStorage.getItem('isAuth');
+
+        if (!isAuth) {
+            console.log(isAuth);
+            router.go('/');
+            return '';
+        } 
+
         let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
 
         let saveButton = new Button({ 
@@ -58,7 +67,6 @@ export class ProfilePage extends Block {
                 element.value = element.value || this.props.find((x: { id: string; }) => x.id == 'first_name')?.value;
         });
 
-        let name = this.props.find((x: { id: string; }) => x.id == 'display_name')?.value;
         let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password') && x.id !== 'avatar');
 
         let infoItemsHtml = _.template(infoItemsTmpl)({ 
@@ -69,8 +77,8 @@ export class ProfilePage extends Block {
             });
 
         let pageHtml = _.template(pageTmpl)({ 
-                name, 
-                avatar: `${BASE_URL}/${userInfo.avatar}`,
+                user: userInfo,
+                baseUrl: BASE_URL_Resources,
                 saveButton: saveButtonHtml,
                 cancelButton: cancelButtonHtml,
                 infos: infoItemsHtml, 
@@ -85,12 +93,17 @@ export class ProfilePage extends Block {
         return pageHtml;
     }
 
-    systemExitClick() {
-        authService.logout().then((data: { ok: boolean }) => {
-            if (!data.ok) return;
-
+    async systemExitClick() {
+        try {
+            await authService.logout();
+        } catch (err) {
+            console.log('error:', err);
+        } finally {
+            localStorage.removeItem('isAuth');
+            localStorage.removeItem('userInfo');
             router.go('/');
-        });
+        }
+       
     }
 
     openModalDialog = () => {
@@ -147,6 +160,7 @@ export class ProfilePage extends Block {
         });
     }
 
+    // ToDo: Где-то await, где-то .then, лучще привести бы лучше к одному стилю
     saveData = async () => {  
         let params: any[] = [];
         let data: Indexed = {};

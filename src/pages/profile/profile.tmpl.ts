@@ -10,13 +10,21 @@ export const pageTmpl: string =
 
  <div class="info-panel">
     <div class="avatar">
-        <img class="image" src="<%-avatar%>">
+        <% if (user.avatar != null) { %>
+            <img class="image" src="<%-baseUrl%><%-user.avatar%>">
+        <% } else { %>
+            <svg viewBox="0 0 16 16" width="100%" height="100%" fill="white" style="margin-top: 0px; border-radius: 50%;">
+                <path d="M0 0h16v16H0V0z" fill="#DFE5E7" />
+                <path style="stroke-width: 0px;"  d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path style="stroke: #DFE5E7;" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+        <% } %>
         <div class="overlay">
             <a class="text" onclick="<%-openEditModal%>"> Поменять<br>аватар </a>
         </div>
     </div>
 
-    <h2 id="user-name"><%-name%></h2>
+    <h2 id="user-name"><%-user.display_name%></h2>
 
     <div id="info-items"><%=infos%></div>
     <div id="password-items"></div>

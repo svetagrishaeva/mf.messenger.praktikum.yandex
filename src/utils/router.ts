@@ -21,16 +21,9 @@ export class Route {
         this.props = props;
     }
 
-    navigate(pathname: string): void {
-        if (this.match(pathname)) {
-            this.pathname = pathname;
-            this.render();
-        }
-    }
-
     leave(): void {
         if (this.block) {
-            this.block.hide();
+            this.block.remove();
         }
     }
 
@@ -40,15 +33,11 @@ export class Route {
 
     render(update: boolean = false): void {
         if (!this.block || update) {
-            if (this.block) {
-                this.block.remove();
-            }
+            this.leave();
             this.block = new this.blockClass(this.props);
-            renderToDom(APP_ROOT_QUERY, this.block);
-            return;
         }
 
-        this.block.show();
+        renderToDom(APP_ROOT_QUERY, this.block);
     }
 }
 
@@ -60,6 +49,7 @@ export class Router {
     private currentRoute: Route | null;
 
     constructor() {
+        // ToDo: переделать, реализация синглтона тут https://refactoring.guru/ru/design-patterns/singleton/typescript/example
         let instance = Object.getPrototypeOf(this).__instance;
 
         if (instance) {
@@ -87,14 +77,10 @@ export class Router {
 
     start(): void  {
         window.onpopstate = () => {
-            this._onRoute(window.location.pathname);
+            this._onRoute(window.location.hash);
         };  
 
-        window.onload = () => {
-            this._onRoute(window.location.pathname);
-        };
-
-        this._onRoute(window.location.pathname);
+        this._onRoute(window.location.hash);
     }
 
     private _onRoute(pathname: string, update: boolean = false): void  {
@@ -106,8 +92,8 @@ export class Router {
             return;
         }
 
-        if (this.currentRoute) {
-          this.currentRoute.leave();
+        if (this.currentRoute && route != this.currentRoute) {
+            this.currentRoute.leave();
         }
       
         this.currentRoute = route;
@@ -117,7 +103,7 @@ export class Router {
     // обновить текущую страницу
     update() {
         let update = true;
-        this._onRoute(window.location.pathname, update);
+        this._onRoute(window.location.hash, update);
     }
 
     go(pathname: string): void  {
@@ -128,10 +114,12 @@ export class Router {
   
     back(): void  {
         window.history.back();
+        this.history.pushState({}, '', window.location.hash);
     }
 
     forward(): void {
         window.history.forward();
+        this.history.pushState({}, '', window.location.hash);
     }
 
     private getRoute(pathname: string): Route | undefined  {

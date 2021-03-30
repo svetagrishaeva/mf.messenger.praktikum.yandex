@@ -1,7 +1,7 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL_API } from "./baseUrl.js";
+import { BASE_URL } from "./baseUrl.js";
 
-export const API_AUTH = `${BASE_URL_API}/auth`;
+export const API_AUTH = `${BASE_URL}/auth`;
 
 export class SignUp {
     first_name: string;
@@ -18,13 +18,16 @@ export class SignIn {
 };
 
 class ApiAuth  {
-    private fetch: HTTPTransport;
+    private readonly fetch: HTTPTransport;
     
     constructor() {
         this.fetch = new HTTPTransport();
     }
 
     signIn(data: SignIn) {
+        // ToDo: headers нигде не модифицируется, стоит использовать const 
+        // и вот этот весь текст хорошо бы зашить куда-то отдельно, в родительский класс, 
+        // чтобы httptransport и так знал про это, а сюда прокидывать только если нужны какие-то дополнительные заголовки
         let headers = {"Content-Type": "application/json", "Accept": "application/json"};
         let json = JSON.stringify(data);
         return this.fetch.post(`${API_AUTH}/signin`, { data: json, headers: headers });

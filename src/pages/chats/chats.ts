@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../api/baseUrl.js";
+import { BASE_URL_Resources } from "../../api/baseUrl.js";
 import { chatService } from "../../api/chats.js";
 import { userService } from "../../api/user.js";
 import { Block } from "../../utils/block.js";
@@ -20,6 +20,15 @@ export class ChatsPage extends Block {
     }
 
     render() {
+        let isAuth = localStorage.getItem('isAuth');
+
+        // если пользователь не авторизован - переадресация на страницу входа 
+        // ToDo: переписать (как-то криво работает)
+        if (!isAuth) {
+            router.go('/');
+            return '';  
+        } 
+
         let chatList = JSON.parse(localStorage.getItem('chatList') as string) || [];
         let chatsHtml = _.template(chatsTmpl)({ items: chatList, onclick: 'window.onChatClick(this)' });
 
@@ -53,7 +62,7 @@ window.onLoginChange = (element: HTMLInputElement) => {
                 return;
             }
 
-            let usersHtml = _.template(userListTmpl)({ users: users, baseUrl:  BASE_URL });
+            let usersHtml = _.template(userListTmpl)({ users: users, baseUrl:  BASE_URL_Resources });
             element.innerHTML = usersHtml;
         });
     });
@@ -88,7 +97,7 @@ window.deleteChat = () => {
             let chatList = JSON.stringify(resp.response);
             localStorage.setItem('chatList', chatList);
 
-            // Костыль, обновить текущую страницу
+            // обновить текущую страницу
             router.update();
         });
     });
@@ -137,7 +146,8 @@ window.openChatMembersModalDialog = () => {
     chatService.getUsersByChatID(chatId).then((resp: { ok: boolean, response: any }) => {
         if (!resp.ok) return;
 
-        let usersHtml = _.template(userListTmpl)({ users: resp.response, baseUrl:  BASE_URL });
+        let users = resp.response.sort((a: { role: number; }, b: { role: number; }) => a.role > b.role ? 1 : -1);
+        let usersHtml = _.template(userListTmpl)({ users: users, baseUrl:  BASE_URL_Resources });
         let membersModalDialogHtml = _.template(membersModalDialogTmpl)({ usersHtml });
 
         let modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
@@ -157,9 +167,11 @@ window.onChatClick = (element: HTMLElement) => {
     // скрыть сообщение  с информацией
     (document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
-    let messagesPanelHtml = _.template(messagesPanelTemplate)({ chat, avatar: `${BASE_URL}/${chat.avatar}`, });
+    let messagesPanelHtml = _.template(messagesPanelTemplate)({ chat, avatar: `${BASE_URL_Resources}/${chat.avatar}`, });
 
-    (document.getElementById('chat-messages') as HTMLElement).innerHTML = messagesPanelHtml;
+    let node = document.getElementById('chat-messages')
+    if (!node) return;
+    node.innerHTML = messagesPanelHtml;
 
     // снять подсветку для всех эл. чата
     // установить для текущего
