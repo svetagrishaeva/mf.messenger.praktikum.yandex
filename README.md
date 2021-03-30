@@ -8,8 +8,6 @@
 3. `npm install`  
 4. `npm run publish:local` — сборка проекта  
 5. `npm run start` — запуск сервера  
- 
-Приложение будет запущено на http://localhost:3000/  
 
 ### Демо
 https://messenger-praktikum-yandex.netlify.app/  
