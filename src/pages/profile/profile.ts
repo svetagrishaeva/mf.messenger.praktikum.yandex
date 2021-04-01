@@ -118,8 +118,7 @@ export class ProfilePage extends PageBase {
     
         (document.getElementById('password-items') as HTMLElement).innerHTML = html;
     
-        //
-        this._addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+        this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
     }
 
     cancelChange() {

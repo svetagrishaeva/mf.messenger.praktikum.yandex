@@ -89,10 +89,11 @@ export class Block {
     
     el.innerHTML = block;
     
-    this._addHandlers(el);
+    this.addHandlers(el);
   }
 
-  _addHandlers(div: HTMLElement): void {
+  // добавляет обработчики событий
+  addHandlers(div: HTMLElement): void {
     var componentEval = function (str: string, $event: Event) {
       // @ts-ignore
       let _ = $event;

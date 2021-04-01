@@ -58,8 +58,7 @@ export class ChatsPage extends Block {
                 let usersHtml = _.template(userListTmpl)({ users: users, baseUrl: BASE_URL_Resources });
                 element.innerHTML = usersHtml;
 
-                //
-                this._addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+                this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
             });
         });
     }
@@ -144,8 +143,7 @@ export class ChatsPage extends Block {
             modalDialog.innerHTML = membersModalDialogHtml;
             modalDialog.style.display = 'block';
 
-            //
-            this._addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+            this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
         });
     }
 
@@ -176,8 +174,7 @@ export class ChatsPage extends Block {
 
         element.setAttribute('style', 'background-color: rgba(122, 184, 243, 0.2);');
         
-        //
-        this._addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+        this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
     }
 
     onFilterChange(e: InputEvent) {
