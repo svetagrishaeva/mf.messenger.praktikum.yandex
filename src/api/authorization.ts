@@ -25,18 +25,11 @@ class ApiAuth  {
     }
 
     signIn(data: SignIn) {
-        // ToDo: headers нигде не модифицируется, стоит использовать const 
-        // и вот этот весь текст хорошо бы зашить куда-то отдельно, в родительский класс, 
-        // чтобы httptransport и так знал про это, а сюда прокидывать только если нужны какие-то дополнительные заголовки
-        let headers = {"Content-Type": "application/json", "Accept": "application/json"};
-        let json = JSON.stringify(data);
-        return this.fetch.post(`${API_AUTH}/signin`, { data: json, headers: headers });
+        return this.fetch.post(`${API_AUTH}/signin`, { data });
     }
     
     signUp(data: SignUp) {
-        let headers = {"Content-Type": "application/json", "Accept": "application/json"};
-        let json = JSON.stringify(data);
-        return this.fetch.post(`${API_AUTH}/signup`, { data: json, headers: headers });
+        return this.fetch.post(`${API_AUTH}/signup`, { data });
     }
 
     logout() {
@@ -44,8 +37,7 @@ class ApiAuth  {
     }
 
     getUser() {
-        let headers = {"Accept": "application/json"};
-        return this.fetch.get(`${API_AUTH}/user`, { headers: headers });
+        return this.fetch.get(`${API_AUTH}/user`);
     }
 }
 

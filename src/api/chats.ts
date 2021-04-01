@@ -12,39 +12,28 @@ export class ApiChat {
     }
     
     getChats() {
-        let headers = {"Accept": "application/json"};
-        return this.fetch.get(CHATS_URL, { headers });
+        return this.fetch.get(CHATS_URL);
     };
 
-    createChat(formData: { title: string }) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.post(CHATS_URL, { data, headers });
+    createChat(data: { title: string }) {
+        return this.fetch.post(CHATS_URL, { data });
     };
 
     getUsersByChatID(id: number) {
         const chatUrl = `${CHATS_URL}/${id}/users`;
-        let headers = {"Accept": "application/json"};
-
-        return this.fetch.get(chatUrl, { headers: headers });
+        return this.fetch.get(chatUrl);
     };
 
-    addNewUsersToChat(formData: { users: number[]; chatId: number }) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.put(CHAT_USERS_URL, { data, headers });
+    addNewUsersToChat(data: { users: number[]; chatId: number }) {
+        return this.fetch.put(CHAT_USERS_URL, { data });
     };
 
-    deleteUsersFromChat(formData: { users: number[]; chatId: number }) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.delete(CHAT_USERS_URL, { data, headers });
+    deleteUsersFromChat(data: { users: number[]; chatId: number }) {
+        return this.fetch.delete(CHAT_USERS_URL, { data });
     };
 
-    deleteChatByID(formData: { chatId: number; }) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.delete(CHATS_URL, { data, headers });
+    deleteChatByID(data: { chatId: number; }) {
+        return this.fetch.delete(CHATS_URL, { data });
     };
 }
 

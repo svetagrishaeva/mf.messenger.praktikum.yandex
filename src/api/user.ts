@@ -28,26 +28,20 @@ class ApiUser {
         this.fetch = new HTTPTransport();
     }
     
-    searchUserByLogin(formData: { login: string }) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.post(SEARCH_USER_URL, { data, headers });
+    searchUserByLogin(data: { login: string }) {
+        return this.fetch.post(SEARCH_USER_URL, { data });
     }
 
-    updateUserProfile(formData: UpdateUserProfileData) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.put(UPDATE_PROFILE_URL, { data, headers });
+    updateUserProfile(data: UpdateUserProfileData) {
+        return this.fetch.put(UPDATE_PROFILE_URL, { data });
     }
 
-    updateUserPassword(formData: UpdateUserPasswordData) {
-        let headers = {"Content-Type": "application/json; charset=utf-8", "Accept": "application/json"};
-        let data = JSON.stringify(formData);
-        return this.fetch.put(UPDATE_PASSWORD_URL, { data, headers });
+    updateUserPassword(data: UpdateUserPasswordData) {
+        return this.fetch.put(UPDATE_PASSWORD_URL, { data });
     }
     
-    updateUserAvatar(formData: FormData) {  
-        return this.fetch.put(UPDATE_AVATAR_URL, { data: formData });
+    updateUserAvatar(data: FormData) {  
+        return this.fetch.put(UPDATE_AVATAR_URL, { data });
     }
 }
 
