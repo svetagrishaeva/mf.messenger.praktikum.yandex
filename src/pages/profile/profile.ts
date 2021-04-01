@@ -88,12 +88,6 @@ export class ProfilePage extends PageBase {
        
     }
 
-    openModalDialog() {
-        let elem = document.getElementById('openEditModal');
-        if (!elem) return;
-        elem.style.display = 'block';
-    };
-
     changeData() {
         setDisplayValueForElements('none');
         // отобразить кнопки

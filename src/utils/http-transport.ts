@@ -47,8 +47,6 @@ export class HTTPTransport {
 
         xhr.open(method, url, true);
 
-        //xhr.setRequestHeader("Content-Type", "application/json");
-        //xhr.setRequestHeader("Accept", "application/json");
 
         if (headers) {
           Object.keys(headers).map(key => {

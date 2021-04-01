@@ -20,7 +20,7 @@ export const pageTmpl: string =
             </svg>
         <% } %>
         <div class="overlay">
-            <a class="text" onclick="this.openModalDialog()"> Поменять<br>аватар </a>
+            <a class="text" onclick="document.getElementById('openEditModal').style.display = 'block'"> Поменять<br>аватар </a>
         </div>
     </div>
 

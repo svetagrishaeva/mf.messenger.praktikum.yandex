@@ -99,8 +99,8 @@ export class ChatsPage extends Block {
         });
     }
 
-    addUserToChat(e: InputEvent) {
-        let element: HTMLElement = e.target as HTMLElement;
+    addUserToChat(e: Event) {
+        let element: HTMLElement = e.currentTarget as HTMLElement;
         let chatId = +(localStorage.getItem('curChatId') as string);
         let userId = +(element.getAttribute('id') as string);
         let userIds = [userId];
@@ -114,7 +114,7 @@ export class ChatsPage extends Block {
     }
 
     removeUserFromChat(e: Event) {
-        let element = e.target as HTMLElement;
+        let element: HTMLElement = e.currentTarget as HTMLElement;
         let chatId = +(localStorage.getItem('curChatId') as string);
         let userId = +(element.getAttribute('id') as string);
         let userIds = [userId];
