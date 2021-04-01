@@ -3,5 +3,6 @@
     command = "npm run publish"
 
     [[redirects]]
-    from = ""
-    to = "/"
+    from = "*"
+    to = "/index.html"
+    status = 200

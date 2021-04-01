@@ -1,39 +1,37 @@
 import { authService, SignUp } from "../../api/authorization.js";
+import { PageBase }  from "../../components/page-base/page-base.js";
 import { Button } from "../../components/button/button.js";
-import { Block } from "../../utils/block.js";
 import { router } from "../../utils/router.js";
 import { pageTmpl } from "./signin.tmpl.js"
 
 type Indexed = Record<string, any>;
 
-export class SigninPage extends Block {
+export class SigninPage extends PageBase {
     constructor(props: any = {}, ) {
       super('signin-page', props);
-
-      window.signinClick = this.signinClick;
     }
 
     render() {
-      let button = new Button({ classNames: 'btn-confirm', id: 'signinButton', text: 'Зарегестрироваться', onClick: 'window.signinClick()' });
-      let buttonHtml = button.getContent().innerHTML;
+      let button = new Button({ classNames: 'btn-confirm', id: 'signinButton', text: 'Зарегестрироваться', onClick: 'this.signinClick($event)'});
+      let buttonHtml = button.render();
       
       let pageHtml = _.template(pageTmpl)({ 
             button: buttonHtml,
-            inputOnblur: 'window.inputOnblur(this)',
-            inputPasswordOnblur: 'window.inputPasswordOnblur(this)',
-            inputEmailOnblur:' window.inputEmailOnblur(this)', 
-            inputOnfocus: 'window.inputOnfocus(this)'
+            inputOnblur: 'this.inputOnblur($event)',
+            inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
+            inputEmailOnblur:' this.inputEmailOnblur($event)', 
+            inputOnfocus: 'this.inputOnfocus($event)'
         });
 
       return pageHtml;
     }
 
-    signinClick = () => {
+    signinClick() {
       let inputElements = document.getElementsByTagName('input');
       let params: any[] = [];
       Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
     
-      let valid = window.checkOnValid(params);
+      let valid = this.checkOnValid(params);
 
       if (!valid) return;
       let data: Indexed = {};
@@ -46,7 +44,7 @@ export class SigninPage extends Block {
       authService.signUp(data as SignUp).then((data: {ok: boolean, response: {id: number}}) => {
         if (!data.ok) return;
 
-        router.go('/');
+        router.go('');
       })
     }
 }

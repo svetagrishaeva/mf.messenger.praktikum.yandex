@@ -6,11 +6,12 @@ export type ButtonProps = {
     classNames?: string;
     id?: string;
     text: string;
-    onClick?: string;
+    onClick?:string;
     style?: string;
 };
 
 export class Button extends Block {
+   
     constructor({
         classNames = '',
         id = '',
@@ -18,6 +19,7 @@ export class Button extends Block {
         onClick = '',
         style = ''
     }: ButtonProps) {
+        
         super('button', {
             text,
             classNames,
@@ -25,6 +27,7 @@ export class Button extends Block {
             id,
             style
          });
+        
     }
 
     render() {

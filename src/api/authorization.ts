@@ -1,5 +1,5 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL } from "./baseUrl.js";
+import { BASE_URL } from "./constants.js";
 
 export const API_AUTH = `${BASE_URL}/auth`;
 

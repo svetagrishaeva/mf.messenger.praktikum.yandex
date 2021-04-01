@@ -1,10 +1,14 @@
 import { Block } from "./block.js";
 
 export const APP_ROOT_QUERY = '.app';
+export const APP_ROOT_ID = 'app';
 
 export function renderToDom(query: string, block: Block| null) {
-    const root = document.querySelector(query);
-    root?.appendChild(block?.getContent());
+    const root = document.querySelector(query) ;
+    if (block != null) {
+        root?.appendChild(block.getContent());
+    }
+    
     return root;
 }
 
@@ -42,25 +46,26 @@ export class Route {
 }
 
 export class Router {
+    private static instance: Router;
+
+    public static getInstance(): Router {
+        if (!Router.instance) {
+            Router.instance = new Router();
+        }
+
+        return Router.instance;
+    }
+   
     private history: History;
     private routes: Route[];
     private defaultPathname: string;
 
     private currentRoute: Route | null;
 
-    constructor() {
-        // ToDo: переделать, реализация синглтона тут https://refactoring.guru/ru/design-patterns/singleton/typescript/example
-        let instance = Object.getPrototypeOf(this).__instance;
-
-        if (instance) {
-            return instance;
-        }
-
+    private constructor() {
         this.routes = [];
         this.history = window.history;
         this.currentRoute = null;
-
-        instance = this;
     }
 
     use(pathname: string, view: any, blockProps?: any): Router {
@@ -127,4 +132,17 @@ export class Router {
     }
 }
 
-export const router = new Router();
+export const router = Router.getInstance();
+
+/**
+ * Глобальные функции: роутинг (переход между страницами)
+ */
+
+ window.goTo = (page: string) => {
+     router.go(page);
+ };
+ 
+ window.goBack = () => {
+     router.back();
+ };
+ 

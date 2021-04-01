@@ -1,19 +1,20 @@
-import { Block } from "../../utils/block.js";
+
 import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from "./profile.tmpl.js";
 import { Button } from "../../components/button/button.js";
 import { authService } from "../../api/authorization.js";
-import { router } from "../../utils/router.js";
+import { APP_ROOT_ID, router } from "../../utils/router.js";
 import { UpdateUserPasswordData, UpdateUserProfileData, userService } from "../../api/user.js";
-import { BASE_URL_Resources } from "../../api/baseUrl.js";
+import { BASE_URL_Resources } from "../../api/constants.js";
+import { PageBase } from "../../components/page-base/page-base.js";
 
 type Indexed = Record<string, any>;
 
-export class ProfilePage extends Block {
+export class ProfilePage extends PageBase {
     constructor(props: any = {}) {
         super('profile-page', props);  
 
         let userInfo = JSON.parse(localStorage.getItem('userInfo') as string);
-        let newProps: any[]  = [];
+        let newProps: any[] = [];
         
         Object.entries(userInfo).forEach(info => {
             let prop = this.props.find((x: {id: string}) => x.id === info[0]);
@@ -22,23 +23,13 @@ export class ProfilePage extends Block {
         })
 
         this.setProps(newProps);
-
-        // ToDo: переделать, нельзя перекидывать функции в глобальную область видимости.
-        window.saveData = this.saveData;
-        window.changeData = this.changeData;
-        window.changePassword = this.changePassword;
-        window.cancelChange = this.cancelChange;
-        window.openModalDialog = this.openModalDialog;
-        window.systemExitClick = this.systemExitClick;
-        window.saveAvatar = this.saveAvatar;
     }
 
     render() {
         let isAuth = localStorage.getItem('isAuth');
 
         if (!isAuth) {
-            console.log(isAuth);
-            router.go('/');
+            router.go('');
             return '';
         } 
 
@@ -48,19 +39,19 @@ export class ProfilePage extends Block {
             id: 'saveButton',
             classNames: 'btn-confirm', 
             text: 'Сохранить', 
-            onClick: 'window.saveData()',
+            onClick: 'this.saveData($event)',
             style: 'display: none; width: 20%;'
          });
-        let saveButtonHtml = saveButton.getContent().innerHTML; 
+        let saveButtonHtml = saveButton.render(); 
 
         let cancelButton = new Button({ 
             id: 'cancelButton',
             classNames: 'btn-cancel', 
             text: 'Отмена', 
-            onClick: 'window.cancelChange()',
+            onClick: 'this.cancelChange($event)',
             style: 'display: none; width: 20%;'
         });
-        let cancelButtonHtml = cancelButton.getContent().innerHTML;
+        let cancelButtonHtml = cancelButton.render();
 
         this.props.forEach((element: { id: string; value: any; }) => {
             if (element.id === 'display_name')
@@ -70,10 +61,7 @@ export class ProfilePage extends Block {
         let data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password') && x.id !== 'avatar');
 
         let infoItemsHtml = _.template(infoItemsTmpl)({ 
-                items: data,
-                inputOnblur: 'window.inputOnblur(this)',
-                inputOnfocus: 'window.inputOnfocus(this)',
-                inputEmailOnblur: 'window.inputEmailOnblur(this)'
+                items: data
             });
 
         let pageHtml = _.template(pageTmpl)({ 
@@ -81,13 +69,7 @@ export class ProfilePage extends Block {
                 baseUrl: BASE_URL_Resources,
                 saveButton: saveButtonHtml,
                 cancelButton: cancelButtonHtml,
-                infos: infoItemsHtml, 
-                changeData: 'window.changeData()',
-                saveData: 'window.saveData()',
-                changePassword: 'window.changePassword()',
-                openEditModal: 'window.openModalDialog()',
-                systemExitClick: 'window.systemExitClick()',
-                saveAvatar: 'window.saveAvatar()'
+                infos: infoItemsHtml
             });
 
         return pageHtml;
@@ -101,18 +83,18 @@ export class ProfilePage extends Block {
         } finally {
             localStorage.removeItem('isAuth');
             localStorage.removeItem('userInfo');
-            router.go('/');
+            router.go('');
         }
        
     }
 
-    openModalDialog = () => {
+    openModalDialog() {
         let elem = document.getElementById('openEditModal');
         if (!elem) return;
         elem.style.display = 'block';
     };
 
-    changeData = () => {
+    changeData() {
         setDisplayValueForElements('none');
         // отобразить кнопки
         (document.getElementById('saveButton') as HTMLElement).style.display = 'block'; 
@@ -126,7 +108,7 @@ export class ProfilePage extends Block {
         });
     }
     
-    changePassword = () => {
+    changePassword() {
         setDisplayValueForElements('none');
         // отобразить кнопки
         (document.getElementById('saveButton') as HTMLElement).style.display = 'block'; 
@@ -137,10 +119,16 @@ export class ProfilePage extends Block {
     
         // password items page render 
         let passwordItems = this.props.filter((x: { id: string }) => x.id.toLowerCase().includes('password'));
-        render(passwordItems, passwordItemsTmpl, 'password-items');
+
+        let html = _.template(passwordItemsTmpl)({ items: passwordItems });
+    
+        (document.getElementById('password-items') as HTMLElement).innerHTML = html;
+    
+        //
+        this._addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
     }
 
-    cancelChange = () => {
+    cancelChange() {
         // обновить текущую страницу (для перерендеринга)
         router.update();
     }
@@ -161,7 +149,7 @@ export class ProfilePage extends Block {
     }
 
     // ToDo: Где-то await, где-то .then, лучще привести бы лучше к одному стилю
-    saveData = async () => {  
+    async saveData() {  
         let params: any[] = [];
         let data: Indexed = {};
         let isPassword = false;
@@ -189,7 +177,7 @@ export class ProfilePage extends Block {
         }
 
         let isPasswordChange = true;
-        if (!window.checkOnValid(params, isPasswordChange)) return;
+        if (!this.checkOnValid(params, isPasswordChange)) return;
 
         isPassword 
             ? await userService.updateUserPassword(data as UpdateUserPasswordData) 
@@ -213,11 +201,3 @@ function setDisplayValueForElements(value: string) {
     (document.getElementById('user-name') as HTMLElement).style.display = value;
 }
 
-function render(items: any[], tmpl: string, parentElementId: string) {
-    let html = _.template(tmpl)({ 
-        items: items,
-        inputPasswordOnblur: 'window.inputPasswordOnblur(this)',
-        inputOnfocus: 'window.inputOnfocus(this)'});
-
-    (document.getElementById(parentElementId) as HTMLElement).innerHTML = html;
-}

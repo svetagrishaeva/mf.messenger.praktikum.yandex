@@ -21,7 +21,7 @@ export class ErrorPage extends Block {
         return _.template(errorTemplate)({
             code: this.props.code,
             message: this.props.message,
-            onclick: "window.goTo('#chats')"
+            onclick: "goTo('#chats')"
         });
     }
 }

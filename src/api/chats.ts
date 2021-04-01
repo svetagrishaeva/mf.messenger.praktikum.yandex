@@ -1,5 +1,5 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL } from "./baseUrl.js";
+import { BASE_URL } from "./constants.js";
 
 const CHATS_URL = `${BASE_URL}/chats`;
 const CHAT_USERS_URL = `${CHATS_URL}/users`;

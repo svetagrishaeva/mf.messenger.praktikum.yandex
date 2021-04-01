@@ -8,11 +8,7 @@ class MyBlock extends Block {
     }
 
     render() {
-        return {
-            type: 'span',
-            props: {},
-            children: []
-        };
+        return '';
     }
 };
 

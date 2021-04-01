@@ -1,6 +1,6 @@
 export const pageTmpl: string =
 `<div class="back-panel">
-    <a onclick="window.goBack()" class="circle-back">
+    <a onclick="goBack()" class="circle-back">
         <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px" style="margin: 5px">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -20,7 +20,7 @@ export const pageTmpl: string =
             </svg>
         <% } %>
         <div class="overlay">
-            <a class="text" onclick="<%-openEditModal%>"> Поменять<br>аватар </a>
+            <a class="text" onclick="this.openModalDialog()"> Поменять<br>аватар </a>
         </div>
     </div>
 
@@ -34,21 +34,21 @@ export const pageTmpl: string =
         <%=cancelButton%>
     </div>
 
-    <div class="link-row" onclick="<%-changeData%>">
+    <div class="link-row" onclick="this.changeData()">
         <a id="dataChangeLink">Изменить данные</a>
     </div>
-    <div class="link-row" onclick="<%-changePassword%>">
+    <div class="link-row" onclick="this.changePassword()">
         <a id="passwordChangeLink">Изменить пароль</a>
     </div>
     <div class="link-row" style="border: none;">
-        <a id="exit" onclick="<%-systemExitClick%>" class="close">Выйти</a>
+        <a id="exit" onclick="this.systemExitClick()" class="close">Выйти</a>
     </div>
 
     <div id="openEditModal" class="blackout">
         <form id="avatar_form" class="modalDialog" enctype="multipart/form-data">
             <h2>Загрузите файл</h2>
             <input id="fileInput" type="file" name="avatar" accept=".jpg, .jpeg, .png">
-            <a onclick="<%-saveAvatar%>" class="btn-confirm">Поменять</a>
+            <a onclick="this.saveAvatar()" class="btn-confirm">Поменять</a>
         </form>
     </div>
  </div>`
@@ -58,9 +58,9 @@ export const infoItemsTmpl: string =
     <div class="row">
         <h4><%-item.title%></h4>
         <% if (item.id == 'email') { %>
-            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputEmailOnblur%>" onfocus="<%-inputOnfocus%>" autocomplete="off" disabled>
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="this.inputEmailOnblur($event)" onfocus="this.inputOnfocus($event)" autocomplete="off" disabled>
         <% } else { %>
-            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>" autocomplete="off" disabled>
+            <input class="info-input" value="<%-item.value%>" id="<%-item.id%>" onblur="this.inputOnblur($event)" onfocus="this.inputOnfocus($event)" autocomplete="off" disabled>
         <% }  %>
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
@@ -70,7 +70,7 @@ export const passwordItemsTmpl: string =
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
-        <input class="password-input" type="password" id="<%-item.id%>" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>">
+        <input class="password-input" type="password" id="<%-item.id%>" onblur="this.inputPasswordOnblur($event)" onfocus="this.inputOnfocus($event)">
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
     <% }); %>`

@@ -1,5 +1,5 @@
 import { HTTPTransport } from "../utils/http-transport.js";
-import { BASE_URL } from "./baseUrl.js";
+import { BASE_URL } from "./constants.js";
 
 const USER_URL = `${BASE_URL}/user`;
 const UPDATE_PROFILE_URL = `${USER_URL}/profile`;

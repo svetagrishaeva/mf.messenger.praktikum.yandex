@@ -16,6 +16,6 @@ export const pageTmpl =
 
             <%=button%>
             <div id="auth_error" class="error hidden">Не удаётся войти. Пожалуйста, проверьте правильность написания логина и пароля.</div>
-            <a onclick="window.goTo('#signin')">Нет аккаунта?</a>
+            <a onclick="goTo('#signin')">Нет аккаунта?</a>
       </form>`
         

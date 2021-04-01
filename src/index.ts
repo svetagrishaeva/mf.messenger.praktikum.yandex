@@ -10,33 +10,6 @@ declare global {
     const _: import('../node_modules/@types/lodash/index').LoDashStatic;
     // объявление глобальных методов
     interface Window { 
-        onChatClick: (element: HTMLElement) => void; 
-        onFilterChange: (element: HTMLInputElement) => void; 
-        onLoginChange: (element: HTMLInputElement) => void; 
-        changeData: () => void; 
-        saveData: () => void; 
-        changePassword: () => void; 
-        inputOnblur: (input: HTMLInputElement) => void; 
-        inputPasswordOnblur: (input: HTMLInputElement) => void; 
-        inputEmailOnblur: (input: HTMLInputElement) => void; 
-        inputOnfocus: (input: HTMLInputElement) => void; 
-        applyValidation: (inputs: HTMLInputElement[], invalid: boolean, message: string) => void; 
-        cancelChange: () => void; 
-        checkOnValid: (parameters: any[], isPasswordChange?: boolean) => boolean;
-        loginClick: () => void; 
-        signinClick: () => void; 
-        openModalDialog: () => void;
-        openAddChatModalDialog: () => void;
-        openAddUserModalDialog: () => void;
-        openRemoveChatModalDialog: () => void;
-        openChatMembersModalDialog: () => void;
-        systemExitClick: () => void;
-        saveAvatar: () => void;
-        addUserToChat: (element: HTMLElement) => void; 
-        removeUserFromChat: (element: HTMLElement) => void; 
-        createChat: () => void;
-        deleteChat: () => void;
-        
         // routing
         goTo: (page: string) => void;
         goBack: (page: string) => void;
@@ -44,7 +17,7 @@ declare global {
 }
 
 router
-    .use('/',  LoginPage)
+    .use('', LoginPage)
     .use('#chats', ChatsPage)
     .use('#profile', ProfilePage, infoItems)
     .use('#signin',  SigninPage)
