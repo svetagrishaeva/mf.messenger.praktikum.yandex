@@ -1,4 +1,4 @@
-export const pageTmpl = 
+export const pageTmpl =
       `<form class="form" autocomplete="off">
             <h2>Вход</h2>
 
@@ -17,5 +17,4 @@ export const pageTmpl =
             <%=button%>
             <div id="auth_error" class="error hidden">Не удаётся войти. Пожалуйста, проверьте правильность написания логина и пароля.</div>
             <a onclick="goTo('#signin')">Нет аккаунта?</a>
-      </form>`
-        
+      </form>`;

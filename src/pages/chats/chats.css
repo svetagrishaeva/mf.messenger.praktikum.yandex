@@ -54,6 +54,39 @@
         padding: 8px;
     }
 
+    .message {
+        width: 50%;
+        height: 80px;
+        background-color: #f2f2f2;;
+        border-radius: 5px;
+        padding: 8px;
+        margin-top: 8px;
+    }
+
+    .message_top {
+        display: flex;
+        width: 100%;
+        height: 30px;
+        gap: 8px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .message_bot {
+        margin-left: 36px;
+        max-width: 300px;
+    }
+
+    .message_name-user {
+        color: #2f80ed;
+    }
+
+    .message_date {
+        font-size: 12px;
+        margin-left: auto;
+        color: rgb(80, 125, 252)
+    }
+
     .icon-btn, .icon-btn-red {
         text-align: center;
         vertical-align: middle;

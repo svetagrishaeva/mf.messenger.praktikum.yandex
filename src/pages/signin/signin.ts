@@ -1,52 +1,58 @@
-import { authService, SignUp } from "../../api/authorization.js";
-import { PageBase }  from "../../components/page-base/page-base.js";
-import { Button } from "../../components/button/button.js";
-import { router } from "../../utils/router.js";
-import { pageTmpl } from "./signin.tmpl.js"
+import {authService, TSignUp} from '../../api/auth';
+import {PageBase} from '../../components/page-base/page-base';
+import {Button} from '../../components/button/button';
+import {router} from '../../utils/router';
+import {pageTmpl} from './signin.tmpl';
+
+import '../../css/style.css';
 
 type Indexed = Record<string, any>;
 
 export class SigninPage extends PageBase {
-    constructor(props: any = {}, ) {
-      super('signin-page', props);
-    }
+	constructor(props: any = {}) {
+		super('signin-page', props);
+	}
 
-    render() {
-      let button = new Button({ classNames: 'btn-confirm', id: 'signinButton', text: 'Зарегестрироваться', onClick: 'this.signinClick($event)'});
-      let buttonHtml = button.render();
-      
-      let pageHtml = _.template(pageTmpl)({ 
-            button: buttonHtml,
-            inputOnblur: 'this.inputOnblur($event)',
-            inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
-            inputEmailOnblur:' this.inputEmailOnblur($event)', 
-            inputOnfocus: 'this.inputOnfocus($event)'
-        });
+	render() {
+		const buttonHtml = new Button({
+			classNames: 'btn-confirm',
+			id: 'signinButton',
+			text: 'Зарегестрироваться',
+			onClick: 'this.signinClick($event)'}).render();
 
-      return pageHtml;
-    }
+		return _.template(pageTmpl)({
+			button: buttonHtml,
+			inputOnblur: 'this.inputOnblur($event)',
+			inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
+			inputEmailOnblur: 'this.inputEmailOnblur($event)',
+			inputOnfocus: 'this.inputOnfocus($event)'
+		});
+	}
 
-    signinClick() {
-      let inputElements = document.getElementsByTagName('input');
-      let params: any[] = [];
-      Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
-    
-      let valid = this.checkOnValid(params);
+	async signinClick() {
+		const inputElements = document.getElementsByTagName('input');
+		const params: any[] = [];
+		Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
 
-      if (!valid) return;
-      let data: Indexed = {};
+		const valid = this.checkOnValid(params);
 
-      for (let i = 0; i < params.length; i++) {
-        if (params[i].id === 'passwordAgain') continue;
-        data[params[i].id] = params[i].value;
-      }
-      
-      authService.signUp(data as SignUp).then((data: {ok: boolean, response: {id: number}}) => {
-        if (!data.ok) return;
+		if (!valid) {
+			return;
+		}
 
-        router.go('');
-      })
-    }
+		const data: Indexed = {};
+
+		for (let i = 0; i < params.length; i++) {
+			if (params[i].id === 'passwordAgain') {
+				continue;
+			}
+
+			data[params[i].id] = params[i].value;
+		}
+
+		await authService.signUp(data as TSignUp);
+		router.go('#login');
+	}
 }
 
 export const signinPage = new SigninPage();

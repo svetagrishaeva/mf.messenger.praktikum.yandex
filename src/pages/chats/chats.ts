@@ -1,185 +1,202 @@
-import { BASE_URL_Resources } from "../../api/constants.js";
-import { chatService } from "../../api/chats.js";
-import { userService } from "../../api/user.js";
-import { Block } from "../../utils/block.js";
-import { APP_ROOT_ID, router } from "../../utils/router.js";
-import { chatsTmpl, pageTmpl, messagesPanelTmpl, membersModalDialogTmpl, userListTmpl } from "./chats.tmpl.js";
+import {API_RESOURCES_URL} from '../../api/constants';
+import {TUserInfo, userService} from '../../api/user';
+import {Block} from '../../utils/block';
+import {APP_ROOT_ID, router} from '../../utils/router';
+import {chatsTmpl, pageTmpl, messagesPanelTmpl, membersModalDialogTmpl, userListTmpl, messagesTmpl} from './chats.tmpl';
+import {chatService, TChatInfo} from '../../api/chats';
+import {storage} from '../../storage/storage';
+import {messageService} from '../../services/message-service';
+import {TMessage} from '../../api/messages';
+
+import './chats.css';
+import '../../css/style.css';
 
 export class ChatsPage extends Block {
-    constructor(props: any = {}) {
-        super('chats-page', props);
+	constructor(props: any = {}) {
+		super('chats-page', props);
 
-        // вынести в отдельный метод
-        chatService.getChats().then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
-            let chatList = JSON.stringify(resp.response);
-            localStorage.setItem('chatList', chatList);
+		chatService.getChats().then((resp: { ok: boolean, response: TChatInfo[] }) => {
+			if (!resp.ok) {
+				return;
+			}
 
-            this.props = resp.response;
-        });
-    }
+			storage.chatInfoList = resp.response;
+		});
+	}
 
-    render() {
-        let isAuth = localStorage.getItem('isAuth');
-        
-        if (!isAuth) {
-            router.go('');
-            return '';
-        }
+	render() {
+		if (!storage.isAuth) {
+			router.go('#login');
+			return '';
+		}
 
-        let chatList = JSON.parse(localStorage.getItem('chatList') as string) || [];
-        let chatsHtml = _.template(chatsTmpl)({ items: chatList});
-        let pageHtml = _.template(pageTmpl)({ chatsHtml: chatsHtml });
+		const chatsHtml = _.template(chatsTmpl)({items: storage.chatInfoList});
+		const pageHtml = _.template(pageTmpl)({chatsHtml: chatsHtml});
 
-        return pageHtml;
-    }
-    
-    onLoginChange(e: InputEvent) {
-        let element: HTMLInputElement = e.target  as HTMLInputElement;
+		return pageHtml;
+	}
 
-        userService.searchUserByLogin({ login: element.value }).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
+	onLoginChange(e: InputEvent) {
+		const element: HTMLInputElement = e.target as HTMLInputElement;
 
-            let chatId = +(localStorage.getItem('curChatId') as string);
-            let users = resp.response;
+		userService.searchUserByLogin({login: element.value}).then((resp: { ok: boolean, response: any }) => {
+			if (!resp.ok) {
+				return;
+			}
 
-            chatService.getUsersByChatID(chatId).then((resp: { ok: boolean, response: any }) => {
-                if (!resp.ok) return;
+			let users = resp.response;
 
-                let element = document.getElementById('users_by_login') as HTMLElement;
-                let userIds = resp.response.map((x: { id: number }) => x.id);
-                users = users.filter((x: { id: number }) => !userIds.includes(x.id));
+			chatService.getUsersByChatID(storage.currentChatId).then((resp: { ok: boolean, response: any }) => {
+				if (!resp.ok) {
+					return;
+				}
 
-                if (users.length === 0) {
-                    element.textContent = 'Список пуст';
-                    return;
-                }
+				const element = document.getElementById('users_by_login') as HTMLElement;
+				const userIds = resp.response.map((x: { id: number }) => x.id);
+				users = users.filter((x: { id: number }) => !userIds.includes(x.id));
 
-                let usersHtml = _.template(userListTmpl)({ users: users, baseUrl: BASE_URL_Resources });
-                element.innerHTML = usersHtml;
+				if (users.length === 0) {
+					element.textContent = 'Список пуст';
+					return;
+				}
 
-                this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
-            });
-        });
-    }
+				element.innerHTML = _.template(userListTmpl)({users: users, baseUrl: API_RESOURCES_URL});
 
-    async createChat() {
-        let elem = document.getElementById('chat_title') as HTMLInputElement;
-        if (!elem) return;
+				this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+			});
+		});
+	}
 
-        await chatService.createChat({ title: elem.value });
+	async createChat() {
+		const elem = document.getElementById('chat_title') as HTMLInputElement;
+		if (!elem) {
+			return;
+		}
 
-        // вынести в отдельный метод
-        chatService.getChats().then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
-            let chatList = JSON.stringify(resp.response);
-            localStorage.setItem('chatList', chatList);
+		await chatService.createChat({title: elem.value});
+		storage.chatInfoList = (await chatService.getChats()).response;
+		router.update();
+	}
 
-            // обновить текущую страницу
-            router.update();
-        });
-    }
+	async deleteChat() {
+		await chatService.deleteChatByID({chatId: storage.currentChatId});
+		storage.chatInfoList = (await chatService.getChats()).response;
+		router.update();
+	}
 
-    deleteChat() {
-        let chatId = +(localStorage.getItem('curChatId') as string);
+	async addUserToChat(e: Event) {
+		const element: HTMLElement = e.currentTarget as HTMLElement;
+		const userId = Number(element.getAttribute('id') as string);
+		const userIds = [userId];
 
-        chatService.deleteChatByID({ chatId }).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
+		await chatService.addNewUsersToChat({users: userIds, chatId: storage.currentChatId});
+		element.style.display = 'none';
+	}
 
-            // вынести в отдельный метод
-            chatService.getChats().then((resp: { ok: boolean, response: any }) => {
-                if (!resp.ok) return;
-                let chatList = JSON.stringify(resp.response);
-                localStorage.setItem('chatList', chatList);
+	async removeUserFromChat(e: Event) {
+		const element: HTMLElement = e.currentTarget as HTMLElement;
+		const userId = Number(element.getAttribute('id') as string);
 
-                // обновить текущую страницу
-                router.update();
-            });
-        });
-    }
+		await chatService.deleteUsersFromChat({users: [userId], chatId: storage.currentChatId});
+		element.parentNode?.parentNode?.removeChild(element?.parentNode);
+	}
 
-    addUserToChat(e: Event) {
-        let element: HTMLElement = e.currentTarget as HTMLElement;
-        let chatId = +(localStorage.getItem('curChatId') as string);
-        let userId = +(element.getAttribute('id') as string);
-        let userIds = [userId];
-        let data = { users: userIds, chatId };
+	async openChatMembersModalDialog() {
+		const users = (await chatService.getUsersByChatID(storage.currentChatId)).response
+			.sort((a: { role: number; }, b: { role: number; }) => a.role > b.role ? 1 : -1);
+		const usersHtml = _.template(userListTmpl)({users: users, baseUrl: API_RESOURCES_URL});
 
-        chatService.addNewUsersToChat(data).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
-            element.removeAttribute('onclick');
-            element.style.display = 'none';
-        });
-    }
+		const modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
+		modalDialog.innerHTML = _.template(membersModalDialogTmpl)({usersHtml});
+		modalDialog.style.display = 'block';
 
-    removeUserFromChat(e: Event) {
-        let element: HTMLElement = e.currentTarget as HTMLElement;
-        let chatId = +(localStorage.getItem('curChatId') as string);
-        let userId = +(element.getAttribute('id') as string);
-        let userIds = [userId];
-        let data = { users: userIds, chatId };
+		this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+	}
 
-        chatService.deleteUsersFromChat(data).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
-            element.parentNode?.parentNode?.removeChild(element?.parentNode);
-        });
-    }
+	sendMessage() {
+		const element = document.getElementById('message') as HTMLInputElement;
 
-    openChatMembersModalDialog() {
-        let chatId = +(localStorage.getItem('curChatId') as string);
+		messageService.sendMessage(element.value);
+	}
 
-        chatService.getUsersByChatID(chatId).then((resp: { ok: boolean, response: any }) => {
-            if (!resp.ok) return;
+	// Render chat messages
+	async onChatClick(e: Event) {
+		const element = e.currentTarget as HTMLElement;
+		const id = Number(element.getAttribute('id') as string);
+		const chat: TChatInfo | undefined = storage.chatInfoList.find(x => x.id === id);
 
-            let users = resp.response.sort((a: { role: number; }, b: { role: number; }) => a.role > b.role ? 1 : -1);
-            let usersHtml = _.template(userListTmpl)({
-                users: users, 
-                baseUrl: BASE_URL_Resources
-            });
+		storage.currentChatId = id;
 
-            let membersModalDialogHtml = _.template(membersModalDialogTmpl)({ usersHtml });
+		// messageService.close();
+		await messageService.connect(storage.userInfo.id, id, {
+			message: this.setMessageChatHandler.bind(this),
+			connect: this.setConnectUserChat.bind(this),
+			error: this.setErrorWebSocket.bind(this),
+			open: () => {}
+		});
 
-            let modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
-            modalDialog.innerHTML = membersModalDialogHtml;
-            modalDialog.style.display = 'block';
+        messageService.getHistory();
 
-            this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
-        });
-    }
+		// Скрыть сообщение  с информацией
+		(document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
-    // render chat messages
-    onChatClick(e: Event) {
-        let element = e.target as HTMLElement;
-        let id = element.getAttribute('id') as string;
-        let chatList: any[] = JSON.parse(localStorage.getItem('chatList') as string);
-        let chat = chatList.find(x => x.id === +id) || {};
+		const messagesPanelHtml = _.template(messagesPanelTmpl)({
+			chat, avatar: `${API_RESOURCES_URL}/${chat?.avatar}`
+		});
 
-        localStorage.setItem('curChatId', id);
+		const node = document.getElementById('chat-messages');
+		if (!node) {
+			return;
+		}
 
-        // скрыть сообщение  с информацией
-        (document.getElementById('msg-info') as HTMLElement).style.display = 'none';
+		node.innerHTML = messagesPanelHtml;
 
-        let messagesPanelHtml = _.template(messagesPanelTmpl)({
-             chat, avatar: `${BASE_URL_Resources}/${chat.avatar}`
-        });
+		// Снять подсветку для всех эл. чата
+		// установить для текущего
+		const chatElements = document.getElementsByClassName('chat-item');
 
-        let node = document.getElementById('chat-messages')
-        if (!node) return;
-        node.innerHTML = messagesPanelHtml;
+		// ToDo: forEach.call - везде заменить
+		Array.prototype.forEach.call(chatElements, (chat: any) => chat.setAttribute('style', 'background-color: rgba(250, 250, 250);'));
 
-        // снять подсветку для всех эл. чата
-        // установить для текущего
-        const chatElements = document.getElementsByClassName('chat-item');
-        Array.prototype.forEach.call(chatElements, (chat: any) => chat.setAttribute('style', 'background-color: rgba(250, 250, 250);'));
+		element.setAttribute('style', 'background-color: rgba(122, 184, 243, 0.2);');
 
-        element.setAttribute('style', 'background-color: rgba(122, 184, 243, 0.2);');
-        
-        this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
-    }
+		this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
+	}
 
-    onFilterChange(e: InputEvent) {
-        let element: HTMLInputElement = e.target  as HTMLInputElement;
-        console.log(`${element.id}: ${element.value}`)
-    }
+	async setConnectUserChat(id?: string) {
+		const user: TUserInfo = (await userService.getUserById(Number(id))).response;
+		console.log('setConnectUserChat, user: ', user);
+	}
+
+	setErrorWebSocket(error?: string) {
+		console.log('setErrorWebSocket, error: ', error);
+	}
+
+	async setMessageChatHandler(data: TMessage | TMessage[]): Promise<void> {
+		console.log('setMessageChatHandler, messages: ', data);
+
+		if (!Array.isArray(data)) {
+			data = [data];
+		}
+
+		let messages = [];
+
+		for (let i = 0; i < data.length; i++) {
+			const user: TUserInfo = (await userService.getUserById(data[i].user_id)).response;
+			const time = new Date(data[i].time).toLocaleTimeString('ru', {hour: 'numeric', minute: 'numeric', second: 'numeric'});
+
+			messages.push({user: user, time: time, text: data[i].content});
+		}
+
+		console.log('messages', messages);
+
+		const element = document.getElementById('chat_messages') as HTMLElement;
+		element.innerHTML = _.template(messagesTmpl)({messages});
+	}
+
+	onFilterChange(e: InputEvent) {
+		const element: HTMLInputElement = e.target as HTMLInputElement;
+		console.log(`${element.id}: ${element.value}`);
+	}
 }
 

@@ -1,11 +1,11 @@
-import { queryStringify } from "./useful-functions.js";
+import {queryStringify} from './useful-functions';
 
 const METHODS = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    PATCH: 'PATCH',
-    DELETE:'DELETE'
+	GET: 'GET',
+	POST: 'POST',
+	PUT: 'PUT',
+	PATCH: 'PATCH',
+	DELETE: 'DELETE'
 };
 
 export type TypeOptions = {
@@ -16,87 +16,88 @@ export type TypeOptions = {
     headers?: any;
 };
 
-
 export class HTTPTransport {
     get = (url: string, options: TypeOptions | any = {}) => {
-        if (options.data) {
-          url += queryStringify(options.data);
-        }
+    	if (options.data) {
+    		url += queryStringify(options.data);
+    	}
 
-        return this.request(url, {...options, method: METHODS.GET}, options.timeout);
+    	return this.request(url, {...options, method: METHODS.GET}, options.timeout);
     };
 
     put = (url: string, options: TypeOptions | any = {}) => {
-        return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
+    	return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
     };
 
     post = (url: string, options: TypeOptions | any = {}) => {
-        return this.request(url, {...options, method: METHODS.POST}, options.timeout);
+    	return this.request(url, {...options, method: METHODS.POST}, options.timeout);
     };
 
     delete = (url: string, options: TypeOptions | any = {}) => {
-        return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
+    	return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
     };
 
+    request = (url: string, options: TypeOptions, timeout = 5000) => {
+    	const {method, data, headers} = options;
+    	const xhr = new XMLHttpRequest();
 
-    request = (url: string, options: TypeOptions, timeout = 5000) => {						
-      let {method, data, headers} = options
-      let xhr = new XMLHttpRequest();
-      
-      return new Promise((resolve) => {
+    	// ToDo: вынести в тип
+    	return new Promise<{ ok: boolean, response: any }>((resolve, reject) => {
+    		xhr.open(method, url, true);
 
-        xhr.open(method, url, true);
+    		if (headers) {
+    			Object.keys(headers).map(key => {
+    				xhr.setRequestHeader(key, headers[key]);
+    			});
+    		}
 
+    		xhr.withCredentials = true;
 
-        if (headers) {
-          Object.keys(headers).map(key => {
-            xhr.setRequestHeader(key, headers[key]);
-          });
-        }  
+    		xhr.onload = () => {
+    			let response: { ok: boolean, response: any };
 
-        xhr.withCredentials = true;
+    			if (xhr.status === 200) {
+    				response = {ok: true, response: this.getResponse(xhr.response)};
+    			} else {
+    				const obj = this.getResponse(xhr.response);
+    				const error = `Ответ от сервера: ${xhr.status} | ошибка: ${obj.error}, причина: ${obj.reason}`;
+    				response = {ok: false, response: error};
+    			}
 
-        xhr.onload = () => {
-          let response: { ok: boolean, response: any };
+    			return resolve(response);
+    		};
 
-          if (xhr.status === 200) {
-            response = { ok: true, response: this.getResponse(xhr.response) };
-          } else {
-            let obj = this.getResponse(xhr.response);
-            let msg = `Ответ от сервера: ${xhr.status} | ошибка: ${obj.error}, причина: ${obj.reason}`
-            response = { ok: false, response: msg };
-          }
+    		xhr.timeout = timeout;
 
-          return resolve(response);
-        };
+    		/* Xhr.onerror = (err) => console.log('error', err);
+            xhr.ontimeout = (err) => {
+                console.log('error', err);
+            }; */
 
-        xhr.onerror = (err) => console.log('error', err);
-        
-        xhr.timeout = timeout;  
-        xhr.ontimeout = (err) => {
-            console.log('error', err);
-        };
-        
-        if (method === METHODS.GET || !data) {
-          xhr.send();
-        } else if (data instanceof FormData) {
-          xhr.send(data);
-        } else {
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.send(JSON.stringify(data));
-        }
-      });
+    		xhr.onabort = reject;
+    		xhr.onerror = reject;
+    		xhr.ontimeout = reject;
+
+    		if (method === METHODS.GET || !data) {
+    			xhr.send();
+    		} else if (data instanceof FormData) {
+    			xhr.send(data);
+    		} else {
+    			xhr.setRequestHeader('Content-Type', 'application/json');
+    			xhr.send(JSON.stringify(data));
+    		}
+    	});
     };
 
     private getResponse(responseStirng: string): any {
-      let response: string;
-    
-      try {
-          response = JSON.parse(responseStirng);
-      } catch {
-          response = responseStirng;
-      }
-    
-      return response;
-    };
+    	let response: string;
+
+    	try {
+    		response = JSON.parse(responseStirng);
+    	} catch {
+    		response = responseStirng;
+    	}
+
+    	return response;
+    }
 }

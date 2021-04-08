@@ -1,4 +1,4 @@
-export const pageTmpl = 
+export const pageTmpl =
         `<div class="form" autocomplete="off">
            <h2>Регистрация</h2>
            
@@ -45,5 +45,5 @@ export const pageTmpl =
            </div>
      
            <%=button%>
-           <a onclick="goTo('')">Войти</a>
-        </div>`
+           <a onclick="goTo('#login')">Войти</a>
+        </div>`;

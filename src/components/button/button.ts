@@ -1,4 +1,4 @@
-import { Block } from "../../utils/block.js";
+import {Block} from '../../utils/block';
 
 const template = '<a id="<%-id%>" class="<%-classNames%>" onclick="<%-onClick%>" style="<%-style%>"><%-text%></a>';
 
@@ -11,26 +11,23 @@ export type ButtonProps = {
 };
 
 export class Button extends Block {
-   
-    constructor({
-        classNames = '',
-        id = '',
-        text = '',
-        onClick = '',
-        style = ''
-    }: ButtonProps) {
-        
-        super('button', {
-            text,
-            classNames,
-            onClick,
-            id,
-            style
-         });
-        
-    }
+	constructor({
+		classNames = '',
+		id = '',
+		text = '',
+		onClick = '',
+		style = ''
+	}: ButtonProps) {
+		super('button', {
+			text,
+			classNames,
+			onClick,
+			id,
+			style
+		});
+	}
 
-    render() {
-        return _.template(template)(this.props);
-    }
+	render() {
+		return _.template(template)(this.props);
+	}
 }

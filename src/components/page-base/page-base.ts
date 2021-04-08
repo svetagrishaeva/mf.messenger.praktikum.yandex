@@ -1,50 +1,51 @@
-import { Block } from "../../utils/block.js";
+import { Block } from '../../utils/block';
+
 
 export class PageBase extends Block {
     // общая валидация форм   
     inputOnblur(e: InputEvent) {
-        let input = e.target as HTMLInputElement;
-        let isEmpty = this.сheckInputValueEmpty(input);
-        let message = isEmpty ? 'Данное поле должно быть заполнено' : '';
+        const input = e.target as HTMLInputElement;
+        const isEmpty = this.сheckInputValueEmpty(input);
+        const message = isEmpty ? 'Данное поле должно быть заполнено' : '';
 
         this.applyValidation([input], isEmpty, message);
     };
 
     inputPasswordOnblur(e: InputEvent) {
-        let input = e.target as HTMLInputElement;
-        let isEmpty = this.сheckInputValueEmpty(input);
-        let message = isEmpty 
-                        ? 'Данное поле должно быть заполнено'
-                            : (input.value.length < 8)
-                                ? 'Пароль должен содержать не менее 8 символов'
-                                    : '';
+        const input = e.target as HTMLInputElement;
+        const isEmpty = this.сheckInputValueEmpty(input);
+        const message = isEmpty 
+            ? 'Данное поле должно быть заполнено'
+            : (input.value.length < 8)
+                ? 'Пароль должен содержать не менее 8 символов'
+                : '';
 
-        let invalid = message !== '';
+        const invalid = message !== '';
 
         this.applyValidation([input], invalid, message);
     };
 
     inputEmailOnblur(e: InputEvent) {
-        let input = e.target as HTMLInputElement;
-        let isEmpty = this.сheckInputValueEmpty(input);
-        let message = isEmpty 
-                        ? 'Данное поле должно быть заполнено'
-                            : (!input.value.includes('@') || input.value.length < 8)
-                                ? 'Email некорректный'
-                                    : '';
+        const input = e.target as HTMLInputElement;
+        const isEmpty = this.сheckInputValueEmpty(input);
+        const message = isEmpty 
+            ? 'Данное поле должно быть заполнено'
+            : (!input.value.includes('@') || input.value.length < 8)
+                ? 'Email некорректный'
+                : '';
 
-        let invalid = message !== '';
+        const invalid = message !== '';
 
         this.applyValidation([input], invalid, message);
     };
 
     // удаляем индикатор ошибки, когда курсор снова установлен на форме
     inputOnfocus(e: InputEvent) {
-        let input = e.target as HTMLInputElement;
+        const input = e.target as HTMLInputElement;
         if (!input.classList.contains('invalid')) return;
 
         input.classList.remove('invalid');
-        let error = document.getElementById(`${input.id}_error`);
+        const error = document.getElementById(`${input.id}_error`);
         if (!error) return;
         error.textContent = '';
     };
@@ -56,7 +57,7 @@ export class PageBase extends Block {
         Array.prototype.forEach.call(inputs, (x: HTMLInputElement) =>
         { 
             x.classList.add('invalid');
-            let error = document.getElementById(`${x.id}_error`);
+            const error = document.getElementById(`${x.id}_error`);
             if (!error) return;
             error.textContent = message;
         });
@@ -71,9 +72,9 @@ export class PageBase extends Block {
         let valid = true;
    
         parameters.forEach((x: { id: string; title: string; value: string; }) => {
-            let element = document.getElementById(x.id) as HTMLInputElement
+            const element = document.getElementById(x.id) as HTMLInputElement
             if (element) {
-                let errorElement = document.getElementById(`${x.id}_error`);
+                const errorElement = document.getElementById(`${x.id}_error`);
                 if (errorElement?.textContent !== '') {
                     valid = false;
                     return;
@@ -85,10 +86,10 @@ export class PageBase extends Block {
                     return;
                 }
 
-                let password = !isPasswordChange ? 'password' : 'newPassword';
+                const password = !isPasswordChange ? 'password' : 'newPassword';
                 if (element.id === password) {
-                    let newPassword = element;
-                    let newPasswordAgain = document.getElementById('passwordAgain') as HTMLInputElement;
+                    const newPassword = element;
+                    const newPasswordAgain = document.getElementById('passwordAgain') as HTMLInputElement;
                     if (!newPasswordAgain) return;
                     
                     if (newPassword.value !== newPasswordAgain.value) {

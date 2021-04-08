@@ -24,7 +24,13 @@ export const pageTmpl: string =
         </div>
     </div>
 
-    <h2 id="user-name"><%-user.display_name%></h2>
+    <h2 id="user-name">
+        <% if (user.display_name != null) { %>
+            <%-user.display_name%>
+        <% } else { %>
+            <%-user.first_name%>
+        <% } %>
+    </h2>
 
     <div id="info-items"><%=infos%></div>
     <div id="password-items"></div>
@@ -51,9 +57,9 @@ export const pageTmpl: string =
             <a onclick="this.saveAvatar()" class="btn-confirm">Поменять</a>
         </form>
     </div>
- </div>`
+ </div>`;
 
-export const infoItemsTmpl: string = 
+export const infoItemsTmpl: string =
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
@@ -64,13 +70,13 @@ export const infoItemsTmpl: string =
         <% }  %>
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
-    <% }); %>`
+    <% }); %>`;
 
-export const passwordItemsTmpl: string = 
+export const passwordItemsTmpl: string =
    `<% items.forEach(function(item) { %>
     <div class="row">
         <h4><%-item.title%></h4>
         <input class="password-input" type="password" id="<%-item.id%>" onblur="this.inputPasswordOnblur($event)" onfocus="this.inputOnfocus($event)">
     </div>
     <div id="<%-item.id%>_error" class="error" style="float:right"></div>
-    <% }); %>`
+    <% }); %>`;

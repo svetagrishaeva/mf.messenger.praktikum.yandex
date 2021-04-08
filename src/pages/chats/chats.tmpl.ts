@@ -1,4 +1,4 @@
-export const pageTmpl: string = 
+export const pageTmpl: string =
   `<div id="chats" class="chats">
        <header class="chats-header">
            <a onclick="goTo('#profile')" class="profile-link">
@@ -36,7 +36,7 @@ export const pageTmpl: string =
        <div> Выберите чат, чтобы отправить сообщение. </div>
     </div>
 
-    <div class="chat_area" id="chat-messages"></div>
+    <div id="chat-messages" class="chat_area"></div>
 
     <div id="userAdditionModalDialog" class="blackout">
         <div class="modalDialog" style="width: 400px;">
@@ -73,27 +73,29 @@ export const pageTmpl: string =
         </div>
     </div>
      
-    <div id="chatMembersModalDialog" class="blackout"></div>`
+    <div id="chatMembersModalDialog" class="blackout"></div>`;
 
-
-export const chatsTmpl: string = 
+export const chatsTmpl: string =
 `<% items.forEach(function(item) { %>
     <div id="<%-item.id%>" class="chat-item" onclick="this.onChatClick($event)">
         <% if (item.avatar != null) { %>
             <img class="image" width="60px" height="60px" fill="white" style="border-radius: 50%;" src="<%-item.avatar%>">
         <% } else { %>
-            <svg viewBox="0 0 16 16" width="60px" height="60px" fill="white" style="border-radius: 50%;">
+            <svg viewBox="0 0 16 16" width="60px" height="60px" fill="white" style="border-radius: 50%; border: 2px solid ">
                 <path d="M0 0h16v16H0V0z" fill="#DFE5E7" />
                 <path style="stroke-width: 0px;"  d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                 <path style="stroke: #DFE5E7;" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
             </svg>
+            <!--<svg width="60px" height="60px" viewBox="0 0 18 18" style="border-radius: 50%; border: 2px solid gray">
+                <path fill="gray"  d="M6 8c1.11 0 2-.9 2-2s-.89-2-2-2c-1.1 0-2 .9-2 2s.9 2 2 2zm6 0c1.11 0 2-.9 2-2s-.89-2-2-2c-1.11 0-2 .9-2 2s.9 2 2 2zM6 9.2c-1.67 0-5 .83-5 2.5V13h10v-1.3c0-1.67-3.33-2.5-5-2.5zm6 0c-.25 0-.54.02-.84.06.79.6 1.34 1.4 1.34 2.44V13H17v-1.3c0-1.67-3.33-2.5-5-2.5z"/>
+            </svg>-->
         <% } %>
 
         <div id="chat-title" style="text-align: left; margin-right: auto; margin-left: 8px;"> <%-item.title%> </div> 
     </div>
 <% }) %>`;
 
-export const membersModalDialogTmpl: string = 
+export const membersModalDialogTmpl: string =
 `<div class="modalDialog" style="width: 400px;">
     <h4>Участники чата</h4>
 
@@ -104,9 +106,9 @@ export const membersModalDialogTmpl: string =
     <div id="btn-panel">
         <a onclick="document.getElementById('chatMembersModalDialog').style.display = 'none'" class="btn-cancel" style="width: 40%;">Закрыть</a>
     </div>
-</div>`
+</div>`;
 
-export const userListTmpl: string = 
+export const userListTmpl: string =
 `<% users.forEach(function(user) { %>
     <div class="top-bar" style="font-size: 18px; padding-top: 10px;">
         <% if (user.avatar != null) { %>
@@ -121,7 +123,7 @@ export const userListTmpl: string =
         
         <div style="text-align: left; margin-right: auto; margin-left: 8px;">
             <%-user.first_name%> <%-user.second_name%>
-            <% if (user.display_name !== null && user.display_name !== '') { %>
+            <% if (user.display_name !== null) { %>
                 (<%-user.display_name%>)
             <% } %>
         </div>
@@ -146,9 +148,9 @@ export const userListTmpl: string =
             </div>
         <% } %>
     </div>
-<% }) %>`
+<% }) %>`;
 
-export const messagesPanelTmpl: string = 
+export const messagesPanelTmpl: string =
 `<header class="chat_top-bar top-bar">
     <% if (chat.avatar != null) { %>
         <img class="image" width="50px" height="50px" fill="white" style="border-radius: 50%; margin-right: 10px" src="<%-chat.avatar%>">
@@ -184,15 +186,7 @@ export const messagesPanelTmpl: string =
     </div>
 </header>
 
-<main class="chat_messages">
-        <p>
-        Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов.
-
-Существуют две основные трактовки понятия «текст»: имманентная (расширенная, философски нагруженная) и репрезентативная (более частная). Имманентный подход подразумевает отношение к тексту как к автономной реальности, нацеленность на выявление его внутренней структуры. Репрезентативный — рассмотрение текста как особой формы представления информации о внешней тексту действительности.
-
-В лингвистике термин «текст» используется в широком значении, включая и образцы устной речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так, например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение, объективированное в виде письменного документа, состоящее из ряда высказываний, объединённых разными типами лексической, грамматической и логической связи, имеющее определённый моральный характер, прагматическую установку и соответственно литературно обработанное».
-        </p>
-</main>
+<main id="chat_messages" class="chat_messages"></main>
 
 <footer class="chat_bot-bar">
     <div class="bot-bar_actions">
@@ -218,7 +212,7 @@ export const messagesPanelTmpl: string =
     <input id="message" class="form-control" type="search" style="border-radius: 20px; max-width: none;" placeholder="Введите сообщение">
 
     <div class="bot-bar_actions">
-        <div class="icon-btn">
+        <div class="icon-btn" onclick="this.sendMessage()">
             <svg width="26px" height="24px" viewBox="0 0 24 22" fill="none">
                 <path d="M23.9915 10.9478L0.800049 21.2954L3.37817 10.9478L0.800049 0.600098L23.9915 10.9478ZM3.00317 3.2251L4.74927 10.2329H18.6946L3.00317 3.2251ZM4.72583 11.7329L3.00317 18.6704L18.554 11.7329H4.72583Z" fill="#2F80ED"/>
             </svg>
@@ -226,8 +220,36 @@ export const messagesPanelTmpl: string =
     </div>
 </footer>`;
 
+export const messagesTmpl: string =
+`<% messages.forEach(function(message) { %>
+    <div class="message">
+        <div class="message_top">
+            <div>
+                <% if (message.avatar != null) { %>
+                    <img class="image" width="50px" height="50px" fill="white" style="border-radius: 50%; margin-right: 10px" src="<%-message.avatar%>">
+                <% } else { %>
+                    <svg viewBox="0 0 16 16" width="50px" height="50px" fill="white" style="border-radius: 50%; margin-right: 10px">
+                        <path d="M0 0h16v16H0V0z" fill="#DFE5E7" />
+                        <path style="stroke-width: 0px;"  d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path style="stroke: #DFE5E7;" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                <% } %>
+            </div>
+            <div class="message_name-user">
+                <% if (message.user.display_name != null) { %>
+                    <%-message.user.display_name%>
+                <% } else { %>
+                    <%-message.user.first_name%> <%-message.user.second_name%>
+                <% } %>
+            </div>
+            <div class="message_date"><%-message.time%></div>
+        </div>
+        <div class="message_bot"><%-message.text%></div>
+    </div>
+<% }) %>`;
+
 /*
-export const messagesTemplate: string = 
+Export const messagesTemplate: string =
 `<% messages.forEach(function(message) { %>
     <tr>
         <td style="width: 50%;">
@@ -259,4 +281,4 @@ export const messagesTemplate: string =
             <% }  %>
         </td>
     </tr>
-<% }); %>`;*/
+<% }); %>`; */

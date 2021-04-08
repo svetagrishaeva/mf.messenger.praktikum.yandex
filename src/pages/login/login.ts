@@ -1,88 +1,84 @@
-import { authService, SignIn } from "../../api/authorization.js";
-import { PageBase } from "../../components/page-base/page-base.js";
-import { Button } from "../../components/button/button.js";
-import { router } from "../../utils/router.js";
-import { pageTmpl } from "./login.tpml.js";
+import {authService, TSignIn} from '../../api/auth';
+import {PageBase} from '../../components/page-base/page-base';
+import {Button} from '../../components/button/button';
+import {router} from '../../utils/router';
+import {pageTmpl} from './login.tpml';
+import {TUserInfo} from '../../api/user';
+import {storage} from '../../storage/storage';
+
+import '../../css/style.css';
 
 type Indexed = Record<string, any>;
 
 export class LoginPage extends PageBase {
+	constructor(props: any = {}) {
+		super('login-page', props);
+	}
 
-  constructor(props: any = {}) {
-    super('login-page', props);
-  }
+	render() {
+		const buttonHtml = new Button({
+			classNames: 'btn-confirm',
+			id: 'loginButton',
+			text: 'Авторизоваться',
+			onClick: 'this.loginClick($event)'
+		}).render();
 
-  render() {
-    let button = new Button({
-      classNames: 'btn-confirm',
-      id: 'loginButton',
-      text: 'Авторизоваться',
-      onClick: 'this.loginClick($event)'
-    });
-    let buttonHtml = button.render();
+		return _.template(pageTmpl)({
+			button: buttonHtml,
+			inputOnblur: 'this.inputOnblur($event)',
+			inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
+			inputOnfocus: 'this.inputOnfocus($event)'
+		});
+	}
 
-    let pageHtml = _.template(pageTmpl)({
-      button: buttonHtml,
-      inputOnblur: 'this.inputOnblur($event)',
-      inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
-      inputOnfocus: 'this.inputOnfocus($event)'
-    });
+	loginClick() {
+		const inputElements = document.getElementsByTagName('input');
+		const params: any[] = [];
+		Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
 
-    return pageHtml;
-  }
+		const valid = this.checkOnValid(params);
 
-  loginClick() {
-    let inputElements = document.getElementsByTagName('input');
-    let params: any[] = [];
-    Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({ id: x.id, value: x.value }));
+		if (!valid) {
+			return;
+		}
 
-    let valid = this.checkOnValid(params);
+		const data: Indexed = {};
 
-    if (!valid) return;
+		for (let i = 0; i < params.length; i++) {
+			data[params[i].id] = params[i].value;
+		}
 
-    let data: Indexed = {};
+		authService.signIn(data as TSignIn).then((data: { ok: boolean, response: string }) => {
+			if (data.ok || data.response.toLowerCase().includes('user already in system')) {
+				this.hideErrorMessage();
 
-    for (let i = 0; i < params.length; i++) {
-      data[params[i].id] = params[i].value;
-    }
+				authService.getUser().then((data: { ok: boolean, response: TUserInfo }) => {
+					if (!data.ok) {
+						return;
+					}
 
-    authService.signIn(data as SignIn).then((data: { ok: boolean, response: string }) => {
-      if (data.response.includes('User already in system')) {
-        authService.getUser().then((data: { ok: boolean, response: any }) => {
-          if (!data.ok) return;
-          localStorage.setItem('userInfo', JSON.stringify(data.response));
-          localStorage.setItem('isAuth', 'true');
-        });
+					storage.userInfo = data.response;
+					storage.isAuth = true;
+				}).finally(() => router.go('#chats'));
+			} else {
+				this.showErrorMessage();
+			}
+		});
+	}
 
-        router.go('#chats');
-        return;
-      }
+	// Скрыть сообщение об ошибке авторизации
+	private hideErrorMessage() {
+		const loginErrorElement = (document.getElementById('auth_error') as HTMLElement);
+		if (!loginErrorElement.classList.contains('hidden')) {
+			loginErrorElement.classList.add('hidden');
+		}
+	}
 
-      data.ok ? this.hideErrorMessage() : this.showErrorMessage();
-
-      if (!data.ok) return;
-
-      authService.getUser().then((data: { ok: boolean, response: any }) => {
-        if (!data.ok) return;
-        localStorage.setItem('userInfo', JSON.stringify(data.response));
-        localStorage.setItem('isAuth', 'true');
-      });
-
-      router.go('#chats');
-    });
-  }
-
-  // скрыть сообщение об ошибке авторизации 
-  private hideErrorMessage() {
-    let loginErrorElement = (document.getElementById('auth_error') as HTMLElement);
-    if (!loginErrorElement.classList.contains('hidden'))
-      loginErrorElement.classList.add('hidden');
-  }
-
-  // отобразить сообщение об ошибке авторизации
-  private showErrorMessage() {
-    let loginErrorElement = (document.getElementById('auth_error') as HTMLElement);
-    if (loginErrorElement.classList.contains('hidden'))
-      loginErrorElement.classList.remove('hidden');
-  }
+	// Отобразить сообщение об ошибке авторизации
+	private showErrorMessage() {
+		const loginErrorElement = (document.getElementById('auth_error') as HTMLElement);
+		if (loginErrorElement.classList.contains('hidden')) {
+			loginErrorElement.classList.remove('hidden');
+		}
+	}
 }
