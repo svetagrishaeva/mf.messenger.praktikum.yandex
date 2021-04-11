@@ -25,17 +25,3 @@ export function queryStringify(data: Indexed): string {
 
 	return getParams(data).map(arr => arr.join('=')).join('&');
 }
-
-export function merge(lhs: Indexed, rhs: Indexed) {
-	const result = {...lhs};
-
-	Object.entries(rhs).forEach(([key, value]) => {
-		if (typeof rhs[key] === 'object' && key in lhs) {
-			result[key] = merge(lhs[key], value);
-		} else {
-			result[key] = value;
-		}
-	});
-
-	return result;
-}

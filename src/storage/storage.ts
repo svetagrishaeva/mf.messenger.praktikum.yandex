@@ -1,4 +1,5 @@
 import {TChatInfo} from '../api/chats';
+import { TMessage } from '../api/messages';
 import {TUserInfo} from '../api/user';
 
 export const LOCAL_STORAGE_KEYS =
@@ -7,7 +8,8 @@ export const LOCAL_STORAGE_KEYS =
 	USER_INFO: 'userinfo',
 	CHAT_INFO_LIST: 'chatinfolist',
 	CHAT_USER_LIST: 'chatuserlist',
-	CURRENT_CHAT_ID: 'curchatid'
+	CURRENT_CHAT_ID: 'curchatid',
+	MESSAGE_LIST: 'messagelist'
 };
 
 export class Storage {
@@ -19,7 +21,6 @@ export class Storage {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.IS_AUTH, String(value));
 	}
 
-	// ToDo: [] (???)
 	get chatInfoList(): TChatInfo[] {
 		return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.CHAT_INFO_LIST) as string) || [];
 	}
@@ -34,6 +35,14 @@ export class Storage {
 
 	set chatUserList(value: TUserInfo[]) {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.CHAT_USER_LIST, JSON.stringify(value));
+	}
+
+	get messageList(): TMessage[] {
+		return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.MESSAGE_LIST) as string) || [];
+	}
+
+	set messageList(value: TMessage[]) {
+		localStorage.setItem(LOCAL_STORAGE_KEYS.MESSAGE_LIST, JSON.stringify(value));
 	}
 
 	get currentChatId(): number {

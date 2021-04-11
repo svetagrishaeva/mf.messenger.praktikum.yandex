@@ -1,15 +1,16 @@
 .circle__msgcount, .circle-send {
     background: rgb(80, 125, 252);
     color: white;
-    margin: auto;
     border-radius: 50%;
     text-align: center;
 }
 
 .circle__msgcount {
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    margin-left: auto;
+    font-weight: 600;
 }
 
 .circle-send {

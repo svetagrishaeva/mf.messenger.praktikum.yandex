@@ -5,20 +5,25 @@ export type TChatInfo = {
     id: number;
     title: string;
     avatar: string;
+    created_by: number;
     unread_count: number;
-    last_message: {
-      user: {
-        first_name: string;
-        second_name: string;
-        avatar: string;
-        email: string;
-        login: string;
-        phone: string;
-      },
-      time: string;
-      content: string;
-    }
+    last_message: any;
+    [key: string]: any;
 }
+
+export type TLastMessage = {
+  user: {
+    first_name: string;
+    second_name: string;
+    avatar: string;
+    email: string;
+    login: string;
+    phone: string;
+  },
+  time: string;
+  content: string;
+}
+
 
 export class ApiChat {
     private readonly fetch: HTTPTransport;

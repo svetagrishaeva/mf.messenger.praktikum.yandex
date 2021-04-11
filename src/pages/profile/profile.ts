@@ -1,15 +1,17 @@
 
-import {pageTmpl, infoItemsTmpl, passwordItemsTmpl} from './profile.tmpl';
-import {Button} from '../../components/button/button';
-import {authService} from '../../api/auth';
-import {APP_ROOT_ID, router} from '../../utils/router';
-import {TUpdateUserPassword, TUpdateUserProfile, userService} from '../../api/user';
-import {API_RESOURCES_URL} from '../../api/constants';
-import {PageBase} from '../../components/page-base/page-base';
-import {storage} from '../../storage/storage';
+import { pageTmpl, infoItemsTmpl, passwordItemsTmpl } from './profile.tmpl';
+import { Button } from '../../components/button/button';
+import { authService } from '../../api/auth';
+import { APP_ROOT_ID, router } from '../../utils/router';
+import { TUpdateUserPassword, TUpdateUserProfile, userService } from '../../api/user';
+import { API_RESOURCES_URL } from '../../api/constants';
+import { PageBase } from '../../components/page-base/page-base';
+import { storage } from '../../storage/storage';
+import { template } from 'lodash';
 
 import './profile.css';
 import '../../css/style.css';
+
 
 type Indexed = Record<string, any>;
 
@@ -18,8 +20,6 @@ export class ProfilePage extends PageBase {
 		super('profile-page', props);
 
 		const newProps: any[] = [];
-
-		// ToDo: ???
 
 		Object.entries(storage.userInfo).forEach(info => {
 			const prop = this.props.find((x: {id: string}) => x.id === info[0]);
@@ -65,11 +65,11 @@ export class ProfilePage extends PageBase {
 		// ToDo: разделить данные
 		const data = this.props.filter((x: { id: string; }) => !x.id.toLowerCase().includes('password') && x.id !== 'avatar');
 
-		const infoItemsHtml = _.template(infoItemsTmpl)({
+		const infoItemsHtml = template(infoItemsTmpl)({
 			items: data
 		});
 
-		const pageHtml = _.template(pageTmpl)({
+		const pageHtml = template(pageTmpl)({
 			user: storage.userInfo,
 			baseUrl: API_RESOURCES_URL,
 			saveButton: saveButtonHtml,
@@ -117,7 +117,7 @@ export class ProfilePage extends PageBase {
 		// Password items page render
 		const passwordItems = this.props.filter((x: { id: string }) => x.id.toLowerCase().includes('password'));
 
-		const html = _.template(passwordItemsTmpl)({items: passwordItems});
+		const html = template(passwordItemsTmpl)({items: passwordItems});
 
 		(document.getElementById('password-items') as HTMLElement).innerHTML = html;
 

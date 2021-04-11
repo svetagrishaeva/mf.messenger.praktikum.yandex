@@ -5,8 +5,10 @@ export type TMessage = {
   id: number,
   time: string,
   user_id: number,
+  chat_id: number,
   content: string,
-  type: string
+  type: string,
+  is_read: boolean
 };
 
 export class ApiMessages {
@@ -25,7 +27,6 @@ export class ApiMessages {
   }
 
   public connect(chanel: string) {
-    console.log('connect, chanel', chanel);
   	return new Promise(res => {
   		this.ws.open(chanel);
   		if (this.ws.socket !== null) {
@@ -52,9 +53,7 @@ export class ApiMessages {
   }
 
   public getHistory(offset = 0) {
-    console.log('getHistory', this.ws.socket);
   	if (this.ws.socket !== null) {
-      console.log('getHistory');
   		this.ws.socket.send(JSON.stringify({content: String(offset), type: 'get old'}));
   	}
   }

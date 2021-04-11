@@ -11,15 +11,13 @@ export class MessageService {
     }
 
     public connect(userId: number, chatId: number, callbacks: any) {
-    	return new Promise(() => {
+    	return new Promise((resolve, reject) => {
     		this.apiChat.getToken(chatId).then((res: { response: { token: string } }) => {
     			const chanel = `/${userId}/${chatId}/${res.response.token}`;
 
-                console.log('chanel', chanel);
-
     			this.apiMessages.initEventMessage((e: any) => {
     				let {data} = e;
-                    console.log(data);
+
     				if (data.type !== 'error') {
     					data = JSON.parse(data);
     					switch (data.type) {
@@ -36,13 +34,14 @@ export class MessageService {
 
     			this.apiMessages.initEventOpen(() => {
     				callbacks.open();
-    				// Resolve(data);
+    				resolve('resolve');
     			});
 
     			this.apiMessages.connect(chanel);
+				
     		}).catch(error => {
     			console.log(error);
-    			// Reject(t[error]);
+    			reject(error);
     		});
     	});
     }

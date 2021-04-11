@@ -7,6 +7,7 @@ import {chatService, TChatInfo} from '../../api/chats';
 import {storage} from '../../storage/storage';
 import {messageService} from '../../services/message-service';
 import {TMessage} from '../../api/messages';
+import * as _ from 'lodash';
 
 import './chats.css';
 import '../../css/style.css';
@@ -14,14 +15,6 @@ import '../../css/style.css';
 export class ChatsPage extends Block {
 	constructor(props: any = {}) {
 		super('chats-page', props);
-
-		chatService.getChats().then((resp: { ok: boolean, response: TChatInfo[] }) => {
-			if (!resp.ok) {
-				return;
-			}
-
-			storage.chatInfoList = resp.response;
-		});
 	}
 
 	render() {
@@ -30,48 +23,46 @@ export class ChatsPage extends Block {
 			return '';
 		}
 
-		const chatsHtml = _.template(chatsTmpl)({items: storage.chatInfoList});
-		const pageHtml = _.template(pageTmpl)({chatsHtml: chatsHtml});
+		let chats = storage.chatInfoList;
+		for (let i = 0; i < chats.length; i++) {
+			if (!chats[i].last_message) continue;
+
+			chats[i].last_message = JSON.parse(chats[i].last_message);
+
+			const now = new Date().toLocaleDateString('ru', {day: 'numeric', month: 'numeric', year: 'numeric'});
+			const date = new Date(chats[i].last_message.time).toLocaleDateString('ru', {day: 'numeric', month: 'numeric', year: 'numeric'});
+			const time =  new Date(chats[i].last_message.time).toLocaleTimeString('ru', {hour: 'numeric', minute: 'numeric', second: 'numeric'});
+			
+			chats[i].last_message.time = date !== now ? date : time;
+			chats[i].me = chats[i].last_message.user.login === storage.userInfo.login;
+		}
+
+		const chatsHtml = _.template(chatsTmpl)({items: chats});
+		const pageHtml = _.template(pageTmpl)({chatsHtml: chatsHtml, user: storage.userInfo, baseUrl: API_RESOURCES_URL});
 
 		return pageHtml;
 	}
 
-	onLoginChange(e: InputEvent) {
+	async onLoginChange(e: InputEvent) {
 		const element: HTMLInputElement = e.target as HTMLInputElement;
 
-		userService.searchUserByLogin({login: element.value}).then((resp: { ok: boolean, response: any }) => {
-			if (!resp.ok) {
-				return;
-			}
+		let users: TUserInfo[] = (await userService.searchUserByLogin({login: element.value})).response;
+		const userIds = (await chatService.getUsersByChatID(storage.currentChatId)).response.map((x: TUserInfo) => x.id);
+		users = users.filter(x => !userIds.includes(x.id));
 
-			let users = resp.response;
+		if (users.length === 0) {
+			element.textContent = 'Список пуст';
+			return;
+		}
 
-			chatService.getUsersByChatID(storage.currentChatId).then((resp: { ok: boolean, response: any }) => {
-				if (!resp.ok) {
-					return;
-				}
-
-				const element = document.getElementById('users_by_login') as HTMLElement;
-				const userIds = resp.response.map((x: { id: number }) => x.id);
-				users = users.filter((x: { id: number }) => !userIds.includes(x.id));
-
-				if (users.length === 0) {
-					element.textContent = 'Список пуст';
-					return;
-				}
-
-				element.innerHTML = _.template(userListTmpl)({users: users, baseUrl: API_RESOURCES_URL});
-
-				this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
-			});
-		});
+		const elementUsers = document.getElementById('users_by_login') as HTMLElement;
+		elementUsers.innerHTML = _.template(userListTmpl)({users: users, baseUrl: API_RESOURCES_URL});
+		this.addHandlers(document.getElementById(APP_ROOT_ID) as HTMLElement);
 	}
 
 	async createChat() {
 		const elem = document.getElementById('chat_title') as HTMLInputElement;
-		if (!elem) {
-			return;
-		}
+		if (!elem) return;
 
 		await chatService.createChat({title: elem.value});
 		storage.chatInfoList = (await chatService.getChats()).response;
@@ -117,9 +108,9 @@ export class ChatsPage extends Block {
 		const element = document.getElementById('message') as HTMLInputElement;
 
 		messageService.sendMessage(element.value);
+		element.value = '';
 	}
 
-	// Render chat messages
 	async onChatClick(e: Event) {
 		const element = e.currentTarget as HTMLElement;
 		const id = Number(element.getAttribute('id') as string);
@@ -127,7 +118,7 @@ export class ChatsPage extends Block {
 
 		storage.currentChatId = id;
 
-		// messageService.close();
+		messageService.close();
 		await messageService.connect(storage.userInfo.id, id, {
 			message: this.setMessageChatHandler.bind(this),
 			connect: this.setConnectUserChat.bind(this),
@@ -141,14 +132,13 @@ export class ChatsPage extends Block {
 		(document.getElementById('msg-info') as HTMLElement).style.display = 'none';
 
 		const messagesPanelHtml = _.template(messagesPanelTmpl)({
-			chat, avatar: `${API_RESOURCES_URL}/${chat?.avatar}`
+			chat,
+			avatar: `${API_RESOURCES_URL}/${chat?.avatar}`, 
+			created_by_admin: storage.chatInfoList.find(x => x.id === id)?.created_by === storage.userInfo.id
 		});
 
 		const node = document.getElementById('chat-messages');
-		if (!node) {
-			return;
-		}
-
+		if (!node) return;
 		node.innerHTML = messagesPanelHtml;
 
 		// Снять подсветку для всех эл. чата
@@ -165,33 +155,48 @@ export class ChatsPage extends Block {
 
 	async setConnectUserChat(id?: string) {
 		const user: TUserInfo = (await userService.getUserById(Number(id))).response;
-		console.log('setConnectUserChat, user: ', user);
+		console.log(`${user.first_name} ${user.second_name} is online`);
 	}
 
 	setErrorWebSocket(error?: string) {
-		console.log('setErrorWebSocket, error: ', error);
+		console.log('error WebSocket: ', error);
 	}
-
+	
 	async setMessageChatHandler(data: TMessage | TMessage[]): Promise<void> {
-		console.log('setMessageChatHandler, messages: ', data);
-
 		if (!Array.isArray(data)) {
+			data.chat_id = storage.currentChatId;
 			data = [data];
-		}
+		} 
+
+		const messageList = storage.messageList.filter(x => x.chat_id === storage.currentChatId);
+		data = _.uniqWith([...data, ...messageList], (x, y) => _.isEqual(x.time, y.time));
+		storage.messageList = data;
 
 		let messages = [];
-
 		for (let i = 0; i < data.length; i++) {
 			const user: TUserInfo = (await userService.getUserById(data[i].user_id)).response;
+			const date = new Date(data[i].time).toLocaleDateString('ru', {day: 'numeric', month: 'long', year: 'numeric'});
 			const time = new Date(data[i].time).toLocaleTimeString('ru', {hour: 'numeric', minute: 'numeric', second: 'numeric'});
 
-			messages.push({user: user, time: time, text: data[i].content});
+			messages.push({
+					user: user, 
+					date: date, 
+					time: time, 
+					is_read: data[i].is_read, 
+					text: data[i].content, 
+					me: data[i].user_id === storage.userInfo.id
+				});
 		}
 
-		console.log('messages', messages);
+		messages = messages.sort((a, b) => a.time > b.time ? 1 : -1);
+
+		const groups = _.chain(messages).groupBy('date').map((value, key) => ({ date: key, messages: value })).value();
 
 		const element = document.getElementById('chat_messages') as HTMLElement;
-		element.innerHTML = _.template(messagesTmpl)({messages});
+		element.innerHTML = _.template(messagesTmpl)({groups, baseUrl: API_RESOURCES_URL});
+
+		// scroll уставить внизу
+		element.scrollTop = element.scrollHeight;
 	}
 
 	onFilterChange(e: InputEvent) {
@@ -199,4 +204,3 @@ export class ChatsPage extends Block {
 		console.log(`${element.id}: ${element.value}`);
 	}
 }
-

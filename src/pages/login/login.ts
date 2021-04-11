@@ -1,10 +1,11 @@
-import {authService, TSignIn} from '../../api/auth';
-import {PageBase} from '../../components/page-base/page-base';
-import {Button} from '../../components/button/button';
-import {router} from '../../utils/router';
-import {pageTmpl} from './login.tpml';
-import {TUserInfo} from '../../api/user';
-import {storage} from '../../storage/storage';
+import { authService, TSignIn } from '../../api/auth';
+import { PageBase } from '../../components/page-base/page-base';
+import { Button } from '../../components/button/button';
+import { router } from '../../utils/router';
+import { pageTmpl } from './login.tpml';
+import { storage } from '../../storage/storage';
+import { template } from 'lodash';
+import { chatService } from '../../api/chats';
 
 import '../../css/style.css';
 
@@ -23,7 +24,7 @@ export class LoginPage extends PageBase {
 			onClick: 'this.loginClick($event)'
 		}).render();
 
-		return _.template(pageTmpl)({
+		return template(pageTmpl)({
 			button: buttonHtml,
 			inputOnblur: 'this.inputOnblur($event)',
 			inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
@@ -31,39 +32,28 @@ export class LoginPage extends PageBase {
 		});
 	}
 
-	loginClick() {
+	async loginClick() {
 		const inputElements = document.getElementsByTagName('input');
 		const params: any[] = [];
 		Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
 
-		const valid = this.checkOnValid(params);
-
-		if (!valid) {
-			return;
-		}
+		if (!this.checkOnValid(params)) return;
 
 		const data: Indexed = {};
-
 		for (let i = 0; i < params.length; i++) {
 			data[params[i].id] = params[i].value;
 		}
 
-		authService.signIn(data as TSignIn).then((data: { ok: boolean, response: string }) => {
-			if (data.ok || data.response.toLowerCase().includes('user already in system')) {
-				this.hideErrorMessage();
-
-				authService.getUser().then((data: { ok: boolean, response: TUserInfo }) => {
-					if (!data.ok) {
-						return;
-					}
-
-					storage.userInfo = data.response;
-					storage.isAuth = true;
-				}).finally(() => router.go('#chats'));
-			} else {
-				this.showErrorMessage();
-			}
-		});
+		const result = await authService.signIn(data as TSignIn);
+		if (result.ok || result.response.toLowerCase().includes('user already in system')) {
+			this.hideErrorMessage();
+			storage.userInfo = (await authService.getUser()).response;
+			storage.chatInfoList = (await chatService.getChats()).response;
+			storage.isAuth = true;
+			router.go('#chats');
+		} else {
+			this.showErrorMessage();
+		}
 	}
 
 	// Скрыть сообщение об ошибке авторизации

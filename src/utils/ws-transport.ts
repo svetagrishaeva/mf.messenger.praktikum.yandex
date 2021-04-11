@@ -8,7 +8,6 @@ export class WSTransport {
     }
 
     public open(chanel: string) {
-      console.log('ws url',`${this.apiBaseUrl}${chanel}`);
     	this.socket = new WebSocket(`${this.apiBaseUrl}${chanel}`);
     }
 

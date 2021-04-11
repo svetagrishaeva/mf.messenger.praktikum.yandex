@@ -7,12 +7,10 @@ import {infoItems} from './pages/profile/profile.data';
 import {LoginPage} from './pages/login/login';
 
 declare global {
-    const _: import('../node_modules/@types/lodash/index').LoDashStatic;
     // Объявление глобальных методов
     interface Window {
         // Routing
         goTo: (page: string) => void;
-        goBack: (page: string) => void;
     }
 }
 

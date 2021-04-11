@@ -37,7 +37,7 @@ export class HTTPTransport {
     	return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
     };
 
-    request = (url: string, options: TypeOptions, timeout = 5000) => {
+    request = (url: string, options: TypeOptions, timeout = 10000) => {
     	const {method, data, headers} = options;
     	const xhr = new XMLHttpRequest();
 
@@ -68,12 +68,6 @@ export class HTTPTransport {
     		};
 
     		xhr.timeout = timeout;
-
-    		/* Xhr.onerror = (err) => console.log('error', err);
-            xhr.ontimeout = (err) => {
-                console.log('error', err);
-            }; */
-
     		xhr.onabort = reject;
     		xhr.onerror = reject;
     		xhr.ontimeout = reject;

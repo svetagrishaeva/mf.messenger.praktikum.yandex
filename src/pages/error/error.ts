@@ -1,5 +1,6 @@
-import {errorTemplate} from './errror.tmpl';
-import {Block} from '../../utils/block';
+import { errorTemplate } from './errror.tmpl';
+import { Block } from '../../utils/block';
+import { template } from 'lodash';
 
 import './error.css';
 
@@ -19,7 +20,7 @@ export class ErrorPage extends Block {
 	}
 
 	render() {
-		return _.template(errorTemplate)({
+		return template(errorTemplate)({
 			code: this.props.code,
 			message: this.props.message,
 			onclick: 'goTo(\'#chats\')'

@@ -1,6 +1,8 @@
-import {Block} from '../../utils/block';
+import { Block } from '../../utils/block';
+import { template } from 'lodash';
 
-const template = '<a id="<%-id%>" class="<%-classNames%>" onclick="<%-onClick%>" style="<%-style%>"><%-text%></a>';
+
+const tmpl = '<a id="<%-id%>" class="<%-classNames%>" onclick="<%-onClick%>" style="<%-style%>"><%-text%></a>';
 
 export type ButtonProps = {
     classNames?: string;
@@ -28,6 +30,6 @@ export class Button extends Block {
 	}
 
 	render() {
-		return _.template(template)(this.props);
+		return template(tmpl)(this.props);
 	}
 }

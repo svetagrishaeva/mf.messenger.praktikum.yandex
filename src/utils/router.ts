@@ -5,7 +5,7 @@ export const APP_ROOT_ID = 'app';
 
 type TPathNames = string | string[];
 
-export function renderToDom(query: string, block: Block| null) {
+export function renderToDom(query: string, block: Block | null) {
 	const root = document.querySelector(query);
 	if (block != null) {
 		root?.appendChild(block.getContent());
@@ -34,8 +34,7 @@ export class Route {
     }
 
     match(pathname?: string): boolean {
-    	return Array.isArray(this.pathname) ?
-    		this.pathname.some(path => path === pathname) : pathname === this.pathname;
+    	return Array.isArray(this.pathname) ? this.pathname.some(path => path === pathname) : pathname === this.pathname;
     }
 
     render(update: boolean = false): void {
@@ -144,8 +143,3 @@ export const router = Router.getInstance();
 window.goTo = (page: string) => {
 	router.go(page);
 };
-
-window.goBack = () => {
-	router.back();
-};
-
