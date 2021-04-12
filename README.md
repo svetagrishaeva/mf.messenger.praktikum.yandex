@@ -59,7 +59,7 @@ $ git push heroku master
 1. Настроен Webpack: настроен loader для работы с TypeScript.   
 2. Настроен Docker-сборки статического приложения.  
 3. Размещен в Heroku проект с Docker-сборкой.    
-4. Добавлен ESLint: 
+4. Добавлен ESLint:  
 [+] линтинг кода (cmd: `npm run lint`)  
 [+] линтинг и автоматическое исправление кода (cmd: `npm run lint:fix`)  
 5. Настроен precommit на проект.    
