@@ -1,7 +1,6 @@
 FROM node:14.16.1
 
 WORKDIR /app
-COPY ./ /app
 
 COPY package.json ./
 RUN npm install
@@ -16,4 +15,4 @@ ENV PORT=80
 EXPOSE 80
 
 # Сервер раздаёт статику из dist
-CMD npm run start
+CMD npm run server:start
