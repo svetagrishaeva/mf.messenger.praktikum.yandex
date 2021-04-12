@@ -47,7 +47,7 @@ https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1
 1. Настроен Webpack:  
 [+] настроен loader для работы с TypeScript,   
 2. Настроен Docker-сборки статического приложения. [+/-]  
-**!** Нет возможности установить Docker, не поддерживает ОС (Windows 8).   
+:exclamation: Нет возможности установить Docker, не поддерживает ОС (Windows 8).   
 3. Размещен в Heroku проект с Docker-сборкой. [-]  
 4. Добавлен ESLint:  
 [+] линтинг кода (cmd: `npm run lint`),  
@@ -55,9 +55,9 @@ https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1
 5. Настроен precommit на проект. [+]  
 6. Подключен WebSocket для работы с real-time сообщениями. [+]  
 Тестовые пользователи:
-  * `admin_555/555Gilazo`
-  * `admin_123/123Gilazo`
-  * `admin_333/333Gilazo`
-  * `admin_777/777Gilazo`  
+ `admin_555/555Gilazo`
+ `admin_123/123Gilazo`
+ `admin_333/333Gilazo`
+ `admin_777/777Gilazo`  
 
 Доп.: требуется доработка (рефакторинг)...
