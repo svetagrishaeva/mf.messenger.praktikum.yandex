@@ -17,9 +17,8 @@ https://messenger-praktikum-yandex.netlify.app/
 1. Настроен Express-сервер с раздачей статики.
 2. Настроен автодеплой проекта в Netlify. 
 3. Сверстаны страницы всех прототипов экранов.  
-В качестве прототипов были использованы макеты:  
-https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1  
-
+В качестве прототипов были использованы макеты: [Figma](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1)  
+  
 #### Второй спринт
 1. В проект добавлен шаблонизатор LoDash; все свёрстанные (ранее) страницы переложены на него.  
 2. Внедрен TypeScript; добавлен скрипт для компилирования всех *.ts файлов.  
