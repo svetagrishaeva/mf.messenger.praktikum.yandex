@@ -3,13 +3,13 @@ export const pageTmpl =
             <h2>Вход</h2>
 
             <div class="md-input">      
-                  <input id="login" type="text" onblur="<%-inputOnblur%>" onfocus="<%-inputOnfocus%>" value="admin_333">
+                  <input id="login" type="text" onblur="this.inputOnblur($event)" onfocus="this.inputOnfocus($event)" value="admin_333">
                   <label>Логин</label>
                   <div id="login_error" class="error"></div>
             </div>
 
             <div class="md-input">      
-                  <input id="password" type="password" onblur="<%-inputPasswordOnblur%>" onfocus="<%-inputOnfocus%>" value="333Gilazo">
+                  <input id="password" type="password" onblur="this.inputPasswordOnblur($event)" onfocus="this.inputOnfocus($event)" value="333Gilazo">
                   <label>Пароль</label>
                   <div id="password_error" class="error"></div>
             </div>

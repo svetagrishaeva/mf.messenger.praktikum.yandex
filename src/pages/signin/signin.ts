@@ -23,19 +23,17 @@ export class SigninPage extends PageBase {
 			onClick: 'this.signinClick($event)'
 		}).render();
 
-		return template(pageTmpl)({
-			button: buttonHtml,
-			inputOnblur: 'this.inputOnblur($event)',
-			inputPasswordOnblur: 'this.inputPasswordOnblur($event)',
-			inputEmailOnblur: 'this.inputEmailOnblur($event)',
-			inputOnfocus: 'this.inputOnfocus($event)'
-		});
+		return template(pageTmpl)({ button: buttonHtml });
 	}
 
 	async signinClick() {
-		const inputElements = document.getElementsByTagName('input');
-		const params: any[] = [];
-		Array.prototype.forEach.call(inputElements, (x: HTMLInputElement) => params.push({id: x.id, value: x.value}));
+		const keys = ['first_name', 'second_name', 'phone', 'login', 'email', 'password', 'passwordAgain'];
+		const params: {id: string, value: string }[] = [];
+
+		for(let i = 0; i < keys.length; i++) {
+			const element = document.getElementById(keys[i]) as HTMLInputElement;
+			params.push({id: keys[i], value: element.value});
+		}
 
 		if (!this.checkOnValid(params)) return;
 

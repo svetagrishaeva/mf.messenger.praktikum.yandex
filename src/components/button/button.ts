@@ -8,7 +8,7 @@ export type ButtonProps = {
     classNames?: string;
     id?: string;
     text: string;
-    onClick?:string;
+    onClick?: string;
     style?: string;
 };
 
