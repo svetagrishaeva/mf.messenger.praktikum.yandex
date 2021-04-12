@@ -1,6 +1,6 @@
-import {assert} from 'chai';
-import {Block} from './block';
-import {Route} from './router';
+import { assert } from 'chai';
+import { Block } from './block';
+import { Route } from './router';
 
 class MyBlock extends Block {
 	constructor({className}) {

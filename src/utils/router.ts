@@ -1,4 +1,4 @@
-import {Block} from './block';
+import { Block } from './block';
 
 export const APP_ROOT_QUERY = '.app';
 export const APP_ROOT_ID = 'app';

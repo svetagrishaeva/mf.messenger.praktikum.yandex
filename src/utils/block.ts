@@ -1,4 +1,4 @@
-import {EventBus} from './event-bus';
+import { EventBus } from './event-bus';
 
 export class Block {
   private _element: any = null;
@@ -14,12 +14,6 @@ export class Block {
   	FLOW_RENDER: 'flow:render'
   };
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
   constructor(tagName = 'div', props = {}) {
   	const eventBus = new EventBus();
   	this._meta = {

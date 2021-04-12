@@ -1,4 +1,4 @@
-import {queryStringify} from './useful-functions';
+import { queryStringify}  from './useful-functions';
 
 const METHODS = {
 	GET: 'GET',
@@ -41,7 +41,6 @@ export class HTTPTransport {
     	const {method, data, headers} = options;
     	const xhr = new XMLHttpRequest();
 
-    	// ToDo: вынести в тип
     	return new Promise<{ ok: boolean, response: any }>((resolve, reject) => {
     		xhr.open(method, url, true);
 
