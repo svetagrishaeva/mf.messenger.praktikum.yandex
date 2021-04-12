@@ -54,10 +54,10 @@ https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1
 [+] линтинг и автоматическое исправление кода (cmd: `npm run lint:fix`).  
 5. Настроен precommit на проект. [+]  
 6. Подключен WebSocket для работы с real-time сообщениями. [+]  
-Тестовые пользователи:
- `admin_555/555Gilazo`
- `admin_123/123Gilazo`
- `admin_333/333Gilazo`
+Тестовые пользователи:  
+ `admin_555/555Gilazo`  
+ `admin_123/123Gilazo`  
+ `admin_333/333Gilazo`  
  `admin_777/777Gilazo`  
 
 Доп.: требуется доработка (рефакторинг)...
