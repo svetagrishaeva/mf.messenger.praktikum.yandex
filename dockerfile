@@ -2,8 +2,14 @@ FROM node:14.16.1
 
 WORKDIR /app
 
-COPY package.json ./
+# установка зависимостей
+# символ астериск ("*") используется для того чтобы по возможности 
+# скопировать оба файла: package.json и package-lock.json
+COPY package*.json ./
+
 RUN npm install
+
+# копируем исходный код
 COPY . .
 RUN npm build
 
@@ -15,4 +21,4 @@ ENV PORT=80
 EXPOSE 80
 
 # Сервер раздаёт статику из dist
-CMD npm run server:start
+CMD [ "node", "server.js" ]
