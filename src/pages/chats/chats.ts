@@ -145,8 +145,9 @@ export class ChatsPage extends Block {
 		// установить для текущего
 		const chatElements = document.getElementsByClassName('chat-item');
 
-		// ToDo: forEach.call - везде заменить
-		Array.prototype.forEach.call(chatElements, (chat: any) => chat.setAttribute('style', 'background-color: rgba(250, 250, 250);'));
+		for (let i = 0; i < chatElements.length; i++) {
+			chatElements[i].setAttribute('style', 'background-color: rgba(250, 250, 250);');
+		}
 
 		element.setAttribute('style', 'background-color: rgba(122, 184, 243, 0.2);');
 

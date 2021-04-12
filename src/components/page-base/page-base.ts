@@ -54,8 +54,7 @@ export class PageBase extends Block {
     applyValidation(inputs: HTMLInputElement[], invalid: boolean, message: string) {
         if (!invalid) return;
 
-        Array.prototype.forEach.call(inputs, (x: HTMLInputElement) =>
-        { 
+        inputs.forEach((x: HTMLInputElement) => { 
             x.classList.add('invalid');
             const error = document.getElementById(`${x.id}_error`);
             if (!error) return;

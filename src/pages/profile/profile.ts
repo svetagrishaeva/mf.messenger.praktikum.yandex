@@ -189,7 +189,10 @@ export class ProfilePage extends PageBase {
 
 function setDisplayValueForElements(value: string) {
 	let elements = document.getElementsByClassName('link-row');
-	Array.prototype.forEach.call(elements, (x: HTMLElement) => x.style.display = value);
+	
+	for (let i = 0; i < elements.length; i++) {
+		(elements[i] as HTMLElement).style.display = value;
+	}
 
 	(document.getElementById('user-name') as HTMLElement).style.display = value;
 }
