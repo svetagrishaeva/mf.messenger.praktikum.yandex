@@ -1,6 +1,10 @@
 # messenger.praktikum.yandex
 Самостоятельный учебный проект, выполненный в рамках [Яндекс.Практикума](https://praktikum.yandex.ru/) (курс "Мидл фронтенд-разработчик")
 
+### Демо
+[Netlify](https://messenger-praktikum-yandex.netlify.app/)  
+[Heroku](https://messenger-praktikum-yandex-app.herokuapp.com/)  
+
 ### Локальный запуск
 В корневой директории проекта выполнить поочередно команды: 
 1. `git clone https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex.git`  
@@ -8,10 +12,21 @@
 3. `npm install`  
 4. `npm run publish` — сборка проекта  
 5. `npm run start` — запуск сервера  
+  
 
-### Демо
-[Netlify](https://messenger-praktikum-yandex.netlify.app/)  
-[Heroku](https://messenger-praktikum-app.herokuapp.com/)    
+#### Развертывание с помощью Heroku Git
+Если вы еще этого не сделали, войдите в свою учетную запись Heroku и следуйте инструкциям, чтобы создать новый открытый ключ SSH.  
+```
+$ heroku login  
+$ heroku git:clone -a messenger-praktikum-yandex-app  
+$ cd messenger-praktikum-yandex-app  
+```
+Внесите некоторые изменения в код, который вы только что клонировали, и разверните их в Heroku с помощью Git.  
+```
+$ git add .  
+$ git commit -am "make it better"  
+$ git push heroku master  
+```
 
 ### Ход работы над проектом
 #### Первый спринт
@@ -54,5 +69,3 @@
 5. Настроен precommit на проект. [+]  
 6. Подключен WebSocket для работы с real-time сообщениями. [+]  
 Тестовые пользователи: `admin_555/555Gilazo`, `admin_123/123Gilazo`, `admin_333/333Gilazo`, `admin_777/777Gilazo`.  
-
-Доп.: требуется доработка (рефакторинг)...
