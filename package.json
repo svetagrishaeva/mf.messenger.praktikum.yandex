@@ -10,8 +10,7 @@
     "clean": "rimraf dist",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "test": "mocha",
-    "server:start": "nodemon"
+    "test": "mocha"
   },
   "engines": {
     "node": "14.16.1"
