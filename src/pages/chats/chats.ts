@@ -190,7 +190,8 @@ export class ChatsPage extends Block {
 
 		messages = messages.sort((a, b) => a.time > b.time ? 1 : -1);
 
-		const groups = _.chain(messages).groupBy('date').map((value, key) => ({ date: key, messages: value })).value();
+		const groups = _.chain(messages).groupBy('date').map((value, key) => ({ date: key, messages: value })).value()
+						.sort((a, b) => a.date > b.date ? 1 : -1);
 
 		const element = document.getElementById('chat_messages') as HTMLElement;
 		element.innerHTML = _.template(messagesTmpl)({groups, baseUrl: API_RESOURCES_URL});
