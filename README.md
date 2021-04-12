@@ -10,7 +10,8 @@
 5. `npm run start` — запуск сервера  
 
 ### Демо
-https://messenger-praktikum-yandex.netlify.app/  
+[Netlify](https://messenger-praktikum-yandex.netlify.app/)  
+[Heroku](https://messenger-praktikum-app.herokuapp.com/)    
 
 ### Ход работы над проектом
 #### Первый спринт
@@ -45,8 +46,8 @@ https://messenger-praktikum-yandex.netlify.app/
 #### Четвертый спринт
 1. Настроен Webpack:  
 [+] настроен loader для работы с TypeScript,   
-2. Настроен Docker-сборки статического приложения. [+/-]  
-3. Размещен в Heroku проект с Docker-сборкой. [-]  
+2. Настроен Docker-сборки статического приложения. [+]  
+3. Размещен в Heroku проект с Docker-сборкой. [+]  
 4. Добавлен ESLint:  
 [+] линтинг кода (cmd: `npm run lint`),  
 [+] линтинг и автоматическое исправление кода (cmd: `npm run lint:fix`).  
