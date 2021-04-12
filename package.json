@@ -6,7 +6,6 @@
   "scripts": {
     "build": "webpack",
     "start": "node server.js",
-    "server:start": "node server.js",
     "publish": "npm run clean && npm run build",
     "clean": "rimraf dist",
     "lint": "eslint src/**/*.ts",

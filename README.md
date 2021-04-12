@@ -1,27 +1,26 @@
 # messenger.praktikum.yandex
 Самостоятельный учебный проект, выполненный в рамках [Яндекс.Практикума](https://praktikum.yandex.ru/) (курс "Мидл фронтенд-разработчик")
 
-### Демо
-[Netlify](https://messenger-praktikum-yandex.netlify.app/)  
-[Heroku](https://messenger-praktikum-yandex-app.herokuapp.com/)  
+#### Демо
+1. [Netlify](https://messenger-praktikum-yandex.netlify.app/)  
+2. [Heroku](https://messenger-praktikum-yandex-app.herokuapp.com/)  
 
-### Локальный запуск
-В корневой директории проекта выполнить поочередно команды: 
-1. `git clone https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex.git`  
-2. `cd mf.messenger.praktikum.yandex`  
-3. `npm install`  
-4. `npm run publish` — сборка проекта  
-5. `npm run start` — запуск сервера  
-  
+#### Локальный запуск
+```
+$ git clone https://github.com/svetagrishaeva/mf.messenger.praktikum.yandex.git
+$ cd mf.messenger.praktikum.yandex`  
+$ npm install
+$ npm run build & npm run start 
+```
 
 #### Развертывание с помощью Heroku Git
-Если вы еще этого не сделали, войдите в свою учетную запись Heroku и следуйте инструкциям, чтобы создать новый открытый ключ SSH.  
+Войдите в свою учетную запись в Heroku и следуйте инструкциям, чтобы создать новый открытый ключ SSH.  
 ```
 $ heroku login  
 $ heroku git:clone -a messenger-praktikum-yandex-app  
 $ cd messenger-praktikum-yandex-app  
 ```
-Внесите некоторые изменения в код, который вы только что клонировали, и разверните их в Heroku с помощью Git.  
+Внесите некоторые изменения в код, который вы клонировали, и разверните их в Heroku с помощью Git.  
 ```
 $ git add .  
 $ git commit -am "make it better"  
@@ -60,7 +59,7 @@ $ git push heroku master
 
 #### Четвертый спринт
 1. Настроен Webpack:  
-[+] настроен loader для работы с TypeScript,   
+[+] настроен loader для работы с TypeScript   
 2. Настроен Docker-сборки статического приложения. [+]  
 3. Размещен в Heroku проект с Docker-сборкой. [+]  
 4. Добавлен ESLint:  
