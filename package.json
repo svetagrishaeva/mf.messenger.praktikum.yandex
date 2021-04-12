@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack",
-    "start": "nodemon",
+    "start": "node server.js",
     "publish": "npm run clean && npm run build",
     "clean": "rimraf dist",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "test": "mocha",
-    "server:start": "node server.js"
+    "server:start": "nodemon"
   },
   "engines": {
     "node": "14.16.1"
