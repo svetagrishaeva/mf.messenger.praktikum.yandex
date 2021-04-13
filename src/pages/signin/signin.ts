@@ -7,9 +7,6 @@ import { template } from 'lodash';
 
 import '../../css/style.css';
 
-
-type Indexed = Record<string, any>;
-
 export class SigninPage extends PageBase {
 	constructor(props: any = {}) {
 		super('signin-page', props);
@@ -37,7 +34,7 @@ export class SigninPage extends PageBase {
 
 		if (!this.checkOnValid(params)) return;
 
-		const data: Indexed = {};
+		const data: Record<string, any> = {};
 		for (let i = 0; i < params.length; i++) {
 			if (params[i].id === 'passwordAgain') continue;
 

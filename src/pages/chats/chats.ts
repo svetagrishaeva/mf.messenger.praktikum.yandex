@@ -61,10 +61,10 @@ export class ChatsPage extends Block {
 	}
 
 	async createChat() {
-		const elem = document.getElementById('chat_title') as HTMLInputElement;
-		if (!elem) return;
+		const element = document.getElementById('chat_title') as HTMLInputElement;
+		if (!element) return;
 
-		await chatService.createChat({title: elem.value});
+		await chatService.createChat({title: element.value});
 		storage.chatInfoList = (await chatService.getChats()).response;
 		router.update();
 	}
@@ -77,7 +77,7 @@ export class ChatsPage extends Block {
 
 	async addUserToChat(e: Event) {
 		const element: HTMLElement = e.currentTarget as HTMLElement;
-		const userId = Number(element.getAttribute('id') as string);
+		const userId = Number(element.getAttribute('id'));
 		const userIds = [userId];
 
 		await chatService.addNewUsersToChat({users: userIds, chatId: storage.currentChatId});
@@ -86,7 +86,7 @@ export class ChatsPage extends Block {
 
 	async removeUserFromChat(e: Event) {
 		const element: HTMLElement = e.currentTarget as HTMLElement;
-		const userId = Number(element.getAttribute('id') as string);
+		const userId = Number(element.getAttribute('id'));
 
 		await chatService.deleteUsersFromChat({users: [userId], chatId: storage.currentChatId});
 		element.parentNode?.parentNode?.removeChild(element?.parentNode);
@@ -97,7 +97,8 @@ export class ChatsPage extends Block {
 			.sort((a: { role: number; }, b: { role: number; }) => a.role > b.role ? 1 : -1);
 		const usersHtml = _.template(userListTmpl)({users: users, baseUrl: API_RESOURCES_URL});
 
-		const modalDialog = document.getElementById('chatMembersModalDialog') as HTMLElement;
+		const modalDialog = document.getElementById('chatMembersModalDialog');
+		if (!modalDialog) return;
 		modalDialog.innerHTML = _.template(membersModalDialogTmpl)({usersHtml});
 		modalDialog.style.display = 'block';
 
@@ -194,7 +195,8 @@ export class ChatsPage extends Block {
 		const groups = _.chain(messages).groupBy('date').map((value, key) => ({ date: key, messages: value })).value()
 						.sort((a, b) => a.date > b.date ? 1 : -1);
 
-		const element = document.getElementById('chat_messages') as HTMLElement;
+		const element = document.getElementById('chat_messages');
+		if (!element) return;
 		element.innerHTML = _.template(messagesTmpl)({groups, baseUrl: API_RESOURCES_URL});
 
 		// scroll уставить внизу
