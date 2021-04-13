@@ -1,11 +1,11 @@
 import { queryStringify}  from './useful-functions';
 
-const METHODS = {
-	GET: 'GET',
-	POST: 'POST',
-	PUT: 'PUT',
-	PATCH: 'PATCH',
-	DELETE: 'DELETE'
+const enum METHODS {
+	GET = 'GET',
+	POST = 'POST',
+	PUT = 'PUT',
+	PATCH = 'PATCH',
+	DELETE = 'DELETE'
 };
 
 export type TypeOptions = {
@@ -55,7 +55,7 @@ export class HTTPTransport {
     		xhr.onload = () => {
     			let response: { ok: boolean, response: any };
 
-    			if (xhr.status === 200) {
+    			if (xhr.status >= 200 && xhr.status <= 299) {
     				response = {ok: true, response: this.getResponse(xhr.response)};
     			} else {
     				const obj = this.getResponse(xhr.response);

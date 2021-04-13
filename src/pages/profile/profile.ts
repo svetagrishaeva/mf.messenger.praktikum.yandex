@@ -13,8 +13,6 @@ import './profile.css';
 import '../../css/style.css';
 
 
-type Indexed = Record<string, any>;
-
 export class ProfilePage extends PageBase {
 	constructor(props: any = {}) {
 		super('profile-page', props);
@@ -23,9 +21,7 @@ export class ProfilePage extends PageBase {
 
 		Object.entries(storage.userInfo).forEach(info => {
 			const prop = this.props.find((x: {id: string}) => x.id === info[0]);
-			if (!prop) {
-				return;
-			}
+			if (!prop) return;
 
 			newProps.push({id: prop.id, title: prop.title, value: info[1]});
 		});
@@ -94,8 +90,8 @@ export class ProfilePage extends PageBase {
 	changeData() {
 		setDisplayValueForElements('none');
 		// Отобразить кнопки
-		(document.getElementById('saveButton') as HTMLElement).style.display = 'block';
-		(document.getElementById('cancelButton') as HTMLElement).style.display = 'block';
+		document.getElementById('saveButton')?.style.display;
+		document.getElementById('cancelButton')?.style.display;
 
 		this.props.forEach((x: { id: string; }) => {
 			const element = document.getElementById(x.id) as HTMLElement;
@@ -108,8 +104,8 @@ export class ProfilePage extends PageBase {
 	changePassword() {
 		setDisplayValueForElements('none');
 		// Отобразить кнопки
-		(document.getElementById('saveButton') as HTMLElement).style.display = 'block';
-		(document.getElementById('cancelButton') as HTMLElement).style.display = 'block';
+		document.getElementById('saveButton')?.style.display;
+		document.getElementById('cancelButton')?.style.display;
 
 		const dataElements = document.getElementById('info-items')?.children;
 		Array.prototype.forEach.call(dataElements, (x: HTMLElement) => x.style.display = 'none');
@@ -142,7 +138,7 @@ export class ProfilePage extends PageBase {
 	// ToDo: разделить данные
 	async saveData() {
 		const params: any[] = [];
-		const data: Indexed = {};
+		const data: Record<string, any> = {};
 		let isPassword = false;
 		const passwordKeys = ['oldPassword', 'newPassword'];
 
@@ -176,9 +172,11 @@ export class ProfilePage extends PageBase {
 			return;
 		}
 
-		isPassword ?
-			await userService.updateUserPassword(data as TUpdateUserPassword) :
+		if (isPassword) { 
+			await userService.updateUserPassword(data as TUpdateUserPassword);
+		} else {
 			await userService.updateUserProfile(data as TUpdateUserProfile);
+		}
 
 		// Update local storage
 		storage.userInfo = (await authService.getUser()).response;

@@ -2,19 +2,18 @@ import {TChatInfo} from '../api/chats';
 import { TMessage } from '../api/messages';
 import {TUserInfo} from '../api/user';
 
-export const LOCAL_STORAGE_KEYS =
-{
-	IS_AUTH: 'isauth',
-	USER_INFO: 'userinfo',
-	CHAT_INFO_LIST: 'chatinfolist',
-	CHAT_USER_LIST: 'chatuserlist',
-	CURRENT_CHAT_ID: 'curchatid',
-	MESSAGE_LIST: 'messagelist'
+export const enum LOCAL_STORAGE_KEYS {
+	IS_AUTH = 'isauth',
+	USER_INFO = 'userinfo',
+	CHAT_INFO_LIST = 'chatinfolist',
+	CHAT_USER_LIST = 'chatuserlist',
+	CURRENT_CHAT_ID = 'curchatid',
+	MESSAGE_LIST = 'messagelist'
 };
 
 export class Storage {
 	get isAuth(): boolean {
-		return localStorage.getItem(LOCAL_STORAGE_KEYS.IS_AUTH) != null;
+		return localStorage.getItem(LOCAL_STORAGE_KEYS.IS_AUTH) !== null;
 	}
 
 	set isAuth(value: boolean) {
